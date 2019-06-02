@@ -33,7 +33,8 @@ Want to Communicate with us and the rest of the community? You can join our Disc
 
 ### Documentation
 
-Currently Chirp's documentation is under writing, but there's enough for you to get an idea of how the language works. If you want help on building Chirp and getting started, check out [Getting Started](https://github.com/binkiklou/Chirp/blob/master/Documentation/Getting%20Started.md). You can find all the documentation in the `Documentation` folder in this repo, or at [Documentation Website](http://munchii.me/chirp).
+Currently Chirp's documentation is under writing, but there's enough for you to get an idea of how the language works. The
+documentation is on the website https://binkiklou.github.io/Chirp-Website/#/.
 
 > The documentation website will be switched with a custom URL soon
 
