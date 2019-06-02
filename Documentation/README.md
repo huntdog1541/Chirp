@@ -3,11 +3,13 @@
 </p>
 
 ## Chirp
+
 Chirp is a modern low-level programming language written in C++, to replace C++ and other old languages.
 
 <br>
 
 ### Simple Example
+
 ```chirp
   entry int start ()
   {
