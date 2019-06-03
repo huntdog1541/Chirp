@@ -159,7 +159,8 @@ void Parsed::Classify()
 
 			if (txt.compare("inner") == 0) // Just testing
 			{
-
+				s.Args.push_back(Unclassified.at(Pos));
+				Classified.push_back(s);
 			}
 
 			if (txt.compare("(") == 0) // Function call

@@ -6,6 +6,14 @@
 #include <string>
 #include <stdexcept> // Very important, might create errors if not there on certain system
 
+// The macros below are based on the types, you can read them in the Chirp documentation at 
+// binkiklou.github.io/Chirp-Website/#/Parsing
+#define VAR_DEC 0
+#define VAR_DEF 1
+#define VAR_DEC_AND_DEF 2
+#define FUNC_DEF 3
+#define FUNC_CALL 4
+
 /*
 Class used to represent values and parse them. 
 */
