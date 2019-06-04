@@ -55,9 +55,34 @@ void Parsed::MakeAssembly ()
 
 				Function -> Output.append (Function -> Name).append (": \n");
 
+				bool InInner; // lmao
+				Scope s;
+
 				for (int Pos = Function -> ThisScope.ScopeStart + 1; Pos < Function -> ThisScope.ScopeStop; Pos++)
 				{
 					Function -> Output.append (this -> ASMStat (&this -> Classified.at (Pos)));
+
+					if (this->Classified.at(Pos).Type == INNER_KEYWORD) // That's a bad thingy that doesn't fit with the others
+					{
+						InInner = true;
+						s.Set(Pos, &this->Classified);
+					}
+					if (Pos < s.ScopeStart) // This isn't bad, this is genius but bad
+					{
+
+					}
+					if (Pos == s.ScopeStop)
+					{
+						InInner = false;
+					}
+
+						/*
+						for (int Pos = s.ScopeStart + 1; Pos < s.ScopeStop; Pos++) // This is bad... like really bad.
+						{
+
+						}
+						*/
+
 				}
 
 				Function -> Output.append ("ret \n ");

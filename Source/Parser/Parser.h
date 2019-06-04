@@ -13,6 +13,7 @@
 #define VAR_DEC_AND_DEF 2
 #define FUNC_DEF 3
 #define FUNC_CALL 4
+#define INNER_KEYWORD 5
 
 /*
 Class used to represent values and parse them. 
@@ -101,7 +102,7 @@ public:
 	bool Defined;
 	bool Entry;
 
-	Scope ThisScope;
+	Scope ThisScope; // That's like a bad but ok name
 
 	std::string Output;
 //	int OutId; // Position in parsed's fout

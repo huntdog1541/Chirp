@@ -160,6 +160,7 @@ void Parsed::Classify()
 			if (txt.compare("inner") == 0) // Just testing
 			{
 				s.Args.push_back(Unclassified.at(Pos));
+				s.Type = INNER_KEYWORD;
 				Classified.push_back(s);
 			}
 

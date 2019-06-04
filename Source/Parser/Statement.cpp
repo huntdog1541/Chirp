@@ -24,10 +24,10 @@ std::string Parsed::ASMStat (Statement* Statement)
 		}
 	}
 
-	else if (Statement -> Type == 4)
+	else if (Statement -> Type == FUNC_CALL)
 	{
 		return this -> CallFunc (Statement);
 	}
-	
+	 
 	return "";
 }
