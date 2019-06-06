@@ -57,6 +57,9 @@ public:
 	int stackPos;
 };
 
+/*
+Discontinued class, will be deleted soon when the parse tree will be finished. 
+*/
 class Statement
 {
 public:
@@ -71,6 +74,30 @@ public:
 
 	std::vector<std::string> Args; // Pretty Universal
 };
+
+/*
+Node in tree class. The elements like parents and child aren't actual other nodes but 
+the location inside the Tree's Node vector.
+*/
+class Node
+{
+public:
+	int ParentPos; // Position inside the Node Vector
+	std::vector<int> ChildPos; // Positions of the childs inside the Node Vector
+
+	int Token; // Pretty much the type
+	std::string Value; // Not used most of the time but is really usefull in some cases
+};
+
+/*
+Main class to create a tree
+*/
+class Tree
+{
+public:
+	std::vector<Node> NodeList;
+};
+
 
 // Thise shouldn't be called scope but it is, can't find a name
 // basicallly it's either the positions of various symbols or
