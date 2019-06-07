@@ -130,9 +130,9 @@ namespace Command
 			std::string FileData = Read (InputFile);
 			std::string Asm = InputFile.append (".asm");
 
-			Parsed Parsed = Parser::Parse (FileData);
+			Parsed Parsed(FileData);
 
-			Parsed.Classify ();
+			Parsed.Tokenize ();
 			Assembly::Init (&Parsed);
 			Parsed.MakeAssembly ();
 			Assembly::Write (&Parsed, Asm);

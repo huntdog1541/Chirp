@@ -7,13 +7,20 @@
 #include <stdexcept> // Very important, might create errors if not there on certain system
 
 // The macros below are based on the types, you can read them in the Chirp documentation at 
-// binkiklou.github.io/Chirp-Website/#/Parsing
 #define VAR_DEC 0
 #define VAR_DEF 1
 #define VAR_DEC_AND_DEF 2
 #define FUNC_DEF 3
 #define FUNC_CALL 4
 #define INNER_KEYWORD 5
+
+// Token macro's below
+#define TREE_START_TOKEN 0
+#define TREE_UNDEFINED_TOKEN 2
+#define VAR_TOKEN 3
+#define VAR_DEF_TOKEN 4
+#define VAR_DEC_TOKEN 5	
+#define VALUE_CAST_TOKEN 6 // Cast Type
 
 /*
 Class used to represent values and parse them. 
@@ -83,10 +90,11 @@ class Node
 {
 public:
 	int ParentPos; // Position inside the Node Vector
+	int SelfPos; // Position inside the node vector
 	std::vector<int> ChildPos; // Positions of the childs inside the Node Vector
 
 	int Token; // Pretty much the type
-	std::string Value; // Not used most of the time but is really usefull in some cases
+	std::string Lexeme; // Not used most of the time but is really usefull in some cases
 };
 
 /*
@@ -95,7 +103,16 @@ Main class to create a tree
 class Tree
 {
 public:
+	int StartPos; // Position of the start node
 	std::vector<Node> NodeList;
+
+	void MakeStart(Node); // Makes the first node inside the tree
+	void AddChild(int,Node); // Adds a node to another node
+
+	Node GetNode(int); // Returns the node at a specific positon
+
+	Node FindNode(std::string); // Find a node in all the tree, with given Lexeme
+	Node FindChild(Node*,std::string); // Find a child of node with given lexeme
 };
 
 
@@ -142,15 +159,19 @@ pretty way to do stuff.
 class Parsed
 {
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
-	Parsed ();
+	Parsed(std::string);
 
-	void Classify ();
+	void Tokenize ();
 	void ParseVar (); // Pretty self explanatry wait fuck..
 	void ParseFunc ();
+
 	std::string CallFunc (Statement* stat);
 	Variable FindVar(std::string); // Return a variable with given name
 	std::string ASMStat (Statement*); // Makes a statement inside a stack into assembly code
+
 	void MakeAssembly ();
+
+	Tree ParseTree;
 
 	std::vector<std::string> Unclassified; // What if it's declassified O_o
 	std::vector<Statement> Classified;
@@ -167,8 +188,3 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 	std::string Output;
 };
-
-namespace Parser
-{
-	Parsed Parse (std::string);
-}
