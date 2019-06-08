@@ -18,8 +18,10 @@ public:
 	int SelfPos; // Position inside the node vector
 	std::vector<int> ChildPos; // Positions of the childs inside the Node Vector
 
-	int Token; // Pretty much the type
-	std::string Lexeme; // Not used most of the time but is really usefull in some cases
+	Token Value;
+
+//	int Token; // Pretty much the type
+//	std::string Lexeme; // Not used most of the time but is really usefull in some cases
 };
 
 /*

@@ -133,6 +133,7 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 	std::vector<std::string> Unclassified; // What if it's declassified O_o
 	std::vector<Statement> Classified;
+	std::vector<Token> Cluster; // Replacement for classified
 
 	std::vector<Variable> VariableList;
 	std::vector<Function> FunctionList;

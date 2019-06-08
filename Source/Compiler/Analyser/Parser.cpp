@@ -7,6 +7,7 @@
 
 //=CLASS CONSTRUCTORS
 
+
 Value::Value()
 {
 
@@ -27,6 +28,7 @@ Statement::Statement()
 {
 
 }
+
 
 /*
 Makes the string into processable code
