@@ -146,7 +146,7 @@ void Parsed::Tokenize()
 	bool IsString = false; // If it's a string then it wont parse the words below and when the string is closed will be pushed as arguments
 	
 	Node StartPoint;
-	StartPoint.Token = 0;
+	StartPoint.Token = TREE_START_TOKEN;
 	this->ParseTree.MakeStart(StartPoint);
 
 	for (auto& txt : this->Unclassified)
