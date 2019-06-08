@@ -1,7 +1,7 @@
 #include "Commands.h"
 
-#include "../Parser/Parser.h"
-#include "../Parser/Assembly.h"
+#include "../Compiler/Analyser/Parser.h"
+#include "../Compiler/Assembly.h"
 #include "../Build.h"
 
 #include <iostream>
@@ -10,7 +10,7 @@
 std::string Read (std::string File)
 {
 	char Char;
-	std::string Data;
+	std::string Data; 
 	std::ifstream Read (File);
 
 	if (!Read)
