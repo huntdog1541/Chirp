@@ -25,6 +25,7 @@
 #define KEYWORD_UNKNOWN_TOKEN 1 // I call it a keyword but it's anything
 #define KEYWORD_ENTRY_TOKEN 13
 #define KEYWORD_CONST_TOKEN  14 // const keyword
+#define KEYWORD_INNER_TOKEN 15
 
 class Token
 {

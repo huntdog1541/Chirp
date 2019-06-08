@@ -3,6 +3,7 @@
 #include "../Compiler/Analyser/Parser.h"
 #include "../Compiler/Assembly.h"
 #include "../Build.h"
+#include "Debug.h"
 
 #include <iostream>
 #include <fstream>
@@ -42,6 +43,8 @@ namespace Command
 		// Temporary
 		bool In = false;
 		bool Out = false;
+		bool DebugMenu = false;
+
 		std::string InputFile;
 		std::string OutputFile;
 
@@ -60,6 +63,11 @@ namespace Command
 				OutputFlag = true;
 			}
 
+			else if (Arg.compare("-debug_token") == 0)
+			{
+				DebugMenu = true;
+			}
+
 			else
 			{
 				if (IncludeFlag == true)
@@ -73,7 +81,6 @@ namespace Command
 						InputFile = Arg;
 						In = true;
 					}
-
 					else
 					{
 						// Temporary, should make&use Logger's error
@@ -131,12 +138,18 @@ namespace Command
 			std::string Asm = InputFile.append (".asm");
 
 			Parsed Parsed(FileData);
-
 			Parsed.Tokenize ();
 			Assembly::Init (&Parsed);
 			Parsed.MakeAssembly ();
 			Assembly::Write (&Parsed, Asm);
 			Tools::Build (Asm, OutputFile);
+
+			Menu DebugUI;
+
+			if (DebugMenu)
+			{
+				Debug::MakeMenu();
+		    }
 		}
 	}
 }
