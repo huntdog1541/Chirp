@@ -65,12 +65,10 @@ void Menu::Update()
 		{
 			CursorPos--;
 		}
-	/*
-		if (CursorPos <= 0)
+		else if (CursorPos == 0) // ok so fun fact: because the code above will sub by 1, you need to have this as a else
 		{
 			CursorPos = this->Current->Buttons.size() - 1;
 		}
-	*/
 	}
 	if (key == 80) // Down arrow
 	{
@@ -78,12 +76,10 @@ void Menu::Update()
 		{
 			CursorPos++;
 		}
-	/*
-		if (CursorPos == this->Current->Buttons.size() - 1)
+		else if (CursorPos == this->Current->Buttons.size() - 1)
 		{
 			CursorPos = 0;
 		}
-	*/
 	}
 	// === DRAW
 	int pos = 0;
