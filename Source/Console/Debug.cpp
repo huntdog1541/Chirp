@@ -14,14 +14,15 @@ namespace Debug
 
 		Yeet.Label = "Yetty yeet, this is a button";
 
-		Main.Write("Chirp debug menu");
+		Main.Text.at(0) = "Chirp debug interface";
+		Main.Text.at(1) = "---------------------------------------------------------------";
+		Main.Text.at(2) = "\"Does this look good yet ?\" - Binkiklou";
 
 		Main.Buttons.push_back(Yeet);
 
 		UI.Push(Main);
 		UI.Load(&Main);
 		UI.Update();
-
-		while (true) {}
+		UI.Activate();
 	}
 }

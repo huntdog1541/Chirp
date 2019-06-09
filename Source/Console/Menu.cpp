@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+
+
+//===PAGE
 Page::Page()
 {
 	std::string blank;
@@ -17,6 +20,17 @@ Page::Page()
 	}
 }
 
+void Menu::Write(std::string txt)
+{
+	this->Buffer.at(0) = txt;
+}
+
+void Menu::Write(int x, int y, std::string txt)
+{
+	this->Buffer.at(y).replace(x, txt.size(), txt);
+}
+
+//===MENU
 void Menu::Init()
 {
 	std::string blank;
@@ -36,21 +50,32 @@ void Menu::Init()
 	}
 }
 
-void Page::Write(std::string txt)
-{
-	this->Text.at(0) = txt;
-}
-
-void Page::Write(int x,int y, std::string txt)
-{
-	this->Text.at(y).replace(x,txt.size(),txt);
-}
-
 void Menu::Update()
 {
-	for (auto& b : Buffer)
+	for (auto& txt : this->Buffer)
 	{
-		std::cout << b << std::endl;
+		std::cout << txt << std::endl;
+	}
+}
+
+void Menu::Activate()
+{
+	while (true)
+	{
+		int Key = Key::Get();
+
+		if (Key == 72) // Up
+		{
+			CursorPos++;
+		}
+		else if (Key == 80) // Down
+		{
+			CursorPos--;
+		}
+
+	//	this->Current->Write(0,0,std::string("Current cursor position is:"));
+
+		Update();
 	}
 }
 
@@ -64,6 +89,8 @@ void Menu::Push(Page p)
 void Menu::Load(Page* p)
 {
 	int pos = 0;
+
+	this->Current = p;
 
 	for (auto& txt : p->Text)
 	{

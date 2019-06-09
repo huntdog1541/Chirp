@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Keyboard.h"
+
 #include <vector>
 #include <string>
 
@@ -20,10 +22,7 @@ public:
 
 	int PosInVector; // Position in the vector index
 	int ButtonPos; // Position of button on the page
-	int CursorPos; // Cursor of button
 
-	void Write(std::string);
-	void Write(int, int, std::string);
 
 	std::vector<std::string> Text;
 	std::vector<Button> Buttons;
@@ -35,8 +34,14 @@ class Menu
 public:
 	void Init();
 	void Update();
+	void Activate(); // Stats the update loop
 
-	int Current;
+	void Write(std::string);
+	void Write(int, int, std::string);
+
+	int CursorPos; // Cursor of button
+
+	Page* Current;
 
 	void Push(Page); // Push a page
 	void Load(Page*);
