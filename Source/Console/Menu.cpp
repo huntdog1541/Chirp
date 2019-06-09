@@ -52,29 +52,79 @@ void Menu::Init()
 
 void Menu::Update()
 {
+	// === INPUT
+	// This used to be in "activate" but I moved it here, and it fixed everything. Like it took me 3 hours wtf
+	// it wasn't supposed to be that hard.
+	// I would call it "tricky" thought
+
+	int key = Key::Get();
+
+	if (key == 72) // Up arrow
+	{
+		if (CursorPos > 0)
+		{
+			CursorPos--;
+		}
+	/*
+		if (CursorPos <= 0)
+		{
+			CursorPos = this->Current->Buttons.size() - 1;
+		}
+	*/
+	}
+	if (key == 80) // Down arrow
+	{
+		if (CursorPos < this->Current->Buttons.size() - 1)
+		{
+			CursorPos++;
+		}
+	/*
+		if (CursorPos == this->Current->Buttons.size() - 1)
+		{
+			CursorPos = 0;
+		}
+	*/
+	}
+	// === DRAW
+	int pos = 0;
+	int bPos = this->Current->ButtonPos;
+
+	for (auto& button : this->Current->Buttons)
+	{
+		this->Write(1, bPos + pos, button.Label);
+
+		if (pos == this->CursorPos)
+		{
+			this->Write(0, bPos + CursorPos, ">");
+		}
+		else
+		{
+			this->Write(0, bPos + pos, " ");
+		}
+
+		Write(0, 20, this->Current->Buttons.at(CursorPos).Label);
+
+		pos++;
+	}
+
+	int Txtpos = 0;
 	for (auto& txt : this->Buffer)
 	{
 		std::cout << txt << std::endl;
 	}
+/*
+#ifdef __linux__
+	system("clear");
+#endif
+*/
 }
 
 void Menu::Activate()
 {
+	CursorPos = 0;
+
 	while (true)
 	{
-		int Key = Key::Get();
-
-		if (Key == 72) // Up
-		{
-			CursorPos++;
-		}
-		else if (Key == 80) // Down
-		{
-			CursorPos--;
-		}
-
-	//	this->Current->Write(0,0,std::string("Current cursor position is:"));
-
 		Update();
 	}
 }

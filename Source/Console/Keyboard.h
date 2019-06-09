@@ -7,6 +7,7 @@
 #ifdef __linux__
 #include <unistd.h>
 #include <termios.h>
+#include <iostream>
 #endif
 
 namespace Key

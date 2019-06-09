@@ -21,7 +21,7 @@ public:
 	Page();
 
 	int PosInVector; // Position in the vector index
-	int ButtonPos; // Position of button on the page
+	int ButtonPos; // Position of the first button on the page
 
 
 	std::vector<std::string> Text;

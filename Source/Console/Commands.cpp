@@ -63,7 +63,7 @@ namespace Command
 				OutputFlag = true;
 			}
 
-			else if (Arg.compare("-debug_token") == 0)
+			else if (Arg.compare("-debug_menu") == 0)
 			{
 				DebugMenu = true;
 			}
