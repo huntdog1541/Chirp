@@ -7,30 +7,40 @@ namespace Debug
 	void MakeMenu()
 	{
 		Menu UI;
-		UI.Init();
-
 		Page Main;
-		Button Yeet;
-		Button Oof;
-		Button Lmao;
+		Page Other;
 
-		Yeet.Label = "Button 1";
-		Oof.Label = "Button 2";
-		Lmao.Label = "Button 3";
+		Button Back;
+		Button Link;
+		Link.Label = "Page Link";
+		Back.Label = "Go back";
 
-		Main.Text.at(0) = "Chirp debug interface";
-		Main.Text.at(1) = "---------------------------------------------------------------";
-		Main.Text.at(2) = "\"Does this look good yet ?\" - Binkiklou";
+		Main.Text.at(0) = "Chirp Debug Menu";
+		Main.Text.at(1) = "This menu is a bit overkill, but you can do stuff like looking at tokens";
+		Main.Text.at(2) = "and someday add break points and $#1t";
 
-		Main.Buttons.push_back(Yeet);
-		Main.Buttons.push_back(Oof);
-		Main.Buttons.push_back(Lmao);
+		Other.Text.at(0) = "Other page";
+		Other.Text.at(1) = "This is ok";
 
 		Main.ButtonPos = 5;
+		Other.ButtonPos = 5;
 
-		UI.Push(Main);
+		Back.Destination = UI.Push(Main);
+		Link.Destination = UI.Push(Other);
+
+		Main.Buttons.push_back(Link);
+		Other.Buttons.push_back(Back);
+
+		UI.Update(Other,Link.Destination); // This has nothing to do with the link, but it has the pos
+
 		UI.Load(&Main);
+
 		UI.Update();
 		UI.Activate();
+
+		while (true)
+		{
+
+		}
 	}
 }

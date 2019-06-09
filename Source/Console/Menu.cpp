@@ -20,17 +20,28 @@ Page::Page()
 	}
 }
 
-void Menu::Write(std::string txt)
-{
-	this->Buffer.at(0) = txt;
-}
-
-void Menu::Write(int x, int y, std::string txt)
-{
-	this->Buffer.at(y).replace(x, txt.size(), txt);
-}
-
 //===MENU
+Menu::Menu()
+{
+	std::string blank;
+
+#ifdef _WIN32
+	std::system("mode con:cols=120 lines=30");
+#endif
+
+	for (int i = 0; i < 120; i++)
+	{
+		blank.append(1, ' ');
+	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		Buffer.push_back(blank);
+	}
+
+	CursorPos = 0;
+}
+
 void Menu::Init()
 {
 	std::string blank;
@@ -49,6 +60,17 @@ void Menu::Init()
 		Buffer.push_back(blank);
 	}
 }
+
+void Menu::Write(std::string txt)
+{
+	this->Buffer.at(0) = txt;
+}
+
+void Menu::Write(int x, int y, std::string txt)
+{
+	this->Buffer.at(y).replace(x, txt.size(), txt);
+}
+
 
 void Menu::Update()
 {
@@ -81,6 +103,18 @@ void Menu::Update()
 			CursorPos = 0;
 		}
 	}
+	if (key == 32)
+	{
+	//	Write(0, 23, "Space key");
+		try
+		{
+			Load(&Index.at(this->Current->Buttons.at(CursorPos).Destination));
+		}
+		catch (std::out_of_range)
+		{
+			Write(0, 20, "Cannot load, link's destination");
+		}
+	}
 	// === DRAW
 	int pos = 0;
 	int bPos = this->Current->ButtonPos;
@@ -98,7 +132,7 @@ void Menu::Update()
 			this->Write(0, bPos + pos, " ");
 		}
 
-		Write(0, 20, this->Current->Buttons.at(CursorPos).Label);
+	//	Write(0, 20, this->Current->Buttons.at(CursorPos).Label);
 
 		pos++;
 	}
@@ -125,11 +159,11 @@ void Menu::Activate()
 	}
 }
 
-void Menu::Push(Page p)
+int Menu::Push(Page p)
 {
-	p.ButtonPos = DOWN; // Default
-	p.PosInVector = this->Index.size();
-	this->Index.push_back(p);
+	p.PosInVector = Index.size();
+	Index.push_back(p);
+	return Index.size() - 1;
 }
 
 void Menu::Load(Page* p)
@@ -151,4 +185,10 @@ void Menu::Load(Page* p)
 			std::cout << "Handled exception" << std::endl;
 		}
 	}
+}
+
+void Menu::Update(Page n, int pos) // n for new, o for old
+{
+	Page old = this->Index.at(pos);
+	this->Index.at(pos) = n;
 }

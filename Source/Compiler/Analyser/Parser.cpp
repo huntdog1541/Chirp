@@ -82,3 +82,8 @@ Parsed::Parsed(std::string txt)
 		}
 	}
 }
+
+void Parsed::Parse()
+{
+
+}

@@ -32,6 +32,7 @@ public:
 class Menu
 {
 public:
+	Menu();
 	void Init();
 	void Update();
 	void Activate(); // Stats the update loop
@@ -39,12 +40,12 @@ public:
 	void Write(std::string);
 	void Write(int, int, std::string);
 
-	int CursorPos; // Cursor of button
-
-	Page* Current;
-
-	void Push(Page); // Push a page
+	int  Push(Page); // Push a page, also returns the position
 	void Load(Page*);
+	void Update(Page,int);
+
+	int CursorPos; // Cursor of button
+	Page* Current;
 
 	std::vector<std::string> Buffer;
 	std::vector<Page> Index; // Not the index page, but like idk

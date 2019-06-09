@@ -120,6 +120,7 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	Parsed(std::string);
 
 	void Tokenize ();
+	void Parse();
 	void ParseVar (); // Pretty self explanatry wait fuck..
 	void ParseFunc ();
 
