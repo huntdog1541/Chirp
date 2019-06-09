@@ -7,13 +7,15 @@ void Tree::MakeStart(Node n)
 	this->NodeList.push_back(n);
 }
 
-void Tree::AddChild(int pos, Node n)
+void Tree::AddChild(int pos, Node* n)
 {
 	try
 	{
-		int yeet = this->NodeList.size();
-		n.SelfPos = yeet;
-		this->NodeList.push_back(n);
+		int yeet = this->NodeList.size() -1;
+		n->SelfPos = yeet;
+		n->ParentPos = pos;
+		this->NodeList.at(pos).ChildPos.push_back(yeet);
+		this->NodeList.push_back(*n);
 	}
 	catch (std::out_of_range)
 	{
@@ -24,6 +26,19 @@ void Tree::AddChild(int pos, Node n)
 void Tree::AddChild(Node* p, Node n) // p is for parent, n for node
 {
 
+}
+
+void Tree::SetChild(int pos, Node* n)
+{
+	try
+	{
+		n->ParentPos = pos;
+		this->NodeList.at(pos).ChildPos.push_back(n->SelfPos);
+	}
+	catch (std::out_of_range)
+	{
+		Log::Error::Custom("Couldn't set Node as a child");
+	}
 }
 
 Node Tree::FindNode(std::string lexeme)

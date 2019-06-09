@@ -139,15 +139,17 @@ namespace Command
 
 			Parsed Parsed(FileData);
 			Parsed.Tokenize ();
+			Parsed.Parse();
+
 			Assembly::Init (&Parsed);
 			Parsed.MakeAssembly ();
 			Assembly::Write (&Parsed, Asm);
-			Tools::Build (Asm, OutputFile);
 
-			Menu DebugUI;
+			Tools::Build (Asm, OutputFile);
 
 			if (DebugMenu)
 			{
+				Menu DebugUI;
 				Debug::MakeMenu();
 		    }
 		}

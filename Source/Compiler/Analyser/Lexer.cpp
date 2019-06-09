@@ -17,37 +17,54 @@ void Parsed::Tokenize()
 
 	for (auto& txt : this->Unclassified)
 	{
+		bool identified = false;
 		Pos++;
 
 		Token t; // yep it's ya boi, one letter variables here
 		
 		if (txt.compare("int") == 0 || txt.compare("char") == 0 || txt.compare("float") == 0)
 		{
-			t.Identifier = VALUE_CAST_TOKEN;
-			t.lexeme = txt;
-
-			if (this->Unclassified.at(Pos + long(1)).compare(":") == 0)
-			{
-				// Variable
-				t.Identifier = VAR_DEF_CONFIRM_TOKEN;
-				t.lexeme = txt;
-			}
-			else
-			{
-				// ...
-			}
+			t.Identifier = OBJECT_CAST_TOKEN;
+			t.Lexeme = txt;
+			identified = true;
+			this->Cluster.push_back(t);
 		}
 		else if (txt.compare("=") == 0)
 		{
+			std::cout << "yeet ?" << std::endl;
 			t.Identifier = VAR_ASSIGN_OP_TOKEN;
-			t.lexeme = txt;
+			t.Lexeme = txt;
+			this->Cluster.push_back(t);
+			identified = true;
 		}
-		else
+		else if (txt.compare("entry") == 0)
+		{
+			t.Identifier = KEYWORD_ENTRY_TOKEN;
+			t.Lexeme = txt;
+			identified = true;
+			this->Cluster.push_back(t);
+		}
+		else if (txt.compare("inner") == 0)
+		{
+			t.Identifier = KEYWORD_INNER_TOKEN;
+			t.Lexeme = txt;
+			identified = true;
+			this->Cluster.push_back(t);
+		}
+		else if (txt.compare(":") == 0)
+		{
+			// Variable
+			t.Identifier = VAR_CONFIRM_TOKEN;
+			t.Lexeme = ":";
+			this->Cluster.push_back(t);
+			identified = true;
+		}
+		else if (!identified)
 		{
 			t.Identifier = KEYWORD_UNKNOWN_TOKEN;
-			t.lexeme = txt;
+			t.Lexeme = txt;
+			this->Cluster.push_back(t);
 		}
-		this->Cluster.push_back(t);
 	}
 
 	this->ParseVar();

@@ -35,8 +35,9 @@ public:
 
 	void MakeStart(Node); // Makes the first node inside the tree
 
-	void AddChild(int, Node); // Adds node to other node at given position
+	void AddChild(int, Node*); // Adds node to other node at given position
 	void AddChild(Node*, Node); // Adds node to other node with given node
+	void SetChild(int,Node*);
 
 	Node GetNode(int); // Returns the node at a specific positon
 
