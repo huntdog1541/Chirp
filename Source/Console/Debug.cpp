@@ -9,10 +9,10 @@ namespace Debug
 		Menu UI;
 		Page Main;
 		Page Other;
-
 		Button Back;
 		Button Link;
-		Link.Label = "Page Link";
+
+		Link.Label = "Some link to somewhere";
 		Back.Label = "Go back";
 
 		Main.Text.at(0) = "Chirp Debug Menu";
