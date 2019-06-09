@@ -31,7 +31,7 @@ namespace Debug
 		Main.Buttons.push_back(Link);
 		Other.Buttons.push_back(Back);
 
-		UI.Update(Other,Link.Destination); // This has nothing to do with the link, but it has the pos
+		UI.Edit(Other,Link.Destination); // This has nothing to do with the link, but it has the pos
 
 		UI.Load(&Main);
 

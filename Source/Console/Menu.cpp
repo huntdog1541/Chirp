@@ -104,9 +104,8 @@ void Menu::Update()
 			CursorPos = 0;
 		}
 	}
-	if (key == 32)
+	if (key == 32) // Space
 	{
-	//	Write(0, 23, "Space key");
 		try
 		{
 			Load(&Index.at(this->Current->Buttons.at(CursorPos).Destination));
@@ -133,8 +132,6 @@ void Menu::Update()
 			this->Write(0, bPos + pos, " ");
 		}
 
-	//	Write(0, 20, this->Current->Buttons.at(CursorPos).Label);
-
 		pos++;
 	}
 
@@ -143,11 +140,6 @@ void Menu::Update()
 	{
 		std::cout << txt << std::endl;
 	}
-/*
-#ifdef __linux__
-	system("clear");
-#endif
-*/
 }
 
 void Menu::Activate()
@@ -188,7 +180,7 @@ void Menu::Load(Page* p)
 	}
 }
 
-void Menu::Update(Page n, int pos) // n for new, o for old
+void Menu::Edit(Page n, int pos) // n for new, o for old
 {
 	Page old = this->Index.at(pos);
 	this->Index.at(pos) = n;

@@ -23,7 +23,6 @@ public:
 	int PosInVector; // Position in the vector index
 	int ButtonPos; // Position of the first button on the page
 
-
 	std::vector<std::string> Text;
 	std::vector<Button> Buttons;
 };
@@ -42,7 +41,7 @@ public:
 
 	int  Push(Page); // Push a page, also returns the position
 	void Load(Page*);
-	void Update(Page,int);
+	void Edit(Page,int);
 
 	int CursorPos; // Cursor of button
 	Page* Current;
