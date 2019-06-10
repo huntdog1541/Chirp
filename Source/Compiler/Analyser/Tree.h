@@ -37,7 +37,7 @@ public:
 
 	void AddChild(int, Node*); // Adds node to other node at given position
 	void AddChild(Node*, Node); // Adds node to other node with given node
-	void SetChild(int,Node*);
+	void SetChild(int,Node*); // Position of Node to link to, Node
 
 	Node GetNode(int); // Returns the node at a specific positon
 

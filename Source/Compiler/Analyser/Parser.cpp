@@ -118,6 +118,9 @@ void Parsed::Parse()
 					Node Definition;
 					Definition.Value.Identifier = VAR_DEF_TOKEN;
 					ParseTree.AddChild(Variable.SelfPos, &Definition);
+
+					// Link dat tree
+					ParseTree.SetChild(Definition.SelfPos,&Name);
 				}
 			}
 			else // function
