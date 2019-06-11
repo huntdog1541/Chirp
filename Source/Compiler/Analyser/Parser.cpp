@@ -122,6 +122,12 @@ void Parsed::Parse()
 					// Link dat tree
 					ParseTree.SetChild(Definition.SelfPos,&Name);
 				}
+                if(Cluster.at(pos + 4).Identifier == KEYWORD_UNKNOWN_TOKEN)
+                {
+                    Node Val;
+                    Val.Value.Identifier = VALUE_INTERGER_TOKEN;
+                    ParseTree.AddChild(Val.SelfPos, &Val);
+                }
 			}
 			else // function
 			{
