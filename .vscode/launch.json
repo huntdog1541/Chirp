@@ -6,10 +6,11 @@
     "configurations": [
         {
             "name": "Debug compiler",
+            "preLaunchTask": "build_debug",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/exec.out",
-            "args": ["-i","Test/test_main.ch","-o","out.o"],
+            "args": ["-i","Test/test_main.ch","-o","out.o","-debug_menu"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
