@@ -51,7 +51,7 @@ Parsed::Parsed(std::string txt)
 			//p_b
 			if (Word.compare("") != 0)
 			{
-				this->Unclassified.push_back(Word);
+				this->Processed.push_back(Word);
 				Word.erase();
 			}
 		}
@@ -61,11 +61,11 @@ Parsed::Parsed(std::string txt)
 			{
 				if (Word.compare("") != 0) // hmm
 				{
-					this->Unclassified.push_back(Word);
+					this->Processed.push_back(Word);
 					Word.clear();
 				}
 				Word.append(1, c);
-				this->Unclassified.push_back(Word);
+				this->Processed.push_back(Word);
 				Word.clear();
 			}
 			else
@@ -76,7 +76,7 @@ Parsed::Parsed(std::string txt)
 			if (Pos >= txt.length())
 			{
 				// Ending
-				this->Unclassified.push_back(Word);
+				this->Processed.push_back(Word);
 				Word.erase();
 			}
 		}
@@ -136,15 +136,6 @@ void Parsed::MakeTree()
 			}
 		}
 		pos++;
-	}
-}
-
-void Parsed::ReadTree()
-{
-	Node CurrentNode;
-	while(!Bottom)
-	{
-		Bottom = true; // I'll code this later
 	}
 }
 

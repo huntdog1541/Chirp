@@ -141,10 +141,6 @@ namespace Command
 			Parsed.Tokenize ();
 			Parsed.MakeTree();
 
-			Assembly::Init (&Parsed);
-			Parsed.MakeAssembly ();
-			Assembly::Write (&Parsed, Asm);
-
 			Tools::Build (Asm, OutputFile);
 
 			if (DebugMenu)

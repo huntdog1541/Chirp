@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+/*
 std::string Parsed::ASMStat (Statement* Statement)
 {
 	if (Statement -> Variable)
@@ -31,3 +32,4 @@ std::string Parsed::ASMStat (Statement* Statement)
 	 
 	return "";
 }
+*/

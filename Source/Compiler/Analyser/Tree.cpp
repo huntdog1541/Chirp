@@ -5,6 +5,7 @@ void Tree::MakeStart(Node* n)
 	int yeet = this->NodeList.size(); // Maybe I should name it better
 	n->SelfPos = yeet;
 	this->NodeList.push_back(*n);
+	this->StartPos = yeet;
 }
 
 void Tree::AddChild(int pos, Node* n)

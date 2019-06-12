@@ -6,14 +6,6 @@
 #include <string>
 #include <stdexcept> // Very important, might create errors if not there on certain system
 
-// The macros below are based on the types, you can read them in the Chirp documentation at 
-#define VAR_DEC 0
-#define VAR_DEF 1
-#define VAR_DEC_AND_DEF 2
-#define FUNC_DEF 3
-#define FUNC_CALL 4
-#define INNER_KEYWORD 5
-
 /*
 Class used to represent values and parse them. 
 */
@@ -82,8 +74,6 @@ class Scope
 public:
 	Scope ();
 
-	void Set (int, std::vector<Statement>*); // Pretty much parses it
-
 	bool hasArg;
 
 	int ArgStart; // Position where the parenthesis opens
@@ -121,20 +111,10 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 	void Tokenize (); // Makes the text into tokens
 	void MakeTree (); // Creates the parse tree
-	void ReadTree (); // Parse the tree
-	void ParseVar (); // Pretty self explanatry wait fuck..
-	void ParseFunc ();
-
-	std::string CallFunc (Statement* stat);
-	Variable FindVar(std::string); // Return a variable with given name
-	std::string ASMStat (Statement*); // Makes a statement inside a stack into assembly code
-
-	void MakeAssembly ();
 
 	Tree ParseTree;
 
-	std::vector<std::string> Unclassified; // What if it's declassified O_o
-	std::vector<Statement> Classified;
+	std::vector<std::string> Processed; // All words in the code, are in the vector
 	std::vector<Token> Cluster; // Replacement for classified
 
 	std::vector<Variable> VariableList;

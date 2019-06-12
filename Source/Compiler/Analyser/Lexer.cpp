@@ -15,7 +15,7 @@ void Parsed::Tokenize()
 	long Pos = -1;
 	bool IsString = false; // If it's a string then it wont parse the words below and when the string is closed will be pushed as arguments
 
-	for (auto& txt : this->Unclassified)
+	for (auto& txt : this->Processed)
 	{
 		bool identified = false;
 		Pos++;
@@ -66,7 +66,4 @@ void Parsed::Tokenize()
 			this->Cluster.push_back(t);
 		}
 	}
-
-	this->ParseVar();
-	this->ParseFunc();
 }

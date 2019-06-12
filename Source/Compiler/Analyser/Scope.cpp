@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+/*
 void Scope::Set (int Pos, std::vector<Statement>* Char)
 {
 	int ArgL = 0; // Tracks where the current parenthesis is, in relation to other ones
@@ -62,3 +63,4 @@ void Scope::Set (int Pos, std::vector<Statement>* Char)
 		}
 	}
 }
+*/
