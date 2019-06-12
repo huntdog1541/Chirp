@@ -119,8 +119,9 @@ class Parsed
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
 	Parsed(std::string);
 
-	void Tokenize ();
-	void Parse();
+	void Tokenize (); // Makes the text into tokens
+	void MakeTree (); // Creates the parse tree
+	void ReadTree (); // Parse the tree
 	void ParseVar (); // Pretty self explanatry wait fuck..
 	void ParseFunc ();
 

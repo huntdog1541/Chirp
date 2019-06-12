@@ -139,7 +139,7 @@ namespace Command
 
 			Parsed Parsed(FileData);
 			Parsed.Tokenize ();
-			Parsed.Parse();
+			Parsed.MakeTree();
 
 			Assembly::Init (&Parsed);
 			Parsed.MakeAssembly ();

@@ -83,7 +83,7 @@ Parsed::Parsed(std::string txt)
 	}
 }
 
-void Parsed::Parse()
+void Parsed::MakeTree()
 {
 	Node Start;
 	Start.Value.Identifier = TREE_START_TOKEN;
@@ -121,13 +121,14 @@ void Parsed::Parse()
 
 					// Link dat tree
 					ParseTree.SetChild(Definition.SelfPos,&Name);
+
+					if(Cluster.at(pos + 4).Identifier == KEYWORD_UNKNOWN_TOKEN)
+                	{
+                    	Node Val;
+                    	Val.Value.Identifier = VALUE_INTERGER_TOKEN;
+                    	ParseTree.AddChild(Val.SelfPos, &Val);
+                	}
 				}
-                if(Cluster.at(pos + 4).Identifier == KEYWORD_UNKNOWN_TOKEN)
-                {
-                    Node Val;
-                    Val.Value.Identifier = VALUE_INTERGER_TOKEN;
-                    ParseTree.AddChild(Val.SelfPos, &Val);
-                }
 			}
 			else // function
 			{
@@ -135,6 +136,15 @@ void Parsed::Parse()
 			}
 		}
 		pos++;
+	}
+}
+
+void Parsed::ReadTree()
+{
+	Node CurrentNode;
+	while(!Bottom)
+	{
+		Bottom = true; // I'll code this later
 	}
 }
 
