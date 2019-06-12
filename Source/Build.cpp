@@ -15,7 +15,7 @@ namespace Tools
 
 		system (Cmd.c_str ()); 	// Assembly
 		system (CmdB.c_str ()); // Linking
-		system ("del bin.o"); 	// Clean up
+		system ("rm bin.o"); 	// Clean up
 	}
 #endif
 

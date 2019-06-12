@@ -111,6 +111,7 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 	void Tokenize (); // Makes the text into tokens
 	void MakeTree (); // Creates the parse tree
+	void ReadTree (); // Loops trought the tree to, then do cool stuff
 
 	Tree ParseTree;
 
