@@ -1,10 +1,10 @@
 #include "Tree.h"
 
-void Tree::MakeStart(Node n)
+void Tree::MakeStart(Node* n)
 {
-	int yeet = this->NodeList.size();
-	n.SelfPos = yeet;
-	this->NodeList.push_back(n);
+	int yeet = this->NodeList.size(); // Maybe I should name it better
+	n->SelfPos = yeet;
+	this->NodeList.push_back(*n);
 }
 
 void Tree::AddChild(int pos, Node* n)

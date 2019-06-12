@@ -33,7 +33,7 @@ public:
 	int StartPos; // Position of the start node
 	std::vector<Node> NodeList;
 
-	void MakeStart(Node); // Makes the first node inside the tree
+	void MakeStart(Node*); // Makes the first node inside the tree
 
 	void AddChild(int, Node*); // Adds node to other node at given position
 	void AddChild(Node*, Node); // Adds node to other node with given node

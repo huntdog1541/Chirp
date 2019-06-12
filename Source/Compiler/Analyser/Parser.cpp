@@ -87,7 +87,7 @@ void Parsed::Parse()
 {
 	Node Start;
 	Start.Value.Identifier = TREE_START_TOKEN;
-	this->ParseTree.MakeStart(Start);
+	this->ParseTree.MakeStart(&Start);
 
 	int pos = 0;
 
