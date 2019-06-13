@@ -48,7 +48,6 @@ Parsed::Parsed(std::string txt)
 		Pos++;
 		if (isspace(c) || c == '\n')
 		{
-			//p_b
 			if (Word.compare("") != 0)
 			{
 				this->Processed.push_back(Word);

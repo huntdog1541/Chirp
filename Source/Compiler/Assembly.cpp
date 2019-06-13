@@ -17,11 +17,12 @@ void Parsed::ReadTree()
     int ipos = 0; // Index Position, in parent
     int pos = 0; // Position, in child
 
-    while(!Bottom)
+ /*   while(!Bottom)
     {
         if(pos < CNode.ChildPos.size() - 1)
         {
             pos++;
+            std::cout<<"Child"<<std::endl;
         }
         if(pos == CNode.ChildPos.size() - 1)
         {
@@ -38,5 +39,5 @@ void Parsed::ReadTree()
             NNode = this->ParseTree.NodeList.at(NNode.ParentPos);
         }
         // Code ?
-    }
+    } */
 }
