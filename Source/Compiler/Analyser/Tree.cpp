@@ -15,6 +15,7 @@ void Tree::AddChild(int pos, Node* n)
 		int yeet = this->NodeList.size();
 		n->SelfPos = yeet;
 		n->ParentPos = pos;
+		n->PosInNode = this->NodeList.at(pos).ChildPos.size();
 		this->NodeList.at(pos).ChildPos.push_back(yeet);
 		this->NodeList.push_back(*n);
 	}

@@ -138,6 +138,39 @@ void Parsed::MakeTree()
 	}
 }
 
+void Parsed::MakeIndex()
+{
+	bool Finished = false;
+	int Pos = 0;
+
+	Node Current;
+
+	Current = this->ParseTree.NodeList.at(this->ParseTree.StartPos);
+
+	while (!Finished)
+	{
+		if (this->Index.size() >= this->ParseTree.NodeList.size()) // then it's done
+		{
+			Finished = true;
+		}
+
+		if (Current.ChildPos.size() == 0)
+		{
+			if (Current.PosInNode < this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1) // Go up
+			{
+				std::cout << "Can go up" << std::endl;
+			}
+			if (Current.ParentPos == 0) // Is start, and no child
+			{
+				Finished = true;
+			}
+		}
+		else // Go down
+		{
+		}
+	}
+}
+
 /*
 A tree can look like this
 

@@ -16,6 +16,8 @@ class Node
 public:
 	int ParentPos; // Position inside the Node Vector
 	int SelfPos; // Position inside the node vector
+	int PosInNode; // Position inside parent
+
 	std::vector<int> ChildPos; // Positions of the childs inside the Node Vector
 
 	Token Value;

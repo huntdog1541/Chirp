@@ -140,7 +140,7 @@ namespace Command
 			Parsed Parsed(FileData);
 			Parsed.Tokenize ();
 			Parsed.MakeTree();
-			Parsed.ReadTree();
+			Parsed.MakeIndex();
 
 			Tools::Build (Asm, OutputFile);
 
