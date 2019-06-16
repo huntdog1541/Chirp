@@ -153,7 +153,6 @@ void Parsed::MakeIndex()
 		{
 			Finished = true;
 		}
-
 		if (Current.ChildPos.size() == 0)
 		{
 			if (Current.PosInNode < this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1) // Go up
@@ -167,6 +166,8 @@ void Parsed::MakeIndex()
 		}
 		else // Go down
 		{
+			Current = this->ParseTree.NodeList.at(Current.ChildPos.at(Pos));
+			Pos++;
 		}
 	}
 }
