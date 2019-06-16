@@ -145,7 +145,7 @@ void Parsed::MakeIndex()
 
 	Node Current;
 
-	Current = this->ParseTree.NodeList.at(this->ParseTree.StartPos);
+	Current = this->ParseTree.NodeList.at(this->ParseTree.StartPos); // This isn't pushed to index
 
 	while (!Finished)
 	{
@@ -154,35 +154,27 @@ void Parsed::MakeIndex()
 			Finished = true;
 		}
 
-		if (Current.ChildPos.size() == 0)
+		if (Current.ChildPos.size() == 0) 
 		{
-			if (Current.PosInNode != this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1) // Go to the right
+			if (Current.PosInNode != this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Go to the right
 			{
-				Current = this->ParseTree.NodeList.at(this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+				Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
 			}
-			else // Last child in node that doesn't have child so only choice is to go up -> Iniate the go up loop
+			else // Last child in node that doesn't have child so only choice is to go up 
 			{
 				Climbing = true;
 			}
 		}
 		else // Go down
 		{
-			Current = this->ParseTree.NodeList.at(Current.ChildPos.at(0));
+			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
 			this->Index.push_back(Current.SelfPos);
+			Climbing = false;
 		}
 
 		if (Climbing) // Go up
 		{
-			if (this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1 >= Current.PosInNode + 1 && this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() != 0) // Go up & down
-			{
-				Current = this->ParseTree.NodeList.at(this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Is this confusing yet
-				Climbing = false;
-			}
-			else
-			{
-				Current = this->ParseTree.NodeList.at(Current.ParentPos);
-			//	Climbing = true;
-			}
+			Current = this->ParseTree.GetNode(Current.ParentPos);
 		}
 	}
 }
@@ -197,4 +189,16 @@ A tree can look like this
  VAR_DEC_TOKEN      VAR_DEF_TOKEN
 
  then there is other stuff
+
+ The order should look like this:
+
+		1
+		|
+		2
+	  /   \
+     3     6
+	/ \    |
+   4   5   7
+
+When climbing up it does not count
 */
