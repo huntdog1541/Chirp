@@ -154,9 +154,16 @@ void Parsed::MakeIndex()
 			Finished = true;
 		}
 
-		if (Current.ChildPos.size() == 0) // Go up
+		if (Current.ChildPos.size() == 0)
 		{
-			Climbing = true;
+			if (Current.PosInNode != this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1) // Go to the right
+			{
+				Current = this->ParseTree.NodeList.at(this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+			}
+			else // Last child in node that doesn't have child so only choice is to go up -> Iniate the go up loop
+			{
+				Climbing = true;
+			}
 		}
 		else // Go down
 		{
@@ -166,7 +173,7 @@ void Parsed::MakeIndex()
 
 		if (Climbing) // Go up
 		{
-			if (this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1 >= Current.PosInNode + 1 && this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() != 0) // Go down & down
+			if (this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1 >= Current.PosInNode + 1 && this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() != 0) // Go up & down
 			{
 				Current = this->ParseTree.NodeList.at(this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Is this confusing yet
 				Climbing = false;
