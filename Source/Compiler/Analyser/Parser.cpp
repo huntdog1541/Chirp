@@ -141,7 +141,7 @@ void Parsed::MakeTree()
 void Parsed::MakeIndex()
 {
 	bool Finished = false;
-	int Pos = 0;
+	bool Climbing = false; // Will climb until it find the earliest way to fall down
 
 	Node Current;
 
@@ -149,25 +149,33 @@ void Parsed::MakeIndex()
 
 	while (!Finished)
 	{
-		if (this->Index.size() >= this->ParseTree.NodeList.size()) // then it's done
+		if (this->Index.size() >= this->ParseTree.NodeList.size())
 		{
 			Finished = true;
 		}
-		if (Current.ChildPos.size() == 0)
+
+		if (Current.ChildPos.size() == 0) // Go up
 		{
-			if (Current.PosInNode < this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1) // Go up
-			{
-				std::cout << "Can go up" << std::endl;
-			}
-			if (Current.ParentPos == 0) // Is start, and no child
-			{
-				Finished = true;
-			}
+			Climbing = true;
 		}
 		else // Go down
 		{
-			Current = this->ParseTree.NodeList.at(Current.ChildPos.at(Pos));
-			Pos++;
+			Current = this->ParseTree.NodeList.at(Current.ChildPos.at(0));
+			this->Index.push_back(Current.SelfPos);
+		}
+
+		if (Climbing) // Go up
+		{
+			if (this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() - 1 >= Current.PosInNode + 1 && this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.size() != 0) // Go down & down
+			{
+				Current = this->ParseTree.NodeList.at(this->ParseTree.NodeList.at(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Is this confusing yet
+				Climbing = false;
+			}
+			else
+			{
+				Current = this->ParseTree.NodeList.at(Current.ParentPos);
+			//	Climbing = true;
+			}
 		}
 	}
 }
