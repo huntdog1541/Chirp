@@ -88,8 +88,17 @@ void Parsed::MakeTree()
 	Start.Value.Identifier = TREE_START_TOKEN;
 	this->ParseTree.MakeStart(&Start);
 
+	Node First;
+	First.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
+	this->ParseTree.AddChild(Start.SelfPos,&First);
+
+	Node Second;
+	First.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
+	this->ParseTree.AddChild(Start.SelfPos,&Second);
+
 	int pos = 0;
 
+	/*
 	for (auto& token : this->Cluster) // Loops trough token cluster
 	{
 		if (token.Identifier == OBJECT_CAST_TOKEN) // var or func ? hmm
@@ -136,6 +145,7 @@ void Parsed::MakeTree()
 		}
 		pos++;
 	}
+	*/
 }
 
 void Parsed::MakeIndex()
@@ -154,15 +164,17 @@ void Parsed::MakeIndex()
 			Finished = true;
 		}
 
-		if (Current.ChildPos.size() == 0) 
+		if (Current.ChildPos.size() == 0) // Can only go up or right
 		{
-			if (Current.PosInNode != this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Go to the right
+			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Go to the right
 			{
 				Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+				std::cout << "right" << std::endl;
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
 			{
 				Climbing = true;
+				std::cout << "up" << std::endl;
 			}
 		}
 		else // Go down
@@ -170,14 +182,20 @@ void Parsed::MakeIndex()
 			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
 			this->Index.push_back(Current.SelfPos);
 			Climbing = false;
+			std::cout << "down" << std::endl;
 		}
 
 		if (Climbing) // Go up
 		{
 			Current = this->ParseTree.GetNode(Current.ParentPos);
+			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Check if parent has a sideway node, by now Current should already be the parent
+			{
+				Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+				std::cout << "up&right" << std::endl;
+			}
 		}
 	}
-}
+ }
 
 /*
 A tree can look like this
