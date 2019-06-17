@@ -88,7 +88,7 @@ void Parsed::MakeTree()
 	Start.Value.Identifier = TREE_START_TOKEN;
 	this->ParseTree.MakeStart(&Start);
 
-	Node First;
+/*	Node First;
 	First.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
 	this->ParseTree.AddChild(Start.SelfPos,&First);
 
@@ -96,18 +96,21 @@ void Parsed::MakeTree()
 	Second.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
 	this->ParseTree.AddChild(Start.SelfPos,&Second);
 
-	Node Fourth;
-	Fourth.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
-	this->ParseTree.AddChild(First.SelfPos,&Fourth);
+	Node Third;
+	Third.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
+	this->ParseTree.AddChild(First.SelfPos,&Third);
 
 	Node Fifth;
 	Fifth.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
 	this->ParseTree.AddChild(First.SelfPos,&Fifth);
+
+	Node Sixth;
+	Sixth.Value.Identifier = 666;
+	this->ParseTree.AddChild(Second.SelfPos, &Sixth); */
 	
 
 	int pos = 0;
 
-	/*
 	for (auto& token : this->Cluster) // Loops trough token cluster
 	{
 		if (token.Identifier == OBJECT_CAST_TOKEN) // var or func ? hmm
@@ -154,7 +157,6 @@ void Parsed::MakeTree()
 		}
 		pos++;
 	}
-	*/
 }
 
 void Parsed::MakeIndex()
@@ -171,8 +173,6 @@ void Parsed::MakeIndex()
 		// This is more understandable if you just think of the positon as a cube
 		// pushing agaisnt gravity and falling in holes. Wait no, it doesn't help at all
 
-		std::cout << "====================" << std::endl;
-		std::cout << "Current:" << Current.SelfPos << std::endl;
 
 		if (this->Index.size() == this->ParseTree.NodeList.size())
 		{
@@ -184,7 +184,6 @@ void Parsed::MakeIndex()
 			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Can go to the right
 			{
 				Current = this->ParseTree.GetNode(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-				std::cout << "right add:"<<Current.SelfPos<< std::endl;
 			//	this->Index.push_back(Current.SelfPos);
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
@@ -195,8 +194,6 @@ void Parsed::MakeIndex()
 					break;
 				}
 				Climbing = true;
-				std::cout << "up-sy add" << std::endl;
-						 //   up    add
 				this->Index.push_back(Current.SelfPos);
 			}
 		}
@@ -205,7 +202,6 @@ void Parsed::MakeIndex()
 			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
 			this->Index.push_back(Current.SelfPos);
 			Climbing = false;
-			std::cout << "down  add:" << Current.SelfPos << std::endl;
 		}
 
 		if (Climbing) // Go up
@@ -215,7 +211,6 @@ void Parsed::MakeIndex()
 			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Check if parent has a sideway node, by now Current should already be the parent
 			{
 				Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-				std::cout << "up->  non" << std::endl;
 			}
 		}
 	}
