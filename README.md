@@ -15,7 +15,7 @@ Chirp is a modern low-level programming language written in C++, to replace C++ 
 ### Simple Example
 
 ```chirp
-  entry int start ()
+  entry start ()
   {
     int: a = 123
   }
