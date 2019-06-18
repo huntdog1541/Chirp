@@ -7,29 +7,6 @@
 
 //=CLASS CONSTRUCTORS
 
-
-Value::Value()
-{
-
-}
-
-Variable::Variable()
-{
-	this->stackPos = 4;
-}
-
-
-Scope::Scope()
-{
-
-}
-
-Statement::Statement()
-{
-
-}
-
-
 /*
 Makes the string into processable code
 */
