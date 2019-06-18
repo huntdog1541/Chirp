@@ -7,7 +7,7 @@
 /*
 Makes the string into processable code
 */
-Parser::Parser(std::string txt)
+void Parser::Setup(std::string txt)
 {
 // Ok so basically in here let's seperate words.
 // and make them in seperate keywords, but let's not touch any assembly code

@@ -6,13 +6,17 @@
 
 void Parser::ReadIndex()
 {
-	for (auto& pos : this->Index)
+	int pos = 0;
+
+	for (auto& n : this->Index)
 	{
-		Node node = this->ParseTree.NodeList.at(pos);
+		Node node = this->ParseTree.GetNode(n);
 
 		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
 		{
-			std::cout << "Detected a variable" << std::endl;
+			Variable::MakeVar(pos);
 		}
+		
+		pos++;
 	}
 }

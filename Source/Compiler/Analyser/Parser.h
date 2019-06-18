@@ -13,11 +13,10 @@
 Most important class for the compiler. Everything is happening here iet's a
 pretty way to do stuff.
 */
-struct Parser
+static struct Parser
 {
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
-	Parser(std::string);
-
+	void Setup(std::string);
 	void Tokenize (); // Makes the text into tokens
 	void MakeTree (); // Creates the parse tree
 	void MakeIndex (); // Read the tree and create an index to make reading it easier
@@ -38,4 +37,4 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	std::string Data; // section .data
 
 	std::string Output;
-};
+} Parser;
