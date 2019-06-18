@@ -154,8 +154,8 @@ void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 		// This is more understandable if you just think of the positon as a cube
 		// pushing agaisnt gravity and falling in holes. Wait no, it doesn't help at all
 
-		std::cout << "====================" << std::endl;
-		std::cout << "Current:  " << Current.SelfPos << std::endl;
+//		std::cout << "====================" << std::endl;
+//		std::cout << "Current:  " << Current.SelfPos << std::endl;
 
 		if (this->Index.size() == this->ParseTree.NodeList.size())
 		{
@@ -167,14 +167,14 @@ void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Can go to the right
 			{
 				Current = this->ParseTree.GetNode(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-				std::cout << "right add:"<<Current.SelfPos<< std::endl;
+			//	std::cout << "right add:"<<Current.SelfPos<< std::endl;
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
 			{
 				Climbing = true;
 				if (Current.SelfPos != this->Index.back())
 				{
-					std::cout << "up-sy add:" << Current.SelfPos << std::endl; // Up-stay add, adds current node, at stay still
+			//		std::cout << "up-sy add:" << Current.SelfPos << std::endl; // Up-stay add, adds current node, at stay still
 					this->Index.push_back(Current.SelfPos);
 				}
 			}
@@ -183,7 +183,7 @@ void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 		{
 			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
 			this->Index.push_back(Current.SelfPos);
-			std::cout << "first add:" << Current.SelfPos << std::endl;
+		//	std::cout << "first add:" << Current.SelfPos << std::endl;
 			Climbing = false;
 		}
 
@@ -198,7 +198,7 @@ void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 					Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
 					if (Current.SelfPos != this->Index.back())
 					{
-						std::cout << "up->  add:" << Current.SelfPos << std::endl;
+			//			std::cout << "up->  add:" << Current.SelfPos << std::endl;
 						this->Index.push_back(Current.SelfPos);
 					}
 					else
