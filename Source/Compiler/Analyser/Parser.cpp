@@ -159,14 +159,16 @@ void Parsed::MakeTree()
 	}
 }
 
-void Parsed::MakeIndex()
+void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 {
 	bool Finished = false;
 	bool Climbing = false; // Will climb until it find the earliest way to fall down
+	bool Bottomed = false;
 
 	Node Current;
 
 	Current = this->ParseTree.NodeList.at(this->ParseTree.StartPos); // This isn't pushed to index
+	this->Index.push_back(Current.SelfPos);
 
 	while (!Finished) 
 	{
@@ -187,7 +189,6 @@ void Parsed::MakeIndex()
 			{
 				Current = this->ParseTree.GetNode(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
 				std::cout << "right add:"<<Current.SelfPos<< std::endl;
-			//  this->Index.push_back(Current.SelfPos);
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
 			{
@@ -199,12 +200,12 @@ void Parsed::MakeIndex()
 				}
 			}
 		}
-		else // Go down
+		else if(!Climbing) // Go down
 		{
 			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
 			this->Index.push_back(Current.SelfPos);
-			Climbing = false;
 			std::cout << "first add:" << Current.SelfPos << std::endl;
+			Climbing = false;
 		}
 
 		if (Climbing) // Go up
@@ -216,8 +217,11 @@ void Parsed::MakeIndex()
 				if (Current.SelfPos != this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Made it on a different if statement, because the line would be too much big
 				{
 					Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-					std::cout << "up->  add:" << Current.SelfPos << std::endl;
-					this->Index.push_back(Current.SelfPos);
+					if (Current.SelfPos != this->Index.back())
+					{
+						std::cout << "up->  add:" << Current.SelfPos << std::endl;
+						this->Index.push_back(Current.SelfPos);
+					}
 				}
 			}
 		}
@@ -237,13 +241,15 @@ A tree can look like this
 
  The order should look like this:
 
-		1
-		|
-		2
-	  /   \
-     3     6
-	/ \    |
-   4   5   7
+		0
+	   / \
+	  1   5
+	 / \ 
+	2   4  
+    |
+	3
+
+0,1,2,3,4,5
 
 When climbing up it does not count
 */
