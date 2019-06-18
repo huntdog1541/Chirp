@@ -31,7 +31,6 @@ void Parsed::Tokenize()
 		}
 		else if (txt.compare("=") == 0)
 		{
-			std::cout << "yeet ?" << std::endl;
 			t.Identifier = VAR_ASSIGN_OP_TOKEN;
 			t.Lexeme = txt;
 			this->Cluster.push_back(t);

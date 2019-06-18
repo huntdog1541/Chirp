@@ -88,27 +88,6 @@ void Parsed::MakeTree()
 	Start.Value.Identifier = TREE_START_TOKEN;
 	this->ParseTree.MakeStart(&Start);
 
-/*	Node First;
-	First.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
-	this->ParseTree.AddChild(Start.SelfPos,&First);
-
-	Node Second;
-	Second.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
-	this->ParseTree.AddChild(Start.SelfPos,&Second);
-
-	Node Third;
-	Third.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
-	this->ParseTree.AddChild(First.SelfPos,&Third);
-
-	Node Fifth;
-	Fifth.Value.Identifier = KEYWORD_UNKNOWN_TOKEN;
-	this->ParseTree.AddChild(First.SelfPos,&Fifth);
-
-	Node Sixth;
-	Sixth.Value.Identifier = 666;
-	this->ParseTree.AddChild(Second.SelfPos, &Sixth); */
-	
-
 	int pos = 0;
 
 	for (auto& token : this->Cluster) // Loops trough token cluster
@@ -140,7 +119,7 @@ void Parsed::MakeTree()
 					ParseTree.AddChild(Variable.SelfPos, &Definition);
 
 					// Link dat tree
-					//ParseTree.SetChild(Definition.SelfPos,&Name);
+					ParseTree.SetChild(Definition.SelfPos,&Name);
 
 					if(Cluster.at(pos + 4).Identifier == KEYWORD_UNKNOWN_TOKEN)
                 	{
@@ -221,6 +200,10 @@ void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 					{
 						std::cout << "up->  add:" << Current.SelfPos << std::endl;
 						this->Index.push_back(Current.SelfPos);
+					}
+					else
+					{
+						Finished = true;
 					}
 				}
 			}
