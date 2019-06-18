@@ -7,7 +7,7 @@
 /*
 Actually parses the words in the Parsed class then start the whole thing.
 */
-void Parsed::Tokenize()
+void Parser::Tokenize()
 {
 	// Now, here you separate unclassified strings into tokens that will then be analyzed
 	// and made into assembly.

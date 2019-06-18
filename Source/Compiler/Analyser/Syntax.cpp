@@ -1,13 +1,18 @@
 #include "Syntax.h"
 
-#include <fstream>
+#include "../Variable.h"
+
 #include <iostream>
 
-void Parsed::ReadIndex()
+void Parser::ReadIndex()
 {
 	for (auto& pos : this->Index)
 	{
 		Node node = this->ParseTree.NodeList.at(pos);
-		std::cout << node.Value.Lexeme << std::endl;
+
+		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
+		{
+			std::cout << "Detected a variable" << std::endl;
+		}
 	}
 }

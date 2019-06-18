@@ -137,11 +137,11 @@ namespace Command
 			std::string FileData = Read (InputFile);
 			std::string Asm = InputFile.append (".asm");
 
-			Parsed Parsed(FileData);
-			Parsed.Tokenize ();
-			Parsed.MakeTree();
-			Parsed.MakeIndex();
-			Parsed.ReadIndex();
+			Parser Parser(FileData); // I'm really impressed this works
+			Parser.Tokenize ();
+			Parser.MakeTree();
+			Parser.MakeIndex();
+			Parser.ReadIndex();
 
 			Tools::Build (Asm, OutputFile);
 

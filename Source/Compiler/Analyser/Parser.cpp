@@ -1,8 +1,5 @@
 #include "Parser.h"
 
-#include "../Variable.h"
-#include "../Value.h"
-
 #include <iostream>
 
 //=CLASS CONSTRUCTORS
@@ -10,7 +7,7 @@
 /*
 Makes the string into processable code
 */
-Parsed::Parsed(std::string txt)
+Parser::Parser(std::string txt)
 {
 // Ok so basically in here let's seperate words.
 // and make them in seperate keywords, but let's not touch any assembly code
@@ -59,7 +56,7 @@ Parsed::Parsed(std::string txt)
 	}
 }
 
-void Parsed::MakeTree()
+void Parser::MakeTree()
 {
 	Node Start;
 	Start.Value.Identifier = TREE_START_TOKEN;
@@ -83,6 +80,10 @@ void Parsed::MakeTree()
 				Node Declaration;
 				Declaration.Value.Identifier = VAR_DEC_TOKEN;
 				ParseTree.AddChild(Variable.SelfPos,&Declaration);
+
+				Node Type;
+				Type.Value = token;
+				ParseTree.AddChild(Declaration.SelfPos, &Type);
 
 				Node Name;
 				Name.Value.Identifier = OBJECT_ID_TOKEN;
@@ -115,7 +116,7 @@ void Parsed::MakeTree()
 	}
 }
 
-void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
+void Parser::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 {
 	bool Finished = false;
 	bool Climbing = false; // Will climb until it find the earliest way to fall down
