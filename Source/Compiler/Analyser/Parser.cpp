@@ -113,7 +113,7 @@ void Parsed::MakeTree()
 
 	for (auto& token : this->Cluster) // Loops trough token cluster
 	{
-		if (token.Identifier == OBJECT_CAST_TOKEN) // var or func ? hmm
+		if (token.Identifier == OBJECT_TYPE_TOKEN) // var or func ? hmm
 		{
 			// When token is here, you should be there:
 			// int: a = 123 | int: a | int a()

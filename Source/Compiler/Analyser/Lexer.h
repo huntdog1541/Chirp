@@ -20,7 +20,7 @@
 #define GATE_ARG_TOKEN 11
 
 #define OBJECT_ID_TOKEN 8
-#define OBJECT_CAST_TOKEN 6 // Cast Type
+#define OBJECT_TYPE_TOKEN 6 // Cast Type
 
 #define KEYWORD_UNKNOWN_TOKEN 1 // I call it a keyword but it's anything
 #define KEYWORD_ENTRY_TOKEN 13

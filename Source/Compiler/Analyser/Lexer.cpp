@@ -24,7 +24,7 @@ void Parsed::Tokenize()
 		
 		if (txt.compare("int") == 0 || txt.compare("char") == 0 || txt.compare("float") == 0)
 		{
-			t.Identifier = OBJECT_CAST_TOKEN;
+			t.Identifier = OBJECT_TYPE_TOKEN;
 			t.Lexeme = txt;
 			identified = true;
 			this->Cluster.push_back(t);
