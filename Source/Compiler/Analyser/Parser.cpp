@@ -140,7 +140,7 @@ void Parsed::MakeTree()
 					ParseTree.AddChild(Variable.SelfPos, &Definition);
 
 					// Link dat tree
-					ParseTree.SetChild(Definition.SelfPos,&Name);
+					//ParseTree.SetChild(Definition.SelfPos,&Name);
 
 					if(Cluster.at(pos + 4).Identifier == KEYWORD_UNKNOWN_TOKEN)
                 	{
@@ -173,6 +173,8 @@ void Parsed::MakeIndex()
 		// This is more understandable if you just think of the positon as a cube
 		// pushing agaisnt gravity and falling in holes. Wait no, it doesn't help at all
 
+		std::cout << "====================" << std::endl;
+		std::cout << "Current:  " << Current.SelfPos << std::endl;
 
 		if (this->Index.size() == this->ParseTree.NodeList.size())
 		{
@@ -184,17 +186,17 @@ void Parsed::MakeIndex()
 			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Can go to the right
 			{
 				Current = this->ParseTree.GetNode(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-			//	this->Index.push_back(Current.SelfPos);
+				std::cout << "right add:"<<Current.SelfPos<< std::endl;
+			//  this->Index.push_back(Current.SelfPos);
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
 			{
-				if (this->Index.back() == Current.SelfPos) // That means, it start looping on itself
-				{
-					Finished = true; // Kill
-					break;
-				}
 				Climbing = true;
-				this->Index.push_back(Current.SelfPos);
+				if (Current.SelfPos != this->Index.back())
+				{
+					std::cout << "up-sy add:" << Current.SelfPos << std::endl; // Up-stay add, adds current node, at stay still
+					this->Index.push_back(Current.SelfPos);
+				}
 			}
 		}
 		else // Go down
@@ -202,6 +204,7 @@ void Parsed::MakeIndex()
 			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
 			this->Index.push_back(Current.SelfPos);
 			Climbing = false;
+			std::cout << "first add:" << Current.SelfPos << std::endl;
 		}
 
 		if (Climbing) // Go up
@@ -210,11 +213,16 @@ void Parsed::MakeIndex()
 
 			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Check if parent has a sideway node, by now Current should already be the parent
 			{
-				Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+				if (Current.SelfPos != this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Made it on a different if statement, because the line would be too much big
+				{
+					Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+					std::cout << "up->  add:" << Current.SelfPos << std::endl;
+					this->Index.push_back(Current.SelfPos);
+				}
 			}
 		}
 	}
- }
+}
 
 /*
 A tree can look like this
