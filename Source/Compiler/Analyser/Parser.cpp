@@ -142,7 +142,7 @@ void Parsed::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 {
 	bool Finished = false;
 	bool Climbing = false; // Will climb until it find the earliest way to fall down
-	bool Bottomed = false;
+//	bool Bottomed = false;
 
 	Node Current;
 

@@ -22,10 +22,12 @@
 #define OBJECT_ID_TOKEN 8
 #define OBJECT_TYPE_TOKEN 6 // Cast Type
 
-#define KEYWORD_UNKNOWN_TOKEN 1 // I call it a keyword but it's anything
+#define KEYWORD_UNKNOWN_TOKEN 1 // When stuff is unknown, then spooky
 #define KEYWORD_ENTRY_TOKEN 13
 #define KEYWORD_CONST_TOKEN  14 // const keyword
 #define KEYWORD_INNER_TOKEN 15
+
+#define UNPARSED_TOKEN 16
 
 class Token
 {

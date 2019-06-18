@@ -1,7 +1,7 @@
 #include "Commands.h"
 
 #include "../Compiler/Analyser/Parser.h"
-#include "../Compiler/Output.h"
+#include "../Compiler/Syntax.h"
 #include "../Build.h"
 #include "Debug.h"
 
@@ -141,6 +141,7 @@ namespace Command
 			Parsed.Tokenize ();
 			Parsed.MakeTree();
 			Parsed.MakeIndex();
+			Parsed.ReadIndex();
 
 			Tools::Build (Asm, OutputFile);
 
