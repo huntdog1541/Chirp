@@ -1,7 +1,7 @@
 #include "Commands.h"
 
 #include "../Compiler/Analyser/Parser.h"
-#include "../Compiler/Syntax.h"
+#include "../Compiler/Analyser/Syntax.h"
 #include "../Build.h"
 #include "Debug.h"
 
