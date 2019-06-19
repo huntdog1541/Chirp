@@ -2,6 +2,7 @@
 
 #include "../Compiler/Analyser/Parser.h"
 #include "../Compiler/Analyser/Syntax.h"
+#include "../Compiler/Output.h"
 #include "../Build.h"
 #include "Debug.h"
 
@@ -135,17 +136,26 @@ namespace Command
 			// Ok we can finally get started on doing real stuff
 
 			std::string FileData = Read (InputFile);
-			std::string Asm = InputFile.append (".asm");
+		//	std::string Asm = InputFile.append (".asm");
 
+			// Setup
 			Environement e;
+			e.InFile = InputFile;
+			e.OutFile = OutputFile;
+			e.AltFile = OutputFile.append(".asm");
+			
+			// Parsing
 			Parser::Setup(FileData,&e);
 			Parser::Tokenize (&e);
 			Parser::MakeTree(&e);
 			Parser::MakeIndex(&e);
 			Syntax::ReadIndex(&e);
 
-			Tools::Build (Asm, OutputFile);
+			// Building
+			Output::Write(&e);
+			Tools::Build (e.AltFile, e.OutFile);
 
+			// Debugging
 			if (DebugMenu)
 			{
 				Menu DebugUI;

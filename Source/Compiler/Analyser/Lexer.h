@@ -7,10 +7,10 @@
 #define TREE_START_TOKEN 0
 #define TREE_UNDEFINED_TOKEN 2
 
-#define VAR_TOKEN 3
+#define VAR_TOKEN 3 // First node of any variable related structure
 #define VAR_DEF_TOKEN 4
 #define VAR_DEC_TOKEN 5	
-#define VAR_ASSIGN_OP_TOKEN 9
+#define VAR_ASSIGN_OP_TOKEN 9 // The = symbol
 #define VAR_CONFIRM_TOKEN 12 // The : in int: a...
 
 #define VALUE_INTERGER_TOKEN 9

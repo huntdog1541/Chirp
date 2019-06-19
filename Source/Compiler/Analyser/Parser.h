@@ -20,15 +20,15 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	std::vector<Token> Cluster; // Replacement for classified
 	
 	std::vector<int> Index;
-	std::vector<Object> ObjectList; // I dont really know what it should do
+	std::vector<Object> ObjectList; // Objects can be pretty much anything
 
+	std::string InFile;
+	std::string AltFile; // Alternative file(asm)
+	std::string OutFile;
 	std::string EntryLabel; // Name of entry function
 
-	std::string Text; // section .text
-	std::string BSS; // section .bss
-	std::string Data; // section .data
-
-	std::string Output;
+	std::string Header; // Name I tought would fit, where the asm functions are said "global"
+	std::string Text; // Assembly text section
 };
 
 

@@ -9,5 +9,7 @@
 
 namespace Syntax
 {
+	// Will read the index, to parse the syntax and generate
+	// assembly
 	void ReadIndex(Environement*);
 }

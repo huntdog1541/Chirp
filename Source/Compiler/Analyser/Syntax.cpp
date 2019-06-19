@@ -8,6 +8,8 @@ void Syntax::ReadIndex(Environement* env)
 {
 	int pos = 0;
 
+	bool InVar;
+
 	std::cout << "Index is " << env->Index.size() - 1 << std::endl;
 
 	for (auto& n : env->Index)
@@ -16,7 +18,7 @@ void Syntax::ReadIndex(Environement* env)
 
 		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
 		{
-			Variable::WriteVarDec(pos,env);
+			env->Text.append(Variable::WriteVarDec(pos,env));
 		}
 		
 		pos++;
