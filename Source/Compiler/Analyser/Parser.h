@@ -31,7 +31,7 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	std::vector<int> Index;
 	std::vector<Object> ObjectList; // I dont really know what it should do
 
-	int EntryPos; // Position of entry function in func vector
+	std::string EntryLabel; // Name of entry function
 
 	std::string Text; // section .text
 	std::string BSS; // section .bss
