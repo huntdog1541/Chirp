@@ -2,9 +2,8 @@
 
 #include "Analyser/Parser.h"
 
-#include <string>
-
 namespace Variable
 {
-	void MakeVar(int);
+	std::string WriteVarDec(int,Parser*);
+	std::string WriteVarDef(int,Parser*);
 }

@@ -24,7 +24,7 @@ void Parser::Setup(std::string txt)
 		{
 			if (Word.compare("") != 0)
 			{
-				this->Processed.push_back(Word);
+				Processed.push_back(Word);
 				Word.erase();
 			}
 		}
@@ -34,11 +34,11 @@ void Parser::Setup(std::string txt)
 			{
 				if (Word.compare("") != 0) // hmm
 				{
-					this->Processed.push_back(Word);
+					Processed.push_back(Word);
 					Word.clear();
 				}
 				Word.append(1, c);
-				this->Processed.push_back(Word);
+				Processed.push_back(Word);
 				Word.clear();
 			}
 			else
@@ -49,7 +49,7 @@ void Parser::Setup(std::string txt)
 			if (Pos >= txt.length())
 			{
 				// Ending
-				this->Processed.push_back(Word);
+				Processed.push_back(Word);
 				Word.erase();
 			}
 		}
@@ -64,7 +64,7 @@ void Parser::MakeTree()
 
 	int pos = 0;
 
-	for (auto& token : this->Cluster) // Loops trough token cluster
+	for (auto& token : Cluster) // Loops trough token cluster
 	{
 		if (token.Identifier == OBJECT_TYPE_TOKEN) // var or func ? hmm
 		{
@@ -124,8 +124,8 @@ void Parser::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 
 	Node Current;
 
-	Current = this->ParseTree.NodeList.at(this->ParseTree.StartPos); // This isn't pushed to index
-	this->Index.push_back(Current.SelfPos);
+	Current = ParseTree.NodeList.at(ParseTree.StartPos); // This isn't pushed to index
+	Index.push_back(Current.SelfPos);
 
 	while (!Finished) 
 	{
@@ -135,49 +135,49 @@ void Parser::MakeIndex() // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 //		std::cout << "====================" << std::endl;
 //		std::cout << "Current:  " << Current.SelfPos << std::endl;
 
-		if (this->Index.size() == this->ParseTree.NodeList.size())
+		if (Index.size() == ParseTree.NodeList.size())
 		{
 			Finished = true;
 		}
 
 		if (Current.ChildPos.size() == 0) // Can only go up or right
 		{
-			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Can go to the right
+			if (Current.PosInNode < ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Can go to the right
 			{
-				Current = this->ParseTree.GetNode(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+				Current = ParseTree.GetNode(ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
 			//	std::cout << "right add:"<<Current.SelfPos<< std::endl;
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
 			{
 				Climbing = true;
-				if (Current.SelfPos != this->Index.back())
+				if (Current.SelfPos != Index.back())
 				{
 			//		std::cout << "up-sy add:" << Current.SelfPos << std::endl; // Up-stay add, adds current node, at stay still
-					this->Index.push_back(Current.SelfPos);
+					Index.push_back(Current.SelfPos);
 				}
 			}
 		}
 		else if(!Climbing) // Go down
 		{
-			Current = this->ParseTree.GetNode(Current.ChildPos.at(0));
-			this->Index.push_back(Current.SelfPos);
+			Current = ParseTree.GetNode(Current.ChildPos.at(0));
+			Index.push_back(Current.SelfPos);
 		//	std::cout << "first add:" << Current.SelfPos << std::endl;
 			Climbing = false;
 		}
 
 		if (Climbing) // Go up
 		{
-			Current = this->ParseTree.GetNode(Current.ParentPos);
+			Current = ParseTree.GetNode(Current.ParentPos);
 
-			if (Current.PosInNode < this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Check if parent has a sideway node, by now Current should already be the parent
+			if (Current.PosInNode < ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Check if parent has a sideway node, by now Current should already be the parent
 			{
-				if (Current.SelfPos != this->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Made it on a different if statement, because the line would be too much big
+				if (Current.SelfPos != ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Made it on a different if statement, because the line would be too much big
 				{
-					Current = this->ParseTree.NodeList.at(this->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-					if (Current.SelfPos != this->Index.back())
+					Current = ParseTree.NodeList.at(ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
+					if (Current.SelfPos != Index.back())
 					{
 			//			std::cout << "up->  add:" << Current.SelfPos << std::endl;
-						this->Index.push_back(Current.SelfPos);
+						Index.push_back(Current.SelfPos);
 					}
 					else
 					{

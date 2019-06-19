@@ -6,3 +6,8 @@
 // then other data will be sent to the output
 
 #include "Parser.h"
+
+namespace Syntax
+{
+	void ReadIndex(Parser*);
+}

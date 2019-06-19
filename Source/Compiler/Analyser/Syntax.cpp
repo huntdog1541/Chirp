@@ -4,17 +4,19 @@
 
 #include <iostream>
 
-void Parser::ReadIndex()
+void Syntax::ReadIndex(Parser* p)
 {
 	int pos = 0;
 
-	for (auto& n : this->Index)
+	std::cout << "Index is " << p->Index.size() - 1 << std::endl;
+
+	for (auto& n : p->Index)
 	{
-		Node node = this->ParseTree.GetNode(n);
+		Node node = p->ParseTree.GetNode(n);
 
 		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
 		{
-			Variable::MakeVar(pos);
+			Variable::WriteVarDec(pos,p);
 		}
 		
 		pos++;

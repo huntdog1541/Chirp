@@ -11,7 +11,8 @@ class Object
 {
 public:
 	std::string Name;
-	int Position; // Position in specific vector
+	int Size;
+	int Position; // Position in stack
 	int Type; // 0 = Var, 1 = Func
 	int DecScope;
 	int NewScope;
