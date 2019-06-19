@@ -4,6 +4,6 @@
 
 namespace Variable
 {
-	std::string WriteVarDec(int,Parser*);
-	std::string WriteVarDef(int,Parser*);
+	std::string WriteVarDec(int,Environement*);
+	std::string WriteVarDef(int,Environement*);
 }

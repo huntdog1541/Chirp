@@ -9,5 +9,5 @@
 
 namespace Syntax
 {
-	void ReadIndex(Parser*);
+	void ReadIndex(Environement*);
 }

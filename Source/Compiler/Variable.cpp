@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-std::string Variable::WriteVarDec(int pos,Parser* p)
+std::string Variable::WriteVarDec(int pos,Environement* env)
 {
 	Object Var; // New variable
 	bool Failure = false;
 
-	for (int i = pos; i < p->Index.size() - 1; i++) // This has ok efficiency
+	for (int i = pos; i < env->Index.size() - 1; i++) // This has ok efficiency
 	{
-		Node n = p->ParseTree.GetNode(p->Index.at(i));
+		Node n = env->ParseTree.GetNode(env->Index.at(i));
 		
 		if (n.Value.Identifier == OBJECT_TYPE_TOKEN)
 		{
@@ -37,7 +37,7 @@ std::string Variable::WriteVarDec(int pos,Parser* p)
 	return "; error at variable writing";
 }
 
-std::string Variable::WriteVarDef(int pos, Parser* p)
+std::string Variable::WriteVarDef(int pos, Environement* p)
 {
 	return "Yet";
 }

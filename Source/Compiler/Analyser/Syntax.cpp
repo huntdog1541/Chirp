@@ -4,19 +4,19 @@
 
 #include <iostream>
 
-void Syntax::ReadIndex(Parser* p)
+void Syntax::ReadIndex(Environement* env)
 {
 	int pos = 0;
 
-	std::cout << "Index is " << p->Index.size() - 1 << std::endl;
+	std::cout << "Index is " << env->Index.size() - 1 << std::endl;
 
-	for (auto& n : p->Index)
+	for (auto& n : env->Index)
 	{
-		Node node = p->ParseTree.GetNode(n);
+		Node node = env->ParseTree.GetNode(n);
 
 		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
 		{
-			Variable::WriteVarDec(pos,p);
+			Variable::WriteVarDec(pos,env);
 		}
 		
 		pos++;

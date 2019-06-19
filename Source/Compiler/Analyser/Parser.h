@@ -8,21 +8,12 @@
 #include <string>
 #include <stdexcept> // Very important, might create errors if not there on certain system
 
-
 /*
-Most important class for the compiler. Everything is happening here iet's a
-pretty way to do stuff.
-
-When I try to make it a struct, I get a lot of errors
+There can be multiple environements, for multiple files. So environement is a class.
 */
-class Parser
+class Environement
 {
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
-	void Setup(std::string);
-	void Tokenize (); // Makes the text into tokens
-	void MakeTree (); // Creates the parse tree
-	void MakeIndex (); // Read the tree and create an index to make reading it easier
-
 	Tree ParseTree;
 
 	std::vector<std::string> Processed; // All words in the code, are in the vector
@@ -39,3 +30,12 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 	std::string Output;
 };
+
+
+namespace Parser
+{
+	void Setup(std::string,Environement*);
+	void Tokenize (Environement*); // Makes the text into tokens
+	void MakeTree (Environement*); // Creates the parse tree
+	void MakeIndex (Environement*); // Read the tree and create an index to make reading it easier
+}
