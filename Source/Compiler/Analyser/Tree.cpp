@@ -1,4 +1,5 @@
 #include "Tree.h"
+#include <iostream>
 
 void Tree::MakeStart(Node* n)
 {

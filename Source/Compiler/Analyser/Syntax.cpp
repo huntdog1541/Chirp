@@ -9,16 +9,25 @@ void Syntax::ReadIndex(Environement* env)
 	int pos = 0;
 
 	bool InVar;
-
-	std::cout << "Index is " << env->Index.size() - 1 << std::endl;
+	bool ScopeOpened;
+	
+	int lPos; // Local scope position
 
 	for (auto& n : env->Index)
 	{
 		Node node = env->ParseTree.GetNode(n);
 
+		if (node.Value.Identifier == GATE_SCOPE_TOKEN) // Start new scope
+		{
+
+		}
 		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
 		{
-			env->Text.append(Variable::WriteVarDec(pos,env));
+			env->Text.append(Variable::Register(pos,env));
+		}
+		if (node.Value.Identifier == VAR_DEF_TOKEN) // Variable operations
+		{
+			env->Text.append(Variable::Assign(pos,env));
 		}
 		
 		pos++;
