@@ -28,6 +28,8 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	std::string OutFile;
 	std::string EntryLabel; // Name of entry function
 
+	int Stack;
+
 	std::string Header; // Name I tought would fit, where the asm functions are said "global"
 	std::string Text; // Assembly text section
 };

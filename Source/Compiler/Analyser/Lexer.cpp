@@ -65,6 +65,13 @@ void Parser::Tokenize(Environement* env)
 			env->Cluster.push_back(t);
 			identified = true;
 		}
+		else if (txt.compare("{") == 0 || txt.compare("}") == 0)
+		{
+			t.Identifier = GATE_SCOPE_TOKEN;
+			t.Lexeme = txt;
+			env->Cluster.push_back(t);
+			identified = true;
+		}
 		else if (!identified)
 		{
 			t.Identifier = UNPARSED_TOKEN;

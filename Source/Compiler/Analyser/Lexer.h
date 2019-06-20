@@ -13,7 +13,9 @@
 #define VAR_DEC_TOKEN 5	
 #define VAR_CONFIRM_TOKEN 12 // The : in int: a...
 
-#define VALUE_INTERGER_TOKEN 9
+#define FUNC_TOKEN 23
+
+#define INTERGER_TOKEN 9
 
 #define GATE_STRING_TOKEN 7
 #define GATE_SCOPE_TOKEN 10

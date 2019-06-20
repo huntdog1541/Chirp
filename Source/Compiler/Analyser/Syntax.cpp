@@ -14,29 +14,42 @@ void Syntax::MakeSyntax(Environement* env)
 		{
 			if (env->Cluster.at(pos + 1).Identifier == VAR_CONFIRM_TOKEN) // Is a variable
 			{
+				// >int< : a = 123
 				Token Var;
 				Var.Identifier = VAR_TOKEN;
 				env->Syntax.push_back(Var);
 
-				env->Syntax.push_back(env->Cluster.at(pos - 1));
+				Token Dec; // Declaration
+				Dec.Identifier = VAR_DEC_TOKEN;
+				env->Syntax.push_back(Dec);
 
+				env->Syntax.push_back(env->Cluster.at(pos)); // Data type
+				
 				Token Name;
 				Name.Identifier = OBJECT_ID_TOKEN;
-				Name.Lexeme = env->Cluster.at(pos + 1).Lexeme;
-
-				env->Syntax.push_back(Name); // After type, so it's in order
+				Name.Lexeme = env->Cluster.at(pos + 2).Lexeme;
+				env->Syntax.push_back(Name); // After Assignement, so it's in order
 			}
 			else // Is probably a function
 			{
 
 			}
 		}
-		if (t.Identifier == 18 || t.Identifier == 19 || t.Identifier == 20 || t.Identifier == 21 || t.Identifier == 22) // All the operators in Lexer.h
+		if (t.Identifier == ASSIGNEMENT_OPERATOR_TOKEN) // Assignement
 		{
 			Token Exp; // Expression
 			Exp.Identifier = EXPRESSION_TOKEN;
 			env->Syntax.push_back(Exp);
 
+			env->Syntax.push_back(t);
+			
+			Token Value; // Very very very very temporary
+			Value.Identifier = INTERGER_TOKEN;
+			Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+			env->Syntax.push_back(Value);
+		}
+		if (t.Identifier == GATE_SCOPE_TOKEN)
+		{
 			env->Syntax.push_back(t);
 		}
 		pos++;

@@ -150,6 +150,7 @@ namespace Command
 //			Parser::MakeTree(&e);
 //			Parser::MakeIndex(&e);
 			Syntax::MakeSyntax(&e);
+			Output::Generate(&e);
 
 			// Building
 			Output::Write(&e);
