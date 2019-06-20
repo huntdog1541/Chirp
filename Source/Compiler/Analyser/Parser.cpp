@@ -57,7 +57,7 @@ void Parser::Setup(std::string txt,Environement* env)
 	}
 }
 
-
+/*
 void Parser::MakeTree(Environement* env)
 {
 	Node Start;
@@ -66,7 +66,7 @@ void Parser::MakeTree(Environement* env)
 
 	int pos = 0;
 
-	Log::Warning("Current Tree is legacy, using this is unrecommended");
+	Log::Warning("Current Tree is legacy, use MakeSyntax instead");
 
 	for (auto& token : env->Cluster) // Loops trough token cluster
 	{
@@ -122,7 +122,9 @@ void Parser::MakeTree(Environement* env)
 		pos++;
 	}
 }
+*/
 
+/*
 void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 {
 	bool Finished = false;
@@ -195,6 +197,7 @@ void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEn
 		}
 	}
 }
+*/
 
 /*
 A tree can look like this

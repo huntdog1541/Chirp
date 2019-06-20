@@ -8,7 +8,6 @@
 #define TREE_UNDEFINED_TOKEN 2
 
 #define VAR_TOKEN 3 // First node of any variable related structure
-#define VAR_DEF_TOKEN 4
 #define VAR_DEC_TOKEN 5	
 #define VAR_ASSIGN_OP_TOKEN 9 // The = symbol
 #define VAR_CONFIRM_TOKEN 12 // The : in int: a...
@@ -26,6 +25,9 @@
 #define KEYWORD_ENTRY_TOKEN 13
 #define KEYWORD_CONST_TOKEN  14 // const keyword
 #define KEYWORD_INNER_TOKEN 15
+
+#define EXPRESSION_TOKEN 4
+#define STATEMENT_TOKEN 17
 
 #define UNPARSED_TOKEN 16
 

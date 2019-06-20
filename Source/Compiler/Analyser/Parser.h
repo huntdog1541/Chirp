@@ -14,7 +14,7 @@ There can be multiple environements, for multiple files. So environement is a cl
 class Environement
 {
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
-	Tree ParseTree;
+	// Tree ParseTree;
 
 	std::vector<std::string> Processed; // All words in the code, are in the vector
 	std::vector<Token> Cluster; // Unorganized cluster
@@ -37,6 +37,6 @@ namespace Parser
 {
 	void Setup(std::string,Environement*);
 	void Tokenize (Environement*); // Makes the text into tokens
-	void MakeTree (Environement*); // Creates the parse tree
-	void MakeIndex (Environement*); // Read the tree and create an index to make reading it easier
+//	void MakeTree (Environement*); // Creates the parse tree
+//	void MakeIndex (Environement*); // Read the tree and create an index to make reading it easier
 }

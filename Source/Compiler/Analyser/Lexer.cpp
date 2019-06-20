@@ -22,7 +22,7 @@ void Parser::Tokenize(Environement* env)
 
 		Token t; // yep it's ya boi, one letter variables here
 		
-		if (txt.compare("int") == 0 || txt.compare("char") == 0 || txt.compare("float") == 0)
+		if (txt.compare("int") == 0 || txt.compare("char") == 0 || txt.compare("float") == 0 || txt.compare("string") == 0)
 		{
 			t.Identifier = OBJECT_TYPE_TOKEN;
 			t.Lexeme = txt;
