@@ -52,6 +52,28 @@ void Syntax::MakeSyntax(Environement* env)
 		{
 			env->Syntax.push_back(t);
 		}
+		if (t.Identifier == KEYWORD_ENTRY_TOKEN) // Entry functions
+		{
+			Token Func;
+			Func.Identifier = FUNC_TOKEN;
+			env->Syntax.push_back(Func);
+
+			env->Syntax.push_back(t);
+			
+			Token Name;
+			Name.Identifier = OBJECT_ID_TOKEN;
+			Name.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+			env->Syntax.push_back(Name);
+
+			env->EntryLabel = Name.Lexeme;
+
+			Token Arg;
+			Arg.Identifier = GATE_ARG_TOKEN;
+			Arg.Lexeme = "(";
+			env->Syntax.push_back(Arg);
+			Arg.Lexeme = ")";
+			env->Syntax.push_back(Arg);
+		}
 		pos++;
 	}
 }

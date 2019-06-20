@@ -29,6 +29,8 @@ std::string Read (std::string File)
 			Data.append (1, Char);
 		}
 
+		Data.pop_back();
+
 		return Data;
 	}
 }

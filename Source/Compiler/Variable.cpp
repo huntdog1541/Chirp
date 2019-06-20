@@ -80,7 +80,6 @@ std::string Variable::Assign(int pos, Environement* env)
 		}
 		if (t.Identifier == INTERGER_TOKEN && !SourceSet)
 		{
-			std::cout << "Interger **INTERCEPTED**" << std::endl;
 			Source = t.Lexeme;
 			SourceSet = true;
 		}

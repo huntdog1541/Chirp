@@ -33,7 +33,10 @@ namespace Output
 			//	std::cout << "Assigning" << std::endl;
 				env->Text.append(Variable::Assign(Position - 1,env)); // pos - 1 so it starts at name
 			}
-
+			if (tkn.Identifier == FUNC_TOKEN)
+			{
+				env->Text.append(Function::WriteFunction(Position, env));
+			}
 			if (tkn.Identifier == GATE_SCOPE_TOKEN)
 			{
 				if (tkn.Lexeme.compare("{") == 0)
@@ -59,6 +62,7 @@ namespace Output
 		}
 		else
 		{
+			Write << "section .text \n"; // Stupid problems need lazy solutions
 			Write << env->Header.append(env->Text) << std::endl;
 			Write.close();
 			// Succes
