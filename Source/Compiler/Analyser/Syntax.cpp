@@ -13,19 +13,19 @@ void Syntax::ReadIndex(Environement* env)
 	
 	int lPos; // Local scope position
 
-	for (auto& n : env->Index)
+	for (auto& t : env->Cluster)
 	{
-		Node node = env->ParseTree.GetNode(n);
+	//	Node node = env->ParseTree.GetNode(n);
 
-		if (node.Value.Identifier == GATE_SCOPE_TOKEN) // Start new scope
+		if (t.Identifier == GATE_SCOPE_TOKEN) // Start new scope
 		{
 
 		}
-		if (node.Value.Identifier == VAR_TOKEN) // If token is variable
+		if (t.Identifier == VAR_TOKEN) // If token is variable
 		{
 			env->Text.append(Variable::Register(pos,env));
 		}
-		if (node.Value.Identifier == VAR_DEF_TOKEN) // Variable operations
+		if (t.Identifier == VAR_DEF_TOKEN) // Variable operations
 		{
 			env->Text.append(Variable::Assign(pos,env));
 		}

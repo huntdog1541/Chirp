@@ -10,22 +10,23 @@ std::string Variable::Register(int pos,Environement* env)
 	bool hasName = false;
 	bool hasType = false;
 
-	for (int i = pos; i < env->Index.size() - 1; i++) // This has ok efficiency
+	for (int i = pos; i < env->Cluster.size() - 1; i++)
 	{
-		Node n = env->ParseTree.GetNode(env->Index.at(i));
+	//	Node n = env->ParseTree.GetNode(env->Index.at(i));
+		Token t = env->Cluster.at(env->Index.at(i));
 		
 		if (hasName && hasType)// So it does read another variable dec
 		{
 			break;
 		}
 
-		if (n.Value.Identifier == OBJECT_TYPE_TOKEN)
+		if (t.Identifier == OBJECT_TYPE_TOKEN)
 		{
-			if (n.Value.Lexeme.compare("int") == 0) // 2 Bytes
+			if (t.Lexeme.compare("int") == 0) // 2 Bytes
 			{
 				Var.Size = 2;
 			}
-			else if (n.Value.Lexeme.compare("char") == 0 || n.Value.Lexeme.compare("bool") == 0) // 1 byte
+			else if (t.Lexeme.compare("char") == 0 || t.Lexeme.compare("bool") == 0) // 1 byte
 			{
 				Var.Size = 1;
 			}
@@ -36,9 +37,9 @@ std::string Variable::Register(int pos,Environement* env)
 
 			hasType = true;
 		}
-		if (n.Value.Identifier == OBJECT_ID_TOKEN)
+		if (t.Identifier == OBJECT_ID_TOKEN)
 		{
-			Var.Name == n.Value.Lexeme;
+			Var.Name == t.Lexeme;
 			hasType = true;
 		}
 	}
@@ -60,15 +61,14 @@ std::string Variable::Assign(int pos, Environement* env)
 
 	for (int i = pos; i < env->Index.size() - 1; i++) // This has ok efficiency
 	{
-		Node n = env->ParseTree.GetNode(env->Index.at(i));
+	//	Node n = env->ParseTree.GetNode(env->Index.at(i));
+		Token t = env->Cluster.at(env->Index.at(i));
 
-//		std::cout << "pos is " << i << std::endl; 
-
-		if (n.Value.Identifier == OBJECT_ID_TOKEN)
+		if (t.Identifier == OBJECT_ID_TOKEN)
 		{
 			if (!TargetSet) // Setting target
 			{
-				Target = n.Value.Identifier;
+				Target = t.Identifier;
 				TargetSet = true;
 			}
 			else // Is source
@@ -76,15 +76,13 @@ std::string Variable::Assign(int pos, Environement* env)
 
 			}
 		}
-		if (n.Value.Identifier == VALUE_INTERGER_TOKEN)
+		if (t.Identifier == VALUE_INTERGER_TOKEN)
 		{
-//			std::cout << "yeet int val " << std::endl;
 		}
 	}
 
 	if (!Failure)
 	{
-//		std::cout << "does it have a name" << std::endl;
 		return "frf";
 	}
 	else
