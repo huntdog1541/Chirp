@@ -21,7 +21,7 @@ void Parser::Tokenize(Environement* env)
 		Pos++;
 
 		Token t; // yep it's ya boi, one letter variables here
-		
+
 		if (txt.compare("int") == 0 || txt.compare("char") == 0 || txt.compare("float") == 0 || txt.compare("string") == 0)
 		{
 			t.Identifier = OBJECT_TYPE_TOKEN;
@@ -31,7 +31,7 @@ void Parser::Tokenize(Environement* env)
 		}
 		else if (txt.compare("=") == 0)
 		{
-			t.Identifier = VAR_ASSIGN_OP_TOKEN;
+			t.Identifier = ASSIGNEMENT_OPERATOR_TOKEN;
 			t.Lexeme = txt;
 			env->Cluster.push_back(t);
 			identified = true;
@@ -39,13 +39,6 @@ void Parser::Tokenize(Environement* env)
 		else if (txt.compare("entry") == 0)
 		{
 			t.Identifier = KEYWORD_ENTRY_TOKEN;
-			t.Lexeme = txt;
-			identified = true;
-			env->Cluster.push_back(t);
-		}
-		else if (txt.compare("inner") == 0)
-		{
-			t.Identifier = KEYWORD_INNER_TOKEN;
 			t.Lexeme = txt;
 			identified = true;
 			env->Cluster.push_back(t);
@@ -58,9 +51,23 @@ void Parser::Tokenize(Environement* env)
 			env->Cluster.push_back(t);
 			identified = true;
 		}
+		else if (txt.compare("+") == 0 || txt.compare("-") == 0 || txt.compare("/") == 0 || txt.compare("*") == 0)
+		{
+			t.Identifier = ARITHMETIC_OPERATOR_TOKEN;
+			t.Lexeme = txt;
+			env->Cluster.push_back(t);
+			identified = true;
+		}
+		else if (txt.compare("<") == 0 || txt.compare(">") == 0 || txt.compare("==") == 0)
+		{
+			t.Identifier = COMPARAISON_OPERATOR_TOKEN;
+			t.Lexeme = txt;
+			env->Cluster.push_back(t);
+			identified = true;
+		}
 		else if (!identified)
 		{
-			t.Identifier = KEYWORD_UNKNOWN_TOKEN;
+			t.Identifier = UNPARSED_TOKEN;
 			t.Lexeme = txt;
 			env->Cluster.push_back(t);
 		}

@@ -2,6 +2,8 @@
 
 #include <string>
 
+// If you are confused by this, check out lexer.cpp where most of them are assigned
+
 // Token macro's below
 // Note: They may or may not be in order, but they are grouped
 #define TREE_START_TOKEN 0
@@ -9,7 +11,6 @@
 
 #define VAR_TOKEN 3 // First node of any variable related structure
 #define VAR_DEC_TOKEN 5	
-#define VAR_ASSIGN_OP_TOKEN 9 // The = symbol
 #define VAR_CONFIRM_TOKEN 12 // The : in int: a...
 
 #define VALUE_INTERGER_TOKEN 9
@@ -28,6 +29,12 @@
 
 #define EXPRESSION_TOKEN 4
 #define STATEMENT_TOKEN 17
+
+#define ARITHMETIC_OPERATOR_TOKEN 18
+#define ASSIGNEMENT_OPERATOR_TOKEN 19
+#define COMPARAISON_OPERATOR_TOKEN 20 
+#define FIELD_OPERATOR_TOKEN 21 // .
+#define SCOPE_OPERATOR_TOKEN 22 // ::
 
 #define UNPARSED_TOKEN 16
 

@@ -31,10 +31,13 @@ void Syntax::MakeSyntax(Environement* env)
 
 			}
 		}
-		if (t.Identifier == VAR_ASSIGN_OP_TOKEN) // Assign operator
+		if (t.Identifier == 18 || t.Identifier == 19 || t.Identifier == 20 || t.Identifier == 21 || t.Identifier == 22) // All the operators in Lexer.h
 		{
 			Token Exp; // Expression
 			Exp.Identifier = EXPRESSION_TOKEN;
+			env->Syntax.push_back(Exp);
+
+			env->Syntax.push_back(t);
 		}
 		pos++;
 	}
