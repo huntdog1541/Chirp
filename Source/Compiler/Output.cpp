@@ -5,6 +5,11 @@
 
 namespace Output
 {
+	void Generate(Environement* env)
+	{
+
+	}
+
 	void Write(Environement* env)
 	{
 		std::ofstream Write(env->AltFile);

@@ -4,5 +4,6 @@
 
 namespace Output
 {
+	void Generate(Environement*);
 	void Write(Environement*); // Writes inside a file the ouput of env
 }

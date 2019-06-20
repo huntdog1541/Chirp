@@ -17,7 +17,8 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	Tree ParseTree;
 
 	std::vector<std::string> Processed; // All words in the code, are in the vector
-	std::vector<Token> Cluster; // Replacement for classified
+	std::vector<Token> Cluster; // Unorganized cluster
+	std::vector<Token> Syntax; // Organized cluster
 	
 	std::vector<int> Index;
 	std::vector<Object> ObjectList; // Objects can be pretty much anything

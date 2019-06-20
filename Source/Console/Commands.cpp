@@ -149,7 +149,7 @@ namespace Command
 			Parser::Tokenize (&e);
 			Parser::MakeTree(&e);
 			Parser::MakeIndex(&e);
-			Syntax::ReadIndex(&e);
+			Syntax::MakeSyntax(&e);
 
 			// Building
 			Output::Write(&e);

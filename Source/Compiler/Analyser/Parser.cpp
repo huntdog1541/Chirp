@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "../../Console/Log/Log.h"
 
 #include <iostream>
 
@@ -64,6 +65,8 @@ void Parser::MakeTree(Environement* env)
 	env->ParseTree.MakeStart(&Start);
 
 	int pos = 0;
+
+	Log::Warning("Current Tree is legacy, using this is unrecommended");
 
 	for (auto& token : env->Cluster) // Loops trough token cluster
 	{

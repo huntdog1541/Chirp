@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-std::string Variable::Register(int pos,Environement* env)
+void Variable::Register(int pos, Environement* env)
 {
 	Object Var; // New variable
 	bool Failure = false;
@@ -10,46 +10,45 @@ std::string Variable::Register(int pos,Environement* env)
 	bool hasName = false;
 	bool hasType = false;
 
-	for (int i = pos; i < env->Cluster.size() - 1; i++)
+	std::string Name;
+	std::string Type;
+
+	Token t = env->Cluster.at(pos);
+
+	try
 	{
-	//	Node n = env->ParseTree.GetNode(env->Index.at(i));
-		Token t = env->Cluster.at(env->Index.at(i));
-		
-		if (hasName && hasType)// So it does read another variable dec
-		{
-			break;
-		}
-
-		if (t.Identifier == OBJECT_TYPE_TOKEN)
-		{
-			if (t.Lexeme.compare("int") == 0) // 2 Bytes
-			{
-				Var.Size = 2;
-			}
-			else if (t.Lexeme.compare("char") == 0 || t.Lexeme.compare("bool") == 0) // 1 byte
-			{
-				Var.Size = 1;
-			}
-			else // Default size, 4 byte
-			{
-				Var.Size = 4;
-			}
-
-			hasType = true;
-		}
-		if (t.Identifier == OBJECT_ID_TOKEN)
-		{
-			Var.Name == t.Lexeme;
-			hasType = true;
-		}
+		Name = env->Cluster.at(pos + 1).Lexeme; // type : >name<
+		Type = env->Cluster.at(pos - 1).Lexeme; // >type< : name
+	}
+	catch (std::out_of_range)
+	{
+		Log::Error::Custom("Error at variable definiton scouting"); // Scouting, is exploring to see what are the values
+		Failure = true;
 	}
 
 	if (!Failure)
 	{
+		Var.Name = Name;
+
+		if (Type.compare("int") == 0) // 2 bytes
+		{
+			Var.Size = 2;
+		}
+		if (Type.compare("char") == 0 || Type.compare("bool") == 0) // 1 byte
+		{
+			Var.Size = 1;
+		}
+		if (Type.compare("string") || Type.compare("float") == 0) // 4 bytes
+		{
+			Var.Size = 4;
+		}
+		else // Size for all occasions
+		{
+			Var.Size = 2;
+		}
+
 		env->ObjectList.push_back(Var);
 	}
-
-	return "; Debug: Object has been pushed to vector";
 }
 
 std::string Variable::Assign(int pos, Environement* env)
@@ -57,12 +56,13 @@ std::string Variable::Assign(int pos, Environement* env)
 	bool Failure = false;
 	bool TargetSet = false; //This should look like int: Target = Source
 	bool SourceSet = false; 
+
 	std::string Target; // Variable to be assigned
 
-	for (int i = pos; i < env->Index.size() - 1; i++) // This has ok efficiency
+	for (int i = pos; i < env->Cluster.size() - 1; i++) // This has ok efficiency
 	{
 	//	Node n = env->ParseTree.GetNode(env->Index.at(i));
-		Token t = env->Cluster.at(env->Index.at(i));
+		Token t = env->Cluster.at(i);
 
 		if (t.Identifier == OBJECT_ID_TOKEN)
 		{

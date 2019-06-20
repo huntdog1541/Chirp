@@ -4,6 +4,6 @@
 
 namespace Variable
 {
-	std::string Register(int,Environement*);
+	void Register(int,Environement*);
 	std::string Assign(int,Environement*);
 }
