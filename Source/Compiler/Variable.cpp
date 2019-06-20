@@ -62,7 +62,7 @@ std::string Variable::Assign(int pos, Environement* env)
 	{
 		Node n = env->ParseTree.GetNode(env->Index.at(i));
 
-		std::cout << "pos is " << i << std::endl; 
+//		std::cout << "pos is " << i << std::endl; 
 
 		if (n.Value.Identifier == OBJECT_ID_TOKEN)
 		{
@@ -78,13 +78,13 @@ std::string Variable::Assign(int pos, Environement* env)
 		}
 		if (n.Value.Identifier == VALUE_INTERGER_TOKEN)
 		{
-			std::cout << "yeet int val " << std::endl;
+//			std::cout << "yeet int val " << std::endl;
 		}
 	}
 
 	if (!Failure)
 	{
-		std::cout << "does it have a name" << std::endl;
+//		std::cout << "does it have a name" << std::endl;
 		return "frf";
 	}
 	else

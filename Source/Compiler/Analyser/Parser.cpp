@@ -56,6 +56,7 @@ void Parser::Setup(std::string txt,Environement* env)
 	}
 }
 
+
 void Parser::MakeTree(Environement* env)
 {
 	Node Start;
@@ -135,8 +136,8 @@ void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEn
 		// This is more understandable if you just think of the positon as a cube
 		// pushing agaisnt gravity and falling in holes. Wait no, it doesn't help at all
 
-		std::cout << "====================" << std::endl;
-		std::cout << "Current:  " << Current.SelfPos << std::endl;
+//		std::cout << "====================" << std::endl;
+//		std::cout << "Current:  " << Current.SelfPos << std::endl;
 
 		if (env->Index.size() == env->ParseTree.NodeList.size())
 		{
@@ -148,14 +149,14 @@ void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEn
 			if (Current.PosInNode < env->ParseTree.GetNode(Current.ParentPos).ChildPos.size() - 1) // Can go to the right
 			{
 				Current = env->ParseTree.GetNode(env->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
-				std::cout << "right add:"<<Current.SelfPos<< std::endl;
+//				std::cout << "right add:"<<Current.SelfPos<< std::endl;
 			}
 			else // Last child in node that doesn't have child so only choice is to go up 
 			{
 				Climbing = true;
 				if (Current.SelfPos != env->Index.back())
 				{
-					std::cout << "up-sy add:" << Current.SelfPos << std::endl; // Up-stay add, adds current node, at stay still
+//					std::cout << "up-sy add:" << Current.SelfPos << std::endl; // Up-stay add, adds current node, at stay still
 					env->Index.push_back(Current.SelfPos);
 				}
 			}
@@ -164,7 +165,7 @@ void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEn
 		{
 			Current = env->ParseTree.GetNode(Current.ChildPos.at(0));
 			env->Index.push_back(Current.SelfPos);
-			std::cout << "first add:" << Current.SelfPos << std::endl;
+//			std::cout << "first add:" << Current.SelfPos << std::endl;
 			Climbing = false;
 		}
 
@@ -179,7 +180,7 @@ void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEn
 					Current = env->ParseTree.NodeList.at(env->ParseTree.GetNode(Current.ParentPos).ChildPos.at(Current.PosInNode + 1)); // Go left
 					if (Current.SelfPos != env->Index.back())
 					{
-						std::cout << "up->  add:" << Current.SelfPos << std::endl;
+	//					std::cout << "up->  add:" << Current.SelfPos << std::endl;
 						env->Index.push_back(Current.SelfPos);
 					}
 					else
