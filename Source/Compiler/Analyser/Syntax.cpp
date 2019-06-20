@@ -59,11 +59,20 @@ void Syntax::MakeSyntax(Environement* env)
 			env->Syntax.push_back(Func);
 
 			env->Syntax.push_back(t);
-			
+
 			Token Name;
 			Name.Identifier = OBJECT_ID_TOKEN;
 			Name.Lexeme = env->Cluster.at(pos + 1).Lexeme;
-			env->Syntax.push_back(Name);
+
+			if (Name.Lexeme.compare("(") == 0)
+			{
+				Name.Lexeme = "undefined";
+				env->Syntax.push_back(Name);
+			}
+			else
+			{
+				env->Syntax.push_back(Name);
+			}
 
 			env->EntryLabel = Name.Lexeme;
 
