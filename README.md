@@ -8,7 +8,7 @@
 
 ## Chirp
 
-Chirp is a modern low-level programming language written in C++, to replace C++ and other old languages.
+Chirp is a modern low-level programming language written in C++. Currently the language is still very early and can barely run yet, but I am actively working on the compiler, and hope one day it will be a functionning language.
 
 <br>
 
