@@ -7,6 +7,7 @@
 #define GREEN 2
 #define BLUE 3
 #define WHITE 4
+#define YELLOW 5
 
 namespace Log
 {

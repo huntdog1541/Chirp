@@ -31,7 +31,9 @@ namespace Log
 		case WHITE:
 			return "\x1B[37m" + Text + "\x1B[0m";
 			break;
-
+		case YELLOW:
+			return "\x1b[33m" + Text + "\x1B[0m";
+			break;
 		default:
 			return "\x1B[37m" + Text + "\x1B[0m";
 			break;
