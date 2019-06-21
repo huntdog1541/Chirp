@@ -55,10 +55,13 @@ void Syntax::MakeSyntax(Environement* env)
 
 			env->Syntax.push_back(t);
 			
-			Token Value; // Very very very very temporary
-			Value.Identifier = INTERGER_TOKEN;
-			Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
-			env->Syntax.push_back(Value);
+			if (env->Cluster.at(pos + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN)
+			{
+				Token Value; // Very very very very temporary
+				Value.Identifier = INTERGER_TOKEN;
+				Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+				env->Syntax.push_back(Value);
+			}
 		}
 		if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN)
 		{
@@ -82,7 +85,7 @@ void Syntax::MakeSyntax(Environement* env)
 				First.Identifier = OBJECT_ID_TOKEN;
 			}
 
-			if (isdigit(env->Cluster.at(pos - 1).Lexeme.at(0)))
+			if (isdigit(env->Cluster.at(pos + 1).Lexeme.at(0)))
 			{
 				Second.Identifier = INTERGER_TOKEN;
 			}
@@ -91,8 +94,8 @@ void Syntax::MakeSyntax(Environement* env)
 				Second.Identifier = OBJECT_ID_TOKEN;
 			}
 
-			env->Syntax.push_back(Arth);
 			env->Syntax.push_back(First);
+			env->Syntax.push_back(Arth);
 			env->Syntax.push_back(Second);
 		}
 		if (t.Identifier == GATE_SCOPE_TOKEN)

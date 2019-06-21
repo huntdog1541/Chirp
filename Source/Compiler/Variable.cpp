@@ -101,10 +101,29 @@ std::string Variable::Operation(int pos, Environement* env)
 		Log::Warning("Decrementation isn't implemented yet");
 	}
 
-	if (First.Identifier == INTERGER_TOKEN && Second.Identifier == INTERGER_TOKEN)
+	if (First.Identifier == INTERGER_TOKEN && Second.Identifier == INTERGER_TOKEN) // Two constant intergers
 	{
+		std::string res;
 		// Ok, so this is the first little optimisation
-		return std::to_string(std::stoi(First.Lexeme) + std::stoi(Second.Lexeme));
+		switch (Op)
+		{
+		case 0: // Addition
+			return std::to_string(std::stoi(First.Lexeme) + std::stoi(Second.Lexeme));
+			break;
+		case 1: // Substraction
+			res = std::to_string(std::stoi(First.Lexeme) - std::stoi(Second.Lexeme));
+			std::cout << res << std::endl;
+			return res;
+			break;
+		case 2: // Multiplication
+			break;
+		case 3: // Division
+			break;
+		case 4: // Inc
+			break;
+		case 5: // Dec
+			break;
+		}
 	}
 	else
 	{
