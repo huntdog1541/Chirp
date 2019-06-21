@@ -72,16 +72,16 @@ namespace Output
 	}
 	std::string Reg(std::string p, Environement* env)
 	{
-		std::string Out;
+		std::string Out = p;
 
 		if (env->Architecture == 32)
 		{
-			Out.append("e");
+			Out.insert(0,"e");
 			return Out;
 		}
 		else if (env->Architecture == 64)
 		{
-			Out.append("r");
+			Out.insert(0,"r");
 			return Out;
 		}
 

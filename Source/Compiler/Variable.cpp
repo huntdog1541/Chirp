@@ -1,5 +1,7 @@
 #include "Variable.h"
+
 #include "../Console/Log/Log.h"
+#include "Output.h"
 
 #include <iostream>
 
@@ -145,7 +147,8 @@ std::string Variable::Operation(int pos, Environement* env)
 		if (First.Identifier == OBJECT_ID_TOKEN)
 		{
 			int FPos = Obj::FindByName(First.Lexeme, env->ObjectList); // Fucked if there is two of the same type
-			FVal = "[ebp-";
+			FVal = "[";
+			FVal.append(Output::Reg("bp-",env));
 			FVal.append(std::to_string(env->ObjectList.at(FPos).Position));
 			FVal.append("]");
 			env->Text.append("mov edx, ").append(FVal).append("\n");
