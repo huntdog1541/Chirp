@@ -14,7 +14,7 @@ void Variable::Register(int pos, Environement* env)
 	std::string Name;
 	std::string Type;
 
-	Token t = env->Cluster.at(pos);
+	Token t = env->Syntax.at(pos); // phew fixed it
 
 	try
 	{
@@ -115,7 +115,6 @@ std::string Variable::Operation(int pos, Environement* env)
 			break;
 		case 3: // Division
 			return std::to_string(std::stoi(First.Lexeme) / std::stoi(Second.Lexeme));
-		//	return "12";
 			break;
 		case 4: // Inc
 			Log::Warning("Decrementation isn't implemented yet, the specific part of the code won't be compiled");

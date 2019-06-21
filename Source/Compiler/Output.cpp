@@ -25,7 +25,6 @@ namespace Output
 			}
 			if (tkn.Identifier == VAR_DEC_TOKEN)
 			{
-				//	std::cout<<"Registering"<<std::endl;
 				Variable::Register(Position, env);
 			}
 			if (tkn.Identifier == EXPRESSION_TOKEN)
