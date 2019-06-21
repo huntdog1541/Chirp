@@ -23,14 +23,13 @@ namespace Output
 				//		std::cout << "Inside a variable" << std::endl;
 				InVar = true;
 			}
-			if (tkn.Identifier == VAR_DEC_TOKEN && InVar)
+			if (tkn.Identifier == VAR_DEC_TOKEN)
 			{
 				//	std::cout<<"Registering"<<std::endl;
 				Variable::Register(Position, env);
 			}
-			if (tkn.Identifier == EXPRESSION_TOKEN && InVar)
+			if (tkn.Identifier == EXPRESSION_TOKEN)
 			{
-				//	std::cout << "Assigning" << std::endl;
 				env->Text.append(Variable::Assign(Position - 1, env)); // pos - 1 so it starts at name
 			}
 			if (tkn.Identifier == FUNC_TOKEN)

@@ -60,6 +60,41 @@ void Syntax::MakeSyntax(Environement* env)
 			Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
 			env->Syntax.push_back(Value);
 		}
+		if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN)
+		{
+			Token Arth;
+			Arth.Identifier = ARITHMETIC_OPERATOR_TOKEN;
+			Arth.Lexeme = t.Lexeme;
+
+			Token First;
+			First.Lexeme = env->Cluster.at(pos - 1).Lexeme;
+
+			Token Second;
+			Second.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+
+			// Checks for identifiers
+			if (isdigit(env->Cluster.at(pos - 1).Lexeme.at(0))) 
+			{
+				First.Identifier = INTERGER_TOKEN;
+			}
+			else // Doesn't take into account(yet) for char
+			{
+				First.Identifier = OBJECT_ID_TOKEN;
+			}
+
+			if (isdigit(env->Cluster.at(pos - 1).Lexeme.at(0)))
+			{
+				Second.Identifier = INTERGER_TOKEN;
+			}
+			else
+			{
+				Second.Identifier = OBJECT_ID_TOKEN;
+			}
+
+			env->Syntax.push_back(Arth);
+			env->Syntax.push_back(First);
+			env->Syntax.push_back(Second);
+		}
 		if (t.Identifier == GATE_SCOPE_TOKEN)
 		{
 			env->Syntax.push_back(t);
@@ -97,27 +132,30 @@ void Syntax::MakeSyntax(Environement* env)
 		}
 		if (t.Identifier == GATE_ARG_TOKEN) // Probably a function call
 		{
-			if (env->Cluster.at(pos - 2).Identifier != OBJECT_TYPE_TOKEN && env->Cluster.at(pos - 1).Identifier != KEYWORD_ENTRY_TOKEN) // Confirming not a declaration or def
+			if (pos - 2 > 0) // So we don't get an out of range if entry is the first token.
 			{
-				if (t.Lexeme.compare("(") == 0)
+				if (env->Cluster.at(pos - 2).Identifier != OBJECT_TYPE_TOKEN && env->Cluster.at(pos - 1).Identifier != KEYWORD_ENTRY_TOKEN) // Confirming not a declaration or def
 				{
-					// Confirmed function call
-					Token Call;
-					Call.Identifier = FUNC_CALL_TOKEN;
-					env->Syntax.push_back(Call);
+					if (t.Lexeme.compare("(") == 0)
+					{
+						// Confirmed function call
+						Token Call;
+						Call.Identifier = FUNC_CALL_TOKEN;
+						env->Syntax.push_back(Call);
 
-					Token Name;
-					Name.Identifier = OBJECT_ID_TOKEN;
-					Name.Lexeme = env->Cluster.at(pos - 1).Lexeme;
-					env->Syntax.push_back(Name);
+						Token Name;
+						Name.Identifier = OBJECT_ID_TOKEN;
+						Name.Lexeme = env->Cluster.at(pos - 1).Lexeme;
+						env->Syntax.push_back(Name);
 
-					// Make real args later
-					Token Arg;
-					Arg.Identifier = GATE_ARG_TOKEN;
-					Arg.Lexeme = "(";
-					env->Syntax.push_back(Arg);
-					Arg.Lexeme = ")";
-					env->Syntax.push_back(Arg);
+						// Make real args later
+						Token Arg;
+						Arg.Identifier = GATE_ARG_TOKEN;
+						Arg.Lexeme = "(";
+						env->Syntax.push_back(Arg);
+						Arg.Lexeme = ")";
+						env->Syntax.push_back(Arg);
+					}
 				}
 			}
 		}

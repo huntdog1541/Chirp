@@ -1,4 +1,5 @@
 #include "Variable.h"
+#include "../Console/Log/Log.h"
 
 #include <iostream>
 
@@ -52,6 +53,67 @@ void Variable::Register(int pos, Environement* env)
 	}
 }
 
+std::string Variable::Operation(int pos, Environement* env)
+{
+	// The types looks like this
+	// 0: Addition
+	// 1: Substraction
+	// 2: Multiplication
+	// 3: Division
+	// 4: Incrementation
+	// 5: Decrementation
+	int Op;
+
+	std::string OpSymbol = env->Syntax.at(pos).Lexeme;
+
+	Token First = env->Syntax.at(pos - 1);
+	Token Second = env->Syntax.at(pos + 1);
+
+//	std::cout << "Operation is " << env->Syntax.at(pos).Lexeme << std::endl;
+
+	// Recognizing symbol
+	if(OpSymbol.compare("+") == 0)
+	{
+		Op = 0;
+	}
+	else if (OpSymbol.compare("-") == 0)
+	{
+		Op = 1;
+	}
+	else if (OpSymbol.compare("*") == 0)
+	{
+		Op = 2;
+		Log::Warning("Multiplication aren't implemented yet");
+	}
+	else if (OpSymbol.compare("/") == 0)
+	{
+		Op = 3;
+		Log::Warning("Divisions aren't implemented yet");
+	}
+	else if (OpSymbol.compare("++") == 0)
+	{
+		Op = 4;
+		Log::Warning("Incrementation isn't implemented yet");
+	}
+	else if (OpSymbol.compare("--") == 0)
+	{
+		Op = 5;
+		Log::Warning("Decrementation isn't implemented yet");
+	}
+
+	if (First.Identifier == INTERGER_TOKEN && Second.Identifier == INTERGER_TOKEN)
+	{
+		// Ok, so this is the first little optimisation
+		return std::to_string(std::stoi(First.Lexeme) + std::stoi(Second.Lexeme));
+	}
+	else
+	{
+
+	}
+
+	return "; addition";
+}
+
 std::string Variable::Assign(int pos, Environement* env)
 {
 	bool Failure = false;
@@ -78,9 +140,20 @@ std::string Variable::Assign(int pos, Environement* env)
 
 			}
 		}
-		if (t.Identifier == INTERGER_TOKEN && !SourceSet)
+
+		if (t.Identifier == ASSIGNEMENT_OPERATOR_TOKEN && !SourceSet)
 		{
-			Source = t.Lexeme;
+		//	std::cout << t.Lexeme << std::endl << std::endl;
+			if (env->Syntax.at(i + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN)
+			{
+				Source = env->Syntax.at(i + 1).Lexeme;
+				SourceSet = true;
+			}
+		}
+
+		if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
+		{
+			Source = Variable::Operation(i,env);
 			SourceSet = true;
 		}
 
