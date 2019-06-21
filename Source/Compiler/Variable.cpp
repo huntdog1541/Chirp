@@ -128,10 +128,47 @@ std::string Variable::Operation(int pos, Environement* env)
 	}
 	else
 	{
+		std::string FVal;
+		std::string SVal;
+		std::string Add = "add "; // Statement for addition
 
+		if (First.Identifier == OBJECT_ID_TOKEN)
+		{
+			int FPos = Obj::FindByName(First.Lexeme, env->ObjectList); // Fucked if there is two of the same type
+			FVal = "[ebp-";
+			FVal.append(std::to_string(env->ObjectList.at(FPos).Position));
+			FVal.append("]");
+			env->Text.append("mov edx, ").append(FVal).append("\n");
+			Add.append("eax, ");
+		}
+		else
+		{
+			FVal = First.Lexeme;
+			Add.append(FVal);
+			Add.append(", edx");
+		}
+
+		if (Second.Identifier == OBJECT_ID_TOKEN)
+		{
+			int SPos = Obj::FindByName(Second.Lexeme, env->ObjectList); // Fucked if there is two of the same type
+			SVal = "[ebp-";
+			SVal.append(std::to_string(env->ObjectList.at(SPos).Position));
+			SVal.append("]");
+
+			env->Text.append("mov eax, ").append(SVal).append("\n");
+
+			Add.append("edx");
+			Add.append("\n");
+		}
+		else
+		{
+			SVal = Second.Lexeme;
+			Add.append(SVal).append("\n");
+		}
+
+		env->Text.append(Add);
+		return "eax";
 	}
-
-	return "; addition";
 }
 
 std::string Variable::Assign(int pos, Environement* env)
@@ -189,8 +226,9 @@ std::string Variable::Assign(int pos, Environement* env)
 
 	if (!Failure)
 	{
+		int lPos = Obj::FindByName(Target, env->ObjectList); // position of local
 		Object local;
-		local = Obj::FindByName(Target,env->ObjectList);
+		local = env->ObjectList.at(lPos);
 		std::string output = "mov ";
 
 		if (local.Size == 1) // Writing the approriate size
@@ -214,6 +252,7 @@ std::string Variable::Assign(int pos, Environement* env)
 			output.append("qword");
 		}
 
+		env->ObjectList.at(lPos) = local;
 		env->Stack = local.Position; // So the stack updates
 
 		output.append(" [ebp-").append(std::to_string(local.Position)).append("],").append(Source).append("\n");

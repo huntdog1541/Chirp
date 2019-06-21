@@ -22,6 +22,6 @@ public:
 
 namespace Obj
 {
-	Object FindByName(std::string,std::vector<Object>); // Finds an object in vector by name, then returns the object
-	Object FindById(std::string,std::vector<Object>);
+	int FindByName(std::string,std::vector<Object>); // Return position
+	int FindById(std::string,std::vector<Object>); // Return position
 }

@@ -4,9 +4,11 @@
 
 namespace Obj
 {
-	Object FindByName(std::string name,std::vector<Object> objects)
+	int FindByName(std::string name,std::vector<Object> objects)
 	{
 		bool hasFound = false;
+
+		int pos = 0;
 
 		for (auto& obj : objects)
 		{
@@ -18,8 +20,10 @@ namespace Obj
 			if (obj.Name == name)
 			{
 				hasFound = true;
-				return obj;
+				return pos;
+		//		return obj;
 			}
+			pos++;
 		}
 
 		if (!hasFound)
@@ -27,13 +31,15 @@ namespace Obj
 			Object undef; // Undefined object
 			undef.Name = "undefined";
 			undef.Size = 1;
-			return undef;
+			return 0;
+		//	return undef;
 		}
 	}
-	Object FindById(std::string id, std::vector<Object> objects)
+	int FindById(std::string id, std::vector<Object> objects)
 	{
 		bool hasFound = false;
-		
+		int pos = 0;
+
 		for (auto& obj : objects)
 		{
 			if (hasFound)
@@ -44,8 +50,10 @@ namespace Obj
 			if (obj.Id == id) // I forgot that works
 			{
 				hasFound = true;
-				return obj;
+				return pos;
+		//		return obj;
 			}
+			pos++;
 		}
 
 		if (!hasFound)
@@ -53,7 +61,8 @@ namespace Obj
 			Object undef; // Undefined object
 			undef.Name = "undefined";
 			undef.Size = 1;
-			return undef;
+			return 0;
+		//	return undef;
 		}
 	}
 }

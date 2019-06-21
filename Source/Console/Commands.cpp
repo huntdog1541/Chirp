@@ -146,6 +146,12 @@ namespace Command
 			e.OutFile = OutputFile;
 			e.AltFile = OutputFile.append(".asm");
 			
+			Object undefined; // To keep away from errors
+			undefined.Name = "undefined";
+			undefined.Id = "unefined";
+			undefined.Size = 1;
+			e.ObjectList.push_back(undefined);
+			
 			// Parsing
 			Parser::Setup(FileData,&e);
 			Parser::Tokenize (&e);
