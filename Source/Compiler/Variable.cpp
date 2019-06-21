@@ -83,27 +83,24 @@ std::string Variable::Operation(int pos, Environement* env)
 	else if (OpSymbol.compare("*") == 0)
 	{
 		Op = 2;
-		Log::Warning("Multiplication aren't implemented yet");
+	//	Log::Warning("Multiplication aren't implemented yet");
 	}
 	else if (OpSymbol.compare("/") == 0)
 	{
 		Op = 3;
-		Log::Warning("Divisions aren't implemented yet");
+	//	Log::Warning("Divisions aren't implemented yet");
 	}
 	else if (OpSymbol.compare("++") == 0)
 	{
 		Op = 4;
-		Log::Warning("Incrementation isn't implemented yet");
 	}
 	else if (OpSymbol.compare("--") == 0)
 	{
 		Op = 5;
-		Log::Warning("Decrementation isn't implemented yet");
 	}
 
 	if (First.Identifier == INTERGER_TOKEN && Second.Identifier == INTERGER_TOKEN) // Two constant intergers
 	{
-		std::string res;
 		// Ok, so this is the first little optimisation
 		switch (Op)
 		{
@@ -111,17 +108,22 @@ std::string Variable::Operation(int pos, Environement* env)
 			return std::to_string(std::stoi(First.Lexeme) + std::stoi(Second.Lexeme));
 			break;
 		case 1: // Substraction
-			res = std::to_string(std::stoi(First.Lexeme) - std::stoi(Second.Lexeme));
-			std::cout << res << std::endl;
-			return res;
+			return std::to_string(std::stoi(First.Lexeme) - std::stoi(Second.Lexeme));;
 			break;
 		case 2: // Multiplication
+			return std::to_string(std::stoi(First.Lexeme) * std::stoi(Second.Lexeme));
 			break;
 		case 3: // Division
+			return std::to_string(std::stoi(First.Lexeme) / std::stoi(Second.Lexeme));
+		//	return "12";
 			break;
 		case 4: // Inc
+			Log::Warning("Decrementation isn't implemented yet, the specific part of the code won't be compiled");
+			return "0";
 			break;
 		case 5: // Dec
+			Log::Warning("Decrementation isn't implemented yet, the specific part of the code won't be compiled");
+			return "0";
 			break;
 		}
 	}
@@ -144,7 +146,6 @@ std::string Variable::Assign(int pos, Environement* env)
 
 	for (int i = pos; i < env->Syntax.size() - 1; i++) // This has ok efficiency
 	{
-	//	Node n = env->ParseTree.GetNode(env->Index.at(i));
 		Token t = env->Syntax.at(i);
 
 		if (t.Identifier == OBJECT_ID_TOKEN)
@@ -172,6 +173,7 @@ std::string Variable::Assign(int pos, Environement* env)
 
 		if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
 		{
+		//	std::cout<<std::to_string(std::stoi("100") / std::stoi("10"))<<std::endl;
 			Source = Variable::Operation(i,env);
 			SourceSet = true;
 		}
@@ -212,6 +214,8 @@ std::string Variable::Assign(int pos, Environement* env)
 			local.Position = env->Stack + 8;
 			output.append("qword");
 		}
+
+		env->Stack = local.Position; // So the stack updates
 
 		output.append(" [ebp-").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
 
