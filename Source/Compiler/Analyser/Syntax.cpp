@@ -34,11 +34,16 @@ void Syntax::MakeSyntax(Environement* env)
 			{
 				// int abc() { }
 				// ^^^ 1  23 4 5
-				if (env->Cluster.at(pos + 1).Identifier == OBJECT_ID_TOKEN)
+				if (env->Cluster.at(pos + 1).Identifier == UNPARSED_TOKEN)
 				{
 					Token Func;
 					Func.Identifier = FUNC_TOKEN;
 					env->Syntax.push_back(Func);
+
+					Token Name;
+					Name.Identifier = OBJECT_ID_TOKEN;
+					Name.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+					env->Syntax.push_back(Name);
 				}
 			}
 		}
