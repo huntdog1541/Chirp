@@ -6,7 +6,7 @@ namespace Tools
 {
 // I just realised that it's pretty stupid
 #ifdef __linux__
-	void Build (std::string AsmFile, std::string Out)
+	void Build (std::string AsmFile, std::string Out, int v)
 	{
 		std::cout << "Starting build scripts on Linux.." << std::endl;
 		std::string Cmd ("nasm -f elf ");
