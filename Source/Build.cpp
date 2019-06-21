@@ -4,6 +4,7 @@
 
 namespace Tools
 {
+// I just realised that it's pretty stupid
 #ifdef __linux__
 	void Build (std::string AsmFile, std::string Out)
 	{
@@ -20,10 +21,20 @@ namespace Tools
 #endif
 
 #ifdef _WIN32
-	void Build (std::string AsmFile, std::string Out)
+	void Build (std::string AsmFile, std::string Out,int v)
 	{
 		std::cout << "Starting build scripts on Windows.." << std::endl;
-		std::string Cmd ("nasm -f win64 ");
+		std::string Cmd;
+
+		if (v == 64)
+		{
+			Cmd = "nasm -f win64 ";
+		}
+		else
+		{
+			Cmd = "nasm -f win32 ";
+		}
+
 		Cmd.append (AsmFile).append (" -o bin.o");
 		std::string CmdB = "ld bin.o -o ";
 		CmdB.append (Out);
