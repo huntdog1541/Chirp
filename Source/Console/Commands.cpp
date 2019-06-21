@@ -142,7 +142,7 @@ namespace Command
 
 			// Setup
 			Environement e;
-			e.Architecture = 64;
+			e.Architecture = 32;
 			e.InFile = InputFile;
 			e.OutFile = OutputFile;
 			e.AltFile = OutputFile.append(".asm");

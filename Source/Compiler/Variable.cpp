@@ -148,29 +148,32 @@ std::string Variable::Operation(int pos, Environement* env)
 		{
 			int FPos = Obj::FindByName(First.Lexeme, env->ObjectList); // Fucked if there is two of the same type
 			FVal = "[";
-			FVal.append(Output::Reg("bp-",env));
+			FVal.append(Output::Reg("bp+",env));
 			FVal.append(std::to_string(env->ObjectList.at(FPos).Position));
 			FVal.append("]");
-			env->Text.append("mov edx, ").append(FVal).append("\n");
-			Opcode.append("eax, ");
+			env->Text.append("mov ").append(Output::Reg("dx",env)).append(",").append(FVal).append("\n");
+			Opcode.append(Output::Reg("ax",env));
+			Opcode.append(", ");
 		}
 		else
 		{
 			FVal = First.Lexeme;
 			Opcode.append(FVal);
-			Opcode.append(", edx");
+			Opcode.append(", ");
+			Opcode.append(Output::Reg("dx",env));
 		}
 
 		if (Second.Identifier == OBJECT_ID_TOKEN)
 		{
 			int SPos = Obj::FindByName(Second.Lexeme, env->ObjectList); // Fucked if there is two of the same type
-			SVal = "[ebp-";
+			SVal = "[";
+			SVal .append(Output::Reg("bp+", env));
 			SVal.append(std::to_string(env->ObjectList.at(SPos).Position));
 			SVal.append("]");
 
-			env->Text.append("mov eax, ").append(SVal).append("\n");
+			env->Text.append("mov ").append(Output::Reg("ax",env)).append(", ").append(SVal).append("\n");
 
-			Opcode.append("edx");
+			Opcode.append(Output::Reg("dx",env));
 			Opcode.append("\n");
 		}
 		else
@@ -180,7 +183,7 @@ std::string Variable::Operation(int pos, Environement* env)
 		}
 
 		env->Text.append(Opcode);
-		return "eax";
+		return Output::Reg("ax",env);
 	}
 }
 
@@ -268,7 +271,7 @@ std::string Variable::Assign(int pos, Environement* env)
 		env->ObjectList.at(lPos) = local;
 		env->Stack = local.Position; // So the stack updates
 
-		output.append(" [ebp-").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
+		output.append(" [").append(Output::Reg("bp",env)).append("+").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
 
 		return output;
 	}

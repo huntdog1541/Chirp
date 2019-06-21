@@ -1,4 +1,5 @@
 #include "Function.h"
+#include "Output.h"
 
 #include <iostream>
 
@@ -6,13 +7,30 @@ namespace Function
 {
 	void GenOpen(Environement* env)
 	{
-		std::string Output = "push ebp \nmov ebp,esp \n";
-		env->Text.append(Output);
+	//	std::string Output = "push ebp \nmov ebp,esp \n";
+
+		std::string Out = "push ";
+		Out.append(Output::Reg("bp",env));
+		Out.append("\nmov ");
+		Out.append(Output::Reg("bp",env));
+		Out.append(", ");
+		Out.append(Output::Reg("sp",env));
+		Out.append("\n");
+
+		env->Text.append(Out);
 	}
 	void GenClose(Environement* env)
 	{
-		std::string Output = "mov esp,ebp \npop ebp \nret 0 \n";
-		env->Text.append(Output);
+	//	std::string Output = "mov esp,ebp \npop ebp \nret 0 \n";
+		std::string Out = "mov ";
+		Out.append(Output::Reg("sp",env));
+		Out.append(", ");
+		Out.append(Output::Reg("bp",env));
+		Out.append("\npop ");
+		Out.append(Output::Reg("bp",env));
+		Out.append("\nret 0 \n");
+		
+		env->Text.append(Out);
 	}
 	void RegisterFunction(int pos,Environement* env)
 	{
