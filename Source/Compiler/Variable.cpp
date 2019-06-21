@@ -130,7 +130,17 @@ std::string Variable::Operation(int pos, Environement* env)
 	{
 		std::string FVal;
 		std::string SVal;
-		std::string Add = "add "; // Statement for addition
+
+		std::string Opcode;
+
+		if (Op == 0)
+		{
+			Opcode = "add "; // Statement for addition
+		}
+		else if(Op == 1)
+		{
+			Opcode = "sub ";
+		}
 
 		if (First.Identifier == OBJECT_ID_TOKEN)
 		{
@@ -139,13 +149,13 @@ std::string Variable::Operation(int pos, Environement* env)
 			FVal.append(std::to_string(env->ObjectList.at(FPos).Position));
 			FVal.append("]");
 			env->Text.append("mov edx, ").append(FVal).append("\n");
-			Add.append("eax, ");
+			Opcode.append("eax, ");
 		}
 		else
 		{
 			FVal = First.Lexeme;
-			Add.append(FVal);
-			Add.append(", edx");
+			Opcode.append(FVal);
+			Opcode.append(", edx");
 		}
 
 		if (Second.Identifier == OBJECT_ID_TOKEN)
@@ -157,16 +167,16 @@ std::string Variable::Operation(int pos, Environement* env)
 
 			env->Text.append("mov eax, ").append(SVal).append("\n");
 
-			Add.append("edx");
-			Add.append("\n");
+			Opcode.append("edx");
+			Opcode.append("\n");
 		}
 		else
 		{
 			SVal = Second.Lexeme;
-			Add.append(SVal).append("\n");
+			Opcode.append(SVal).append("\n");
 		}
 
-		env->Text.append(Add);
+		env->Text.append(Opcode);
 		return "eax";
 	}
 }
