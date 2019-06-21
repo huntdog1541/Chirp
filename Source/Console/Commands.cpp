@@ -149,8 +149,6 @@ namespace Command
 			// Parsing
 			Parser::Setup(FileData,&e);
 			Parser::Tokenize (&e);
-//			Parser::MakeTree(&e);
-//			Parser::MakeIndex(&e);
 			Syntax::MakeSyntax(&e);
 			Output::Generate(&e);
 

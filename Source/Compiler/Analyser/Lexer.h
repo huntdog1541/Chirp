@@ -14,6 +14,7 @@
 #define VAR_CONFIRM_TOKEN 12 // The : in int: a...
 
 #define FUNC_TOKEN 23
+#define FUNC_CALL_TOKEN 24
 
 #define INTERGER_TOKEN 9
 

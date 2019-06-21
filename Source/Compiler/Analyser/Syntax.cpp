@@ -32,7 +32,14 @@ void Syntax::MakeSyntax(Environement* env)
 			}
 			else // Is probably a function
 			{
-
+				// int abc() { }
+				// ^^^ 1  23 4 5
+				if (env->Cluster.at(pos + 1).Identifier == OBJECT_ID_TOKEN)
+				{
+					Token Func;
+					Func.Identifier = FUNC_TOKEN;
+					env->Syntax.push_back(Func);
+				}
 			}
 		}
 		if (t.Identifier == ASSIGNEMENT_OPERATOR_TOKEN) // Assignement
@@ -69,7 +76,7 @@ void Syntax::MakeSyntax(Environement* env)
 				Name.Lexeme = "undefined";
 				env->Syntax.push_back(Name);
 			}
-			else
+			else 
 			{
 				env->Syntax.push_back(Name);
 			}
@@ -82,6 +89,32 @@ void Syntax::MakeSyntax(Environement* env)
 			env->Syntax.push_back(Arg);
 			Arg.Lexeme = ")";
 			env->Syntax.push_back(Arg);
+		}
+		if (t.Identifier == GATE_ARG_TOKEN) // Probably a function call
+		{
+			if (env->Cluster.at(pos - 2).Identifier != OBJECT_TYPE_TOKEN && env->Cluster.at(pos - 1).Identifier != KEYWORD_ENTRY_TOKEN) // Confirming not a declaration or def
+			{
+				if (t.Lexeme.compare("(") == 0)
+				{
+					// Confirmed function call
+					Token Call;
+					Call.Identifier = FUNC_CALL_TOKEN;
+					env->Syntax.push_back(Call);
+
+					Token Name;
+					Name.Identifier = OBJECT_ID_TOKEN;
+					Name.Lexeme = env->Cluster.at(pos - 1).Lexeme;
+					env->Syntax.push_back(Name);
+
+					// Make real args later
+					Token Arg;
+					Arg.Identifier = GATE_ARG_TOKEN;
+					Arg.Lexeme = "(";
+					env->Syntax.push_back(Arg);
+					Arg.Lexeme = ")";
+					env->Syntax.push_back(Arg);
+				}
+			}
 		}
 		pos++;
 	}

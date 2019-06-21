@@ -20,18 +20,18 @@ namespace Output
 		{
 			if (tkn.Identifier == VAR_TOKEN)
 			{
-		//		std::cout << "Inside a variable" << std::endl;
+				//		std::cout << "Inside a variable" << std::endl;
 				InVar = true;
 			}
 			if (tkn.Identifier == VAR_DEC_TOKEN && InVar)
 			{
-			//	std::cout<<"Registering"<<std::endl;
-				Variable::Register(Position,env);
+				//	std::cout<<"Registering"<<std::endl;
+				Variable::Register(Position, env);
 			}
 			if (tkn.Identifier == EXPRESSION_TOKEN && InVar)
 			{
-			//	std::cout << "Assigning" << std::endl;
-				env->Text.append(Variable::Assign(Position - 1,env)); // pos - 1 so it starts at name
+				//	std::cout << "Assigning" << std::endl;
+				env->Text.append(Variable::Assign(Position - 1, env)); // pos - 1 so it starts at name
 			}
 			if (tkn.Identifier == FUNC_TOKEN)
 			{
@@ -47,6 +47,10 @@ namespace Output
 				{
 					Function::GenClose(env);
 				}
+			}
+			if (tkn.Identifier == FUNC_CALL_TOKEN)
+			{
+				env->Text.append(Function::CallFunction(Position,env));
 			}
 			Position++;
 		}
