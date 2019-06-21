@@ -16,6 +16,8 @@ class Environement
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
 	// Tree ParseTree;
 
+	int Architecture;
+
 	std::vector<std::string> Processed; // All words in the code, are in the vector
 	std::vector<Token> Cluster; // Unorganized cluster
 	std::vector<Token> Syntax; // Organized cluster

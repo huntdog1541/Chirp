@@ -70,4 +70,20 @@ namespace Output
 			// Succes
 		}
 	}
+	std::string Reg(std::string p, Environement* env)
+	{
+		std::string Out;
+
+		if (env->Architecture == 32)
+		{
+			Out.append("e");
+			return Out;
+		}
+		else if (env->Architecture == 64)
+		{
+			Out.append("r");
+			return Out;
+		}
+
+	}
 }
