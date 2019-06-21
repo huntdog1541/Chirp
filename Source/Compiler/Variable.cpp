@@ -251,28 +251,32 @@ std::string Variable::Assign(int pos, Environement* env)
 		{
 			local.Position = env->Stack + 1;
 			output.append("byte");
+			output.append(" [").append("bp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
+
 		}
 		else if (local.Size == 2)
 		{
 			local.Position = env->Stack + 2;
 			output.append("word");
+			output.append(" [").append("ebp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
+
 		}
 		else if (local.Size == 4)
 		{
 			local.Position = env->Stack + 4;
 			output.append("dword");
+			output.append(" [").append("ebp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
+
 		}
 		else if (local.Size == 8)
 		{
 			local.Position = env->Stack + 8;
 			output.append("qword");
+			output.append(" [").append(Output::Reg("bp", env)).append("+").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
 		}
 
 		env->ObjectList.at(lPos) = local;
 		env->Stack = local.Position; // So the stack updates
-
-		output.append(" [").append(Output::Reg("bp",env)).append("+").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
-
 		return output;
 	}
 	else

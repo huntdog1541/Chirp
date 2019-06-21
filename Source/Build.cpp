@@ -23,7 +23,7 @@ namespace Tools
 	void Build (std::string AsmFile, std::string Out)
 	{
 		std::cout << "Starting build scripts on Windows.." << std::endl;
-		std::string Cmd ("nasm -f win32 ");
+		std::string Cmd ("nasm -f win64 ");
 		Cmd.append (AsmFile).append (" -o bin.o");
 		std::string CmdB = "ld bin.o -o ";
 		CmdB.append (Out);
