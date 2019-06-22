@@ -152,7 +152,7 @@ std::string Variable::Operation(int pos, Environement* env)
 		{
 			int FPos = Obj::FindByName(First.Lexeme, env->ObjectList); // Fucked if there is two of the same type
 			FVal = "[";
-			FVal.append(Output::Reg("bp+",env));
+			FVal.append(Output::Reg("bp-",env));
 			FVal.append(std::to_string(env->ObjectList.at(FPos).Position));
 			FVal.append("]");
 			env->Text.append("mov ").append(Output::Reg("dx",env)).append(",").append(FVal).append("\n");
@@ -233,7 +233,7 @@ std::string Variable::Assign(int pos, Environement* env)
 				{
 					Object Src;
 					Src = env->ObjectList.at(Obj::FindByName(env->Syntax.at(i + 1).Lexeme,env->ObjectList));
-					env->Text.append("mov eax, ").append("[").append(Output::Reg("bp+", env)).append(std::to_string(Src.Position)).append("] \n");
+					env->Text.append("mov eax, ").append("[").append(Output::Reg("bp-", env)).append(std::to_string(Src.Position)).append("] \n");
 					Source = "eax";
 				};
 			}
@@ -296,7 +296,7 @@ std::string Variable::Assign(int pos, Environement* env)
 		}
 	*/
 
-		output.append(" [").append(Output::Reg("bp",env)).append("+").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
+		output.append(" [").append(Output::Reg("bp",env)).append("-").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
 		env->ObjectList.at(lPos) = local;
 		env->Stack = local.Position; // So the stack updates
 		return output;
