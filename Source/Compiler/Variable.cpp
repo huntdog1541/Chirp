@@ -55,6 +55,10 @@ void Variable::Register(int pos, Environement* env)
 	}
 }
 
+// This part of the code really needs cleaning up
+// and it is also pretty important. So yea, I guess i could
+// make an issue about it. But nah, it's fine
+// - Binkiklou
 std::string Variable::Operation(int pos, Environement* env)
 {
 	// The types looks like this
@@ -192,6 +196,8 @@ std::string Variable::Assign(int pos, Environement* env)
 	bool Failure = false;
 	bool TargetSet = false; //This should look like int: Target = Source
 	bool SourceSet = false; // Can be another variable id or value
+	bool AssignSet = false; 
+	bool ConstantVal = false;
 
 	std::string Target; // Variable to be assigned
 	std::string Source;
@@ -213,17 +219,28 @@ std::string Variable::Assign(int pos, Environement* env)
 			}
 		}
 
-		if (t.Identifier == ASSIGNEMENT_OPERATOR_TOKEN && !SourceSet)
+		if (t.Identifier == ASSIGNEMENT_OPERATOR_TOKEN && !AssignSet)
 		{
 		//	std::cout << t.Lexeme << std::endl << std::endl;
-			if (env->Syntax.at(i + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN)
+			if (env->Syntax.at(i + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
 			{
-				Source = env->Syntax.at(i + 1).Lexeme;
-				SourceSet = true;
+				if (env->Syntax.at(i + 1).Identifier == INTERGER_TOKEN)
+				{
+					Source = env->Syntax.at(i + 1).Lexeme;
+					ConstantVal = true;
+				}
+				else if(env->Syntax.at(i + 1).Identifier == OBJECT_ID_TOKEN)
+				{
+					Object Src;
+					Src = env->ObjectList.at(Obj::FindByName(env->Syntax.at(i + 1).Lexeme,env->ObjectList));
+					env->Text.append("mov eax, ").append("[").append(Output::Reg("bp+", env)).append(std::to_string(Src.Position)).append("] \n");
+					Source = "eax";
+				};
 			}
+			SourceSet = true;
 		}
 
-		if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
+		if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN)
 		{
 		//	std::cout<<std::to_string(std::stoi("100") / std::stoi("10"))<<std::endl;
 			Source = Variable::Operation(i,env);
@@ -234,7 +251,7 @@ std::string Variable::Assign(int pos, Environement* env)
 		{
 			break;
 		}
-		if (SourceSet && TargetSet)
+		if (SourceSet && TargetSet && AssignSet)
 		{
 			break;
 		}
@@ -250,31 +267,36 @@ std::string Variable::Assign(int pos, Environement* env)
 		if (local.Size == 1) // Writing the approriate size
 		{
 			local.Position = env->Stack + 1;
-			output.append("byte");
-			output.append(" [").append("bp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
-
+			output.append("byte ");
 		}
 		else if (local.Size == 2)
 		{
 			local.Position = env->Stack + 2;
-			output.append("word");
-			output.append(" [").append("ebp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
-
+			output.append("word ");
 		}
 		else if (local.Size == 4)
 		{
 			local.Position = env->Stack + 4;
-			output.append("dword");
-			output.append(" [").append("ebp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
+			output.append("dword ");
 
 		}
 		else if (local.Size == 8)
 		{
 			local.Position = env->Stack + 8;
-			output.append("qword");
-			output.append(" [").append(Output::Reg("bp", env)).append("+").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
+			output.append("qword ");
 		}
 
+	/*	if (ConstantVal)
+		{
+			output.append(Source).append("\n");
+		}
+		else
+		{
+			output.append(" [").append("bp").append("+").append(std::to_string(local.Position)).append("],").append("ebp").append("\n");
+		}
+	*/
+
+		output.append(" [").append(Output::Reg("bp",env)).append("+").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
 		env->ObjectList.at(lPos) = local;
 		env->Stack = local.Position; // So the stack updates
 		return output;

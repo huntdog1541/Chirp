@@ -27,6 +27,7 @@ namespace Output
 			{
 				env->Text.append("\n");
 			}
+
 			if (tkn.Identifier == VAR_TOKEN)
 			{
 				//		std::cout << "Inside a variable" << std::endl;
