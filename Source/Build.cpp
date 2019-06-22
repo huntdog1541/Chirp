@@ -42,6 +42,7 @@ namespace Tools
 		system (Cmd.c_str ()); 	// Assembly
 		system (CmdB.c_str ()); // Linking
 		system ("del bin.o"); 	// Clean up
+		system(std::string("del ").append(AsmFile).c_str());
 	}
 #endif
 }

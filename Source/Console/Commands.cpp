@@ -4,6 +4,7 @@
 #include "../Compiler/Analyser/Syntax.h"
 #include "../Compiler/Output.h"
 #include "../Build.h"
+#include "Log/Log.h"
 #include "Debug.h"
 
 #include <iostream>
@@ -37,7 +38,7 @@ std::string Read (std::string File)
 
 namespace Command
 {
-	void Run (std::vector<std::string> Args)
+	void Run(std::vector<std::string> Args)
 	{
 		// Once the -i flag is declared, this is on.Until there is another flag
 		bool IncludeFlag = false;
@@ -46,21 +47,27 @@ namespace Command
 		// Temporary
 		bool In = false;
 		bool Out = false;
+		bool Arched = false; // Architecture
 		bool DebugMenu = false;
 
 		std::string InputFile;
 		std::string OutputFile;
+		std::string Architecture; // 32 = x86, 64 = x64
+		int Arch;
 
 		// Start
+		// This code is litteraly one of the first lines of code, of the whole 
+		// compiler. I am already 1-2 months in the project and I think I am
+		// already 10x better because this is horrible. - Ya boi binkiklou
 		for (const auto& Arg : Args)
 		{
-			if (Arg.compare ("-i") == 0)
+			if (Arg.compare("-i") == 0)
 			{
 				IncludeFlag = true;
 				OutputFlag = false;
 			}
 
-			else if (Arg.compare ("-o") == 0)
+			else if (Arg.compare("-o") == 0)
 			{
 				IncludeFlag = false;
 				OutputFlag = true;
@@ -69,6 +76,11 @@ namespace Command
 			else if (Arg.compare("-debug_menu") == 0)
 			{
 				DebugMenu = true;
+			}
+
+			else if (Arg.compare("-arch") == 0)
+			{
+				Arched = true;
 			}
 
 			else
@@ -105,13 +117,17 @@ namespace Command
 						std::cout << "Error, cannot output to more than one file" << std::endl;
 					}
 				}
+				else if (Arched == true)
+				{
+					Architecture = Arg;
+				}
 			}
 		}
 		//End
 
 		bool Error = false;
 
-		if (InputFile.empty ())
+		if (InputFile.empty())
 		{
 			std::cout << "Error, No input files are specified!" << std::endl;
 			Error = true;
@@ -122,7 +138,7 @@ namespace Command
 			std::cout << "Input file is: " << InputFile << std::endl;
 		}
 
-		if (OutputFile.empty ())
+		if (OutputFile.empty())
 		{
 			std::cout << "Error, No output file are specified!" << std::endl;
 			Error = true;
@@ -131,6 +147,28 @@ namespace Command
 		else
 		{
 			std::cout << "Output file is: " << OutputFile << std::endl;
+		}
+
+		if (Architecture.empty())
+		{
+			Log::Warning("No architecture has been set, defaulted to x86 32 bit");
+			Arch = 32;
+		}
+		else
+		{
+			if (Architecture.compare("x86") == 0)
+			{
+				Arch = 32;
+			}
+			else if (Architecture.compare("x64") == 0)
+			{
+				Arch = 64;
+			}
+			else
+			{
+				Log::Warning("Unrecognized architecture, defaulted to 32 bit");
+				Arch = 32;
+			}
 		}
 
 		if (Error == false) // Lets compile now
@@ -142,7 +180,7 @@ namespace Command
 
 			// Setup
 			Environement e;
-			e.Architecture = 32;
+			e.Architecture = Arch;
 			e.InFile = InputFile;
 			e.OutFile = OutputFile;
 			e.AltFile = OutputFile.append(".asm");
