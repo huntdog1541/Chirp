@@ -31,7 +31,7 @@ void Parser::Setup(std::string txt,Environement* env)
 		}
 		else
 		{
-			if (c == '=' || c == '"' || c == ':' || c == '(' || c == ')' || c == '{' || c == '}' || c == ';')
+			if (c == '=' || c == '"' || c == ':' || c == '(' || c == ')' || c == '{' || c == '}' || c == ';' || c == '###')
 			{
 				if (Word.compare("") != 0) // hmm
 				{
