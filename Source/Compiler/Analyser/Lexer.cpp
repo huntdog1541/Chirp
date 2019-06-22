@@ -82,6 +82,27 @@ void Parser::Tokenize(Environement* env)
 			env->Cluster.push_back(t);
 			identified = true;
 		}
+		else if (txt.compare("@asm") == 0) // Preprocessor section, should be as simple as possible
+		{
+			t.Identifier = PREP_ASM;
+			t.Lexeme = " ";
+			env->Cluster.push_back(t);
+			identified = true;
+		}
+		else if (txt.compare("@end") == 0)
+		{
+			t.Identifier = PREP_END;
+			t.Lexeme = " ";
+			env->Cluster.push_back(t);
+			identified = true;
+		}
+		if (txt.compare(";") == 0)
+		{
+			t.Identifier = NEWLINE_TOKEN;
+			t.Lexeme = "\n";
+			env->Cluster.push_back(t);
+			identified = true;
+		}
 		else if (!identified)
 		{
 			t.Identifier = UNPARSED_TOKEN;

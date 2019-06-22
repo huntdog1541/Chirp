@@ -40,6 +40,12 @@
 #define SCOPE_OPERATOR_TOKEN 22 // ::
 
 #define UNPARSED_TOKEN 16
+#define NEWLINE_TOKEN 28 // Used in special occasions
+
+// Preprocessor section
+#define PREP_ASM 25
+#define PREP_ASM_WORD 27
+#define PREP_END 26
 
 class Token
 {

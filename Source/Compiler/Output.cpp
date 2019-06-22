@@ -15,9 +15,18 @@ namespace Output
 
 		int Position = 0;
 		bool InVar = false; // Inside a variable
+		bool InAsm = false;
 
 		for (auto& tkn : env->Syntax)
 		{
+			if (tkn.Identifier == PREP_ASM_WORD)
+			{
+				env->Text.append(tkn.Lexeme);
+			}
+			if (tkn.Identifier == NEWLINE_TOKEN)
+			{
+				env->Text.append("\n");
+			}
 			if (tkn.Identifier == VAR_TOKEN)
 			{
 				//		std::cout << "Inside a variable" << std::endl;
