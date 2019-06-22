@@ -1,4 +1,4 @@
-entry int start()
+entry start()
 {
     int: x = 123
 }
