@@ -14,9 +14,8 @@
     <img src = 'https://img.shields.io/github/license/binkiklou/Chirp.svg?style=for-the-badge' alt = 'License' />
   </a>
 
-  <!-- Remake this button to make it fit the style of the new build image -->
   <a href = 'https://discord.gg/8EeVJaS'>
-    <img src = 'https://raw.githubusercontent.com/Dmunch04/Chirp/master/Ressources/Discord%20Button.png' alt = 'Discord Server' />
+    <img src = 'https://raw.githubusercontent.com/binkiklou/Chirp/master/Ressources/ChirpDiscord.svg' alt = 'Discord Server' />
   </a>
 </div>
 
