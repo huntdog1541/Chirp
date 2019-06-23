@@ -1,5 +1,6 @@
 #include "Function.h"
 #include "Output.h"
+#include "Variable.h"
 
 #include <iostream>
 
@@ -38,14 +39,17 @@ namespace Function
 	}
 	std::string WriteFunction(int pos,Environement* env)
 	{
-		bool Failure = false;
+		env->Stack = 0; // Reset the stack
+		env->StackId = env->StackId + 1;
 
+		bool Failure = false;
 		bool HasName = false;
 		bool IsEntry = false;
 		bool InArgs = false;
 		bool HasArgs = false;
 
 		std::string Name;
+		std::vector<std::string> Params;
 
 		for (int i = pos; i < env->Syntax.size() - 1; i++)
 		{
@@ -107,23 +111,20 @@ namespace Function
 	}
 	std::string CallFunction(int pos, Environement* env)
 	{
+		
 		bool Failure = false;
 		bool HasName = false;
 
 		bool HasArgs = false; // For the moment
 		bool InArgs = false;
 
+		std::vector<std::string> Params; // Names or Values for Parameters
+
 		std::string Name; // Name(), should I call it identifier instead ?
 
 		for (int i = pos; i < env->Syntax.size() - 1; i++)
 		{
 			Token t = env->Syntax.at(i);
-
-			if (t.Identifier == OBJECT_ID_TOKEN && !HasName && !InArgs)
-			{
-				Name = t.Lexeme;
-				HasName = true;
-			}
 
 			if (t.Identifier == GATE_ARG_TOKEN && !HasArgs)
 			{
@@ -136,6 +137,26 @@ namespace Function
 				{
 					InArgs = true;
 				}
+			}
+			
+			if (t.Identifier == OBJECT_ID_TOKEN && !HasName && !InArgs)
+			{
+				Name = t.Lexeme;
+				HasName = true;
+			}
+
+			if (t.Identifier == INTERGER_TOKEN && InArgs) 
+			{
+				//Variable::Register(pos,env);
+				Params.push_back(Variable::Assign(pos, env)); // Value
+			}
+			else if (t.Identifier == OBJECT_ID_TOKEN && InArgs)
+			{
+				std::string stackPos = "[";
+				stackPos.append(Output::Reg("bp-",env));
+				stackPos.append(std::to_string(env->ObjectList.at(Obj::FindByName(t.Lexeme,env->ObjectList)).Position));
+				stackPos.append("]");
+				Params.push_back(stackPos);
 			}
 
 			if (HasName && HasArgs)
@@ -152,6 +173,12 @@ namespace Function
 
 		if (!Failure)
 		{
+			for (auto& p : Params)
+			{
+			//	std::cout << "Yoodle hihou" << std::endl;
+				env->Text.append("push ").append(p).append("\n");;
+			}
+
 			std::string Output = "call ";
 			Output.append(Name);
 			Output.append("\n");

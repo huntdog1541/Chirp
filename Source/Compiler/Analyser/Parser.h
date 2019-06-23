@@ -31,6 +31,7 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 	std::string EntryLabel; // Name of entry function
 
 	int Stack;
+	int StackId; // Ok so this isn't the best practice, but every stack has a number
 
 	std::string Header; // Name I tought would fit, where the asm functions are said "global"
 	std::string Text; // Assembly text section

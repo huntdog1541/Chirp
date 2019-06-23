@@ -9,6 +9,7 @@ void Syntax::MakeSyntax(Environement* env)
 	int pos = 0;
 	
 	bool InASM = false;
+	bool InArgs = false;
 
 	for (auto& t : env->Cluster)
 	{
@@ -154,13 +155,14 @@ void Syntax::MakeSyntax(Environement* env)
 				}
 
 				env->EntryLabel = Name.Lexeme;
-
+				/*
 				Token Arg;
 				Arg.Identifier = GATE_ARG_TOKEN;
 				Arg.Lexeme = "(";
 				env->Syntax.push_back(Arg);
 				Arg.Lexeme = ")";
 				env->Syntax.push_back(Arg);
+				*/
 			}
 			if (t.Identifier == GATE_ARG_TOKEN) // Probably a function call
 			{
@@ -180,15 +182,41 @@ void Syntax::MakeSyntax(Environement* env)
 							Name.Lexeme = env->Cluster.at(pos - 1).Lexeme;
 							env->Syntax.push_back(Name);
 
-							// Make real args later
-							Token Arg;
-							Arg.Identifier = GATE_ARG_TOKEN;
-							Arg.Lexeme = "(";
-							env->Syntax.push_back(Arg);
-							Arg.Lexeme = ")";
-							env->Syntax.push_back(Arg);
+							InArgs = true;
+						}
+						if (t.Lexeme.compare(")") == 0)
+						{
+							InArgs = false;
 						}
 					}
+				}
+			}
+			if (InArgs)
+			{
+				Token Param;
+
+				if (t.Lexeme.compare("(") == 0 || t.Lexeme.compare(")") == 0) // This is bad
+				{
+					Param.Identifier = GATE_ARG_TOKEN;
+					Param.Lexeme = t.Lexeme;
+				}
+				else
+				{
+					if (isdigit(t.Lexeme.at(0)))
+					{
+						Param.Identifier = INTERGER_TOKEN;
+					}
+					else
+					{
+						Param.Identifier = OBJECT_ID_TOKEN;
+					}
+				}
+
+				Param.Lexeme = t.Lexeme;
+
+				if (env->Cluster.at(pos - 1).Identifier != ASSIGNEMENT_OPERATOR_TOKEN || env->Cluster.at(pos - 1).Identifier != ARITHMETIC_OPERATOR_TOKEN)
+				{
+					env->Syntax.push_back(Param);
 				}
 			}
 		}
