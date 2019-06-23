@@ -3,7 +3,7 @@
 <div align = 'center'>
   <strong>Chirp is a modern low-level programming language written in C++</strong>
 
-  <br>
+  <br><br>
 
   <!-- Source for new image: https://shields.io/category/build -->
   <a href = 'https://travis-ci.org/binkiklou/Chirp'>
