@@ -123,6 +123,10 @@ void Syntax::MakeSyntax(Environement* env)
 				env->Syntax.push_back(Arth);
 				env->Syntax.push_back(Second);
 			}
+			if (t.Identifier == GATE_ARG_TOKEN)
+			{
+				env->Syntax.push_back(t);
+			}
 			if (t.Identifier == GATE_SCOPE_TOKEN)
 			{
 				env->Syntax.push_back(t);

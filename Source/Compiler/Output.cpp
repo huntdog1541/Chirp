@@ -43,6 +43,7 @@ namespace Output
 			}
 			if (tkn.Identifier == FUNC_TOKEN)
 			{
+				std::cout << "Function token" << std::endl;
 				env->Text.append(Function::WriteFunction(Position, env));
 			}
 			if (tkn.Identifier == GATE_SCOPE_TOKEN)

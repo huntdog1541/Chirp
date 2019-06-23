@@ -42,6 +42,8 @@ namespace Function
 
 		bool HasName = false;
 		bool IsEntry = false;
+		bool InArgs = false;
+		bool HasArgs = false;
 
 		std::string Name;
 
@@ -49,10 +51,31 @@ namespace Function
 		{
 			Token t = env->Syntax.at(i);
 
-			if (t.Identifier == OBJECT_ID_TOKEN && !HasName)
+			if (InArgs)
 			{
-				HasName = true;
+				if (t.Identifier == VAR_DEC_TOKEN)
+				{
+				//	std::cout << "Var dec inside function" << std::endl;
+				}
+			}
 
+			if (t.Identifier == GATE_ARG_TOKEN) // Doesn't take into account for example this-> (a()), but I wonder why anyone would do this
+			{
+				if (InArgs)
+				{
+				//	std::cout << "closing args" << std::endl;
+					InArgs = false;
+					HasArgs = true;
+				}
+				else
+				{
+				//	std::cout << "open args" << std::endl;
+					InArgs = true;
+				}
+			}
+
+			if (t.Identifier == OBJECT_ID_TOKEN && !HasName && !InArgs && !HasArgs)
+			{
 				if (t.Lexeme.compare(env->EntryLabel) == 0)
 				{
 					Name = "_start";
@@ -61,9 +84,10 @@ namespace Function
 				{
 					Name = t.Lexeme;
 				}
+				HasName = true;
 			}
 
-			if (HasName)
+			if (HasName && HasArgs)
 			{
 				break;
 			}
@@ -85,7 +109,9 @@ namespace Function
 	{
 		bool Failure = false;
 		bool HasName = false;
-		bool HasArgs = true; // For the moment
+
+		bool HasArgs = false; // For the moment
+		bool InArgs = false;
 
 		std::string Name; // Name(), should I call it identifier instead ?
 
@@ -93,11 +119,23 @@ namespace Function
 		{
 			Token t = env->Syntax.at(i);
 
-			if (t.Identifier == OBJECT_ID_TOKEN && !HasName)
+			if (t.Identifier == OBJECT_ID_TOKEN && !HasName && !InArgs)
 			{
 				Name = t.Lexeme;
-			//	std::cout << "Name is: " << Name << std::endl;
 				HasName = true;
+			}
+
+			if (t.Identifier == GATE_ARG_TOKEN && !HasArgs)
+			{
+				if (InArgs)
+				{
+					HasArgs = true;
+					InArgs = false;
+				}
+				else
+				{
+					InArgs = true;
+				}
 			}
 
 			if (HasName && HasArgs)
