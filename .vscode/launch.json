@@ -10,7 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/exec.out",
-            "args": ["-i","Test/test_main.ch","-o","out.o"],
+            "args": ["-i","Test/constant_math.ch","-o","out.o"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

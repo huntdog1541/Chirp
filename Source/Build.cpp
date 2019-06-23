@@ -9,9 +9,23 @@ namespace Tools
 	void Build (std::string AsmFile, std::string Out, int v)
 	{
 		std::cout << "Starting build scripts on Linux.." << std::endl;
-		std::string Cmd ("nasm -f elf ");
+
+		std::string Cmd;
+		std::string CmdB;
+
+		if(v == 32)
+		{
+			Cmd = "nasm -f elf ";
+			CmdB = "ld -m elf_i386 bin.o -o ";
+		}
+		if(v == 64)
+		{
+			Cmd = "nasm -f elf64 "; 
+			CmdB = "ld bin.o -o ";
+		}
+		
+	//	std::string Cmd ("nasm -f elf32 ");
 		Cmd.append (AsmFile).append (" -o bin.o");
-		std::string CmdB = "ld bin.o -o ";
 		CmdB.append (Out);
 
 		system (Cmd.c_str ()); 	// Assembly
