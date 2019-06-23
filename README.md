@@ -1,50 +1,72 @@
-[![Build Status](https://travis-ci.org/binkiklou/Chirp.svg?branch=master)](https://travis-ci.org/binkiklou/Chirp)
+<h1 align = 'center'>Chirp</h1>
 
-[![Discord Link](http://munchii.me/Data/Discord%20Button.svg)](https://discord.gg/8EeVJaS)
+<div align = 'center'>
+  <strong>Chirp is a modern low-level programming language written in C++</strong>
+
+  <br><br>
+
+  <!-- Source for new image: https://shields.io/category/build -->
+  <a href = 'https://travis-ci.org/binkiklou/Chirp'>
+    <img src = 'https://img.shields.io/travis/binkiklou/Chirp/master.svg?style=for-the-badge' alt = 'Build Status' />
+  </a>
+
+  <a href = 'https://github.com/binkiklou/Chirp/blob/master/LICENSE'>
+    <img src = 'https://img.shields.io/github/license/binkiklou/Chirp.svg?style=for-the-badge' alt = 'License' />
+  </a>
+
+  <!-- Remake this button to make it fit the style of the new build image -->
+  <a href = 'https://discord.gg/8EeVJaS'>
+    <img src = 'https://raw.githubusercontent.com/Dmunch04/Chirp/master/Ressources/Discord%20Button.png' alt = 'Discord Server' />
+  </a>
+</div>
+
+<br><br><br>
 
 <p align = 'center'>
   <img src = 'https://camo.githubusercontent.com/641f171b8217bb22d5951086a25c7c7a037a106c/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3530363135323839363631383935343831322f3538323035313338303737373435313534312f4368697270536d616c6c49636f6e2e706e67'>
 </p>
 
-# Chirp
+<br>
 
 Chirp is a modern low-level programming language written in C++. Currently the language is still very early and can barely run yet, but I am actively working on the compiler, and hope one day it will be a functionning language.
 
+<br>
 
-## Simple Example
+### Simple Example
 
 ```chirp
-  entry start ()
+  entry int start ()
   {
+    # Assign 123 to the variable "a", which is an int
     int: a = 123
   }
 ```
-Being the 4th time I am changing this example, it is to say that this is subject to change. Chirp is still very early in developpement.
-This is also for that reason that there isn't any release yet, the language is still far from being in my opinion, usable.
-This project is constantly evolving.
 
+<br>
 
+### Communicate
 
-## Contact
+Want to Communicate with us and the rest of the community? You can join [our Discord server](https://discord.gg/8EeVJaS). There's always someone ready to help you out or just chat with you.
 
-Want to Communicate with us and the rest of the community? You can [Our discord server](https://discord.gg/8EeVJaS). There's always someone ready to help you out, or just chat with you.
+> If you have a bug report or feature request, you can also create a ticket on the repo
 
+<br>
 
-## Documentation
+### Documentation
 
-Currently Chirp's documentation is under writing, but there's enough for you to get an idea of how the language works. The
-documentation is on our [documentation website](https://binkiklou.github.io/Chirp-Website/#/), or you can find it in our [documentation repository](https://github.com/binkiklou/Chirp-Website)!
-The documentation website might be changes to a custom website in the near future.
+Chirp's documentation is currently being written, but there's enough for you to get an idea of how the language works. If you want help on building Chirp and getting started, check out [Getting Started](https://github.com/binkiklou/Chirp-Website/blob/master/Website/Documentation/Getting%20Started.md). You can find all documentation at this site: [Documentation Website](http://munchii.me/chirp), or at [our documentation repo](https://github.com/binkiklou/Chirp-Website/blob/master/Website/Documentation/)!
 
+> The documentation website will be switched with a custom URL soon
 
+<br>
 
-## Contributions
+### Contribute
 
-Want to help us develop Chirp? We would love your help.
+Wanna help us develop Chirp? We would love your help.
 Learn more on contributing in the [Official Contribute](Contributing.md) file!
 
+<br>
 
-
-## License
+### License
 
 Chirp is using the MIT license. Check out our license at our [License](https://github.com/binkiklou/Chirp/blob/master/LICENSE) file.
