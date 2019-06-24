@@ -148,7 +148,7 @@ namespace Function
 			if (t.Identifier == INTERGER_TOKEN && InArgs) 
 			{
 				//Variable::Register(pos,env);
-				Params.push_back(Variable::Assign(pos, env)); // Value
+				Params.push_back(/*Variable::Assign(pos, env)*/  t.Lexeme); // Value
 			}
 			else if (t.Identifier == OBJECT_ID_TOKEN && InArgs)
 			{
