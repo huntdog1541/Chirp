@@ -229,6 +229,25 @@ std::string Variable::Assign(int pos, Environement* env)
 					Source = env->Syntax.at(i + 1).Lexeme;
 					ConstantVal = true;
 				}
+				else if (env->Syntax.at(i + 1).Identifier == BOOLEAN_TOKEN)
+				{
+					std::string v = env->Syntax.at(i + 1).Lexeme;
+
+					// Fun fact: In memory, true & false are 1 and 0, so you can actually do
+					// bool: something = true
+					// if(something == 1)... and it will work
+
+					if (v.compare("true") == 0)
+					{
+						Source = "1";
+					}
+					else if (v.compare("false") == 0)
+					{
+						Source = "0";
+					}
+
+					ConstantVal = true;
+				}
 				else if(env->Syntax.at(i + 1).Identifier == OBJECT_ID_TOKEN)
 				{
 					Object Src;

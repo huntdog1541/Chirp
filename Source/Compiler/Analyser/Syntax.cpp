@@ -80,6 +80,11 @@ void Syntax::MakeSyntax(Environement* env)
 						Value.Identifier = INTERGER_TOKEN;
 						Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
 					}
+					else if (env->Cluster.at(pos + 1).Lexeme.compare("true") == 0 || env->Cluster.at(pos + 1).Lexeme.compare("false") == 0)
+					{
+						Value.Identifier = BOOLEAN_TOKEN;
+						Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+					}
 					else
 					{
 						Value.Identifier = OBJECT_ID_TOKEN;
