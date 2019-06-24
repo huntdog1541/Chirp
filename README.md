@@ -15,7 +15,7 @@
   </a>
 
   <a href = 'https://discord.gg/8EeVJaS'>
-    <img src = 'https://raw.githubusercontent.com/binkiklou/Chirp/master/Ressources/ChirpDiscord.svg' alt = 'Discord Server' />
+    <img src = 'http://munchii.me/Images/ChirpDiscord.svg' alt = 'Discord Server' />
   </a>
 </div>
 
