@@ -6,7 +6,7 @@
 
 namespace Function
 {
-	void GenOpen(Environement* env)
+	void GenOpen (Environement* env)
 	{
 	//	std::string Output = "push ebp \nmov ebp,esp \n";
 
@@ -30,7 +30,7 @@ namespace Function
 		Out.append("\npop ");
 		Out.append(Output::Reg("bp",env));
 		Out.append("\nret 0 \n");
-		
+
 		env->Text.append(Out);
 	}
 	void RegisterFunction(int pos,Environement* env)
@@ -111,7 +111,7 @@ namespace Function
 	}
 	std::string CallFunction(int pos, Environement* env)
 	{
-		
+
 		bool Failure = false;
 		bool HasName = false;
 
@@ -138,14 +138,14 @@ namespace Function
 					InArgs = true;
 				}
 			}
-			
+
 			if (t.Identifier == OBJECT_ID_TOKEN && !HasName && !InArgs)
 			{
 				Name = t.Lexeme;
 				HasName = true;
 			}
 
-			if (t.Identifier == INTERGER_TOKEN && InArgs) 
+			if (t.Identifier == INTERGER_TOKEN && InArgs)
 			{
 				//Variable::Register(pos,env);
 				Params.push_back(/*Variable::Assign(pos, env)*/  t.Lexeme); // Value

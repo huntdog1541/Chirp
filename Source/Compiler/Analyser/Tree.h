@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 #include "../../Console/Log/Error.h"
-#include "Lexer.h"
+#include "Token.h"
 
 /*
 Node in tree class. The elements like parents and child aren't actual other nodes but

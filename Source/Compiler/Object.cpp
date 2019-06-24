@@ -4,7 +4,7 @@
 
 namespace Obj
 {
-	int FindByName(std::string name,std::vector<Object> objects)
+	int FindByName (std::string name,std::vector<Object> objects)
 	{
 		bool hasFound = false;
 
@@ -16,7 +16,7 @@ namespace Obj
 			{
 				break;
 			}
-			
+
 			if (obj.Name == name)
 			{
 				hasFound = true;

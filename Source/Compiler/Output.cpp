@@ -9,7 +9,7 @@
 
 namespace Output
 {
-	void Generate(Environement* env)
+	void Generate (Environement* env)
 	{
 	//	std::cout << "Starting assembly generator" << std::endl;
 

@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-void Variable::Register(int pos, Environement* env)
+void Variable::Register (int pos, Environement* env)
 {
 	Object Var; // New variable
 	bool Failure = false;
@@ -196,7 +196,7 @@ std::string Variable::Assign(int pos, Environement* env)
 	bool Failure = false;
 	bool TargetSet = false; //This should look like int: Target = Source
 	bool SourceSet = false; // Can be another variable id or value
-	bool AssignSet = false; 
+	bool AssignSet = false;
 	bool ConstantVal = false;
 
 	std::string Target; // Variable to be assigned
