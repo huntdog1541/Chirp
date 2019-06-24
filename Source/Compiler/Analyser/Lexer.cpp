@@ -1,6 +1,6 @@
 #include "Token.h"
-
-#include "Parser.h"
+#include "Lexer.h"
+//#include "Parser.h"
 
 #include <iostream>
 
@@ -10,7 +10,7 @@ Also I don't want to talk about the code here. I have a problem with knowing
 wtf to do, in theses organised sections. This is like bad but ok code, because
 you wouldn't want to do it in the same functions as the syntax parsing.
 */
-void Parser::Tokenize(Environement* env)
+void Lexer::Tokenize(Environement* env)
 {
 	// Now, here you separate unclassified strings into tokens that will then be analyzed
 	// later, and then made into assembly.

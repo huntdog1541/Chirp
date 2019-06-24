@@ -193,7 +193,7 @@ namespace Command
 			
 			// Parsing
 			Parser::Setup(FileData,&e);
-			Parser::Tokenize (&e);
+			Lexer::Tokenize (&e);
 			Syntax::MakeSyntax(&e);
 			Output::Generate(&e);
 
