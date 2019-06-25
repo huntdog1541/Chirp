@@ -1,0 +1,3 @@
+[submodule "Chirp-Documentation"]
+	path = Chirp-Documentation
+	url = https://github.com/binkiklou/Chirp-Documentation
