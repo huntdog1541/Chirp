@@ -7,7 +7,7 @@
 
 namespace Log
 {
-#ifdef __linux__
+#if defined __linux__ || defined __unix__ || defined __APPLE__
 	std::string Color (int Color, std::string Text)
 	{
 		switch (Color)

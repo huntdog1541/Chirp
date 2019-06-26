@@ -1,18 +1,43 @@
-# I have no idea how to write makefiles
-# - Maxence "Binkiklou" Cossette
+CC = g++
+APP_NAME = Chirp
+
+CXX_FLAGS =-std=c++11
+SRC_ROOT =../../Source
+DEST_DIR =build
+
+#Create the include dirs in a list with -I in front of each item
+INCLUDES = $(patsubst %, -I%, $(shell find $(SRC_ROOT) -type d))
+
+#Set VPATH to find the source files
+VPATH = $(shell find $(SRC_ROOT) -type d)
+
+#Just get the filenames
+SOURCE_FILES=$(notdir $(shell find $(SRC_ROOT) -name *.cpp))
+
+#Turn the file names into object filenames
+OBJECTS = $(SOURCE_FILES:%.cpp=$(DEST_DIR)/%.o)
+
+# Debugging target
+showvars: setup
+	@echo "Source files = $(SOURCE_FILES)"
+	@echo "Objects = $(OBJECTS)"
+	@echo "Includes = $(INCLUDES)"
+	@echo "VPATH = $(VPATH)"
 
 .ONESHELL:
-all: compile build done
+all: $(OBJECTS)
+	$(CC) -o $(APP_NAME) $^ $(CXX_FLAGS)	
 
-compile:
-	@echo "Starting build processs.."
-	g++ -I ../../Source/ -I ../../Source/Console -I ../../Source/Console/Log -I ../../Source/Compiler -I ../../Source/Compiler/Analyser ../../Source/*.cpp ../../Source/Console/*.cpp ../../Source/Console/Log/*.cpp ../../Source/Compiler/*.cpp ../../Source/Compiler/Analyser/*.cpp -std=c++11 -o Chirp.o
+setup:
+	@echo "Making a build folder"
+	@mkdir -p $(DEST_DIR)
 
-build:
-	@echo "Creating ressource files.."
-	@cd ../../Ressources/Binaries/
-#	@cp ld ../../Tools/Build/ld.o
-	@cp nasm   ../../Tools/Build/nasm.o
+$(DEST_DIR)/%.o: %.cpp
+	$(CC) -c $< -o $@ $(CXX_FLAGS) $(INCLUDES)
 
 done:
-	@echo "Build process is done! Output is in this folder - Chirp.o"
+	@echo "Build process is done! Output is in this folder - $(APP_NAME)"
+
+clean:
+	rm $(APP_NAME)
+	rm $(DEST_DIR)/*.o

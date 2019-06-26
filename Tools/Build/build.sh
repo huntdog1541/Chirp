@@ -1,1 +1,1 @@
-g++ -I ../../Source/ -I ../../Source/Console -I ../../Source/Console/Log -I ../../Source/Compiler -I ../../Source/Compiler/Analyser ../../Source/*.cpp ../../Source/Console/*.cpp ../../Source/Console/Log/*.cpp ../../Source/Compiler/*.cpp ../../Source/Compiler/Analyser/*.cpp -std=c++11 -o Chirp.o
+make all
