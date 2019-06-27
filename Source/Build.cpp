@@ -5,7 +5,7 @@
 namespace Tools
 {
 // I just realised that it's pretty stupid
-#ifdef __linux__
+#if defined __linux__ || defined __unix__ || defined __APPLE__
 	void Build (std::string AsmFile, std::string Out, int v)
 	{
 		std::cout << "Starting build scripts on Linux.." << std::endl;
