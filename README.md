@@ -69,14 +69,3 @@ Learn more on contributing in the [Official Contribute](Contributing.md) file!
 ### License
 
 Chirp is using the MIT license. Check out our license at our [License](https://github.com/binkiklou/Chirp/blob/master/LICENSE) file.
-
-### Building
-```
-source build.sh
-```
-
-Or
-```
-cd Tools/Build
-make all
-```
