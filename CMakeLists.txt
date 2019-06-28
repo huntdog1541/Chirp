@@ -28,4 +28,5 @@ set(chirp_INCLUDE_DIRS
   "${chirp_SOURCE_DIR}/Source/Console/Log")
 
 add_executable(chirp ${chirp_SOURCES})
+target_compile_features(chirp PUBLIC cxx_auto_type)
 target_include_directories(chirp PUBLIC ${chirp_INCLUDE_DIRS})
