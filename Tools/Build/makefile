@@ -1,7 +1,7 @@
 CC = g++
 APP_NAME = Chirp
 
-CXX_FLAGS =-std=c++11
+CXX_FLAGS =-std=c++11 $(FLAGS)
 SRC_ROOT =../../Source
 DEST_DIR =build
 
@@ -17,13 +17,6 @@ SOURCE_FILES=$(notdir $(shell find $(SRC_ROOT) -name *.cpp))
 #Turn the file names into object filenames
 OBJECTS = $(SOURCE_FILES:%.cpp=$(DEST_DIR)/%.o)
 
-# Debugging target
-showvars: setup
-	@echo "Source files = $(SOURCE_FILES)"
-	@echo "Objects = $(OBJECTS)"
-	@echo "Includes = $(INCLUDES)"
-	@echo "VPATH = $(VPATH)"
-
 .ONESHELL:
 all: $(OBJECTS)
 	$(CC) -o $(APP_NAME) $^ $(CXX_FLAGS)	
@@ -34,9 +27,6 @@ setup:
 
 $(DEST_DIR)/%.o: %.cpp
 	$(CC) -c $< -o $@ $(CXX_FLAGS) $(INCLUDES)
-
-done:
-	@echo "Build process is done! Output is in this folder - $(APP_NAME)"
 
 clean:
 	rm $(APP_NAME)
