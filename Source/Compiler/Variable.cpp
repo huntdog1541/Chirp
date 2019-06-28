@@ -1,6 +1,6 @@
 #include "Variable.h"
 
-#include "../Console/Log/Log.h"
+#include "Log.h"
 #include "Output.h"
 
 #include <iostream>
