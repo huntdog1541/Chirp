@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Compiler/Analyser/Lexer.h"
+#include "Lexer.h"
 #include "Menu.h"
 
 namespace Debug

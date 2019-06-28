@@ -4,7 +4,7 @@
 #include <conio.h>
 #endif
 
-#ifdef __linux__
+#if defined __linux__ || defined __unix__ || defined __APPLE__
 #include <unistd.h>
 #include <termios.h>
 #include <iostream>

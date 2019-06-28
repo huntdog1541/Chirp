@@ -9,9 +9,7 @@ namespace Key
 	}
 #endif
 
-#if defined __linux__ || defined __unix || defined __APPLE__
-#include <termios.h>
-#include <unistd.h>
+#if defined __linux__ || defined __unix__ || defined __APPLE__
 	char Get()
 	{
 		char buf = 0;

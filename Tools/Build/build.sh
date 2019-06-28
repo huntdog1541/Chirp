@@ -1,2 +1,2 @@
-mkdir build
+make setup
 make all
