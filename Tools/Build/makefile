@@ -1,9 +1,11 @@
-CC = g++
+CXX = g++
 APP_NAME = Chirp
 
 CXX_FLAGS =-std=c++11 $(FLAGS)
 SRC_ROOT =../../Source
 DEST_DIR =build
+
+.PHONY : all setup
 
 #Create the include dirs in a list with -I in front of each item
 INCLUDES = $(patsubst %, -I%, $(shell find $(SRC_ROOT) -type d))
@@ -18,15 +20,19 @@ SOURCE_FILES=$(notdir $(shell find $(SRC_ROOT) -name *.cpp))
 OBJECTS = $(SOURCE_FILES:%.cpp=$(DEST_DIR)/%.o)
 
 .ONESHELL:
-all: $(OBJECTS)
-	$(CC) -o $(APP_NAME) $^ $(CXX_FLAGS)	
+all: $(APP_NAME)
+
+$(OBJECTS) : setup
+
+$(APP_NAME) : $(OBJECTS)
+	$(CXX) -o $(APP_NAME) $^ $(CXX_FLAGS)	
 
 setup:
 	@echo "Making a build folder"
 	@mkdir -p $(DEST_DIR)
 
 $(DEST_DIR)/%.o: %.cpp
-	$(CC) -c $< -o $@ $(CXX_FLAGS) $(INCLUDES)
+	$(CXX) -c $< -o $@ $(CXX_FLAGS) $(INCLUDES)
 
 clean:
 	rm $(APP_NAME)
