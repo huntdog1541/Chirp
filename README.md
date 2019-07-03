@@ -53,7 +53,7 @@ Want to Communicate with us and the rest of the community? You can join [our Dis
 
 ### Documentation
 
-Chirp's documentation is currently being written, but there's enough for you to get an idea of how the language works. If you want help on building Chirp and getting started, check out [Getting Started](https://github.com/binkiklou/Chirp-Website/blob/master/Website/Documentation/Getting%20Started.md). You can find all documentation at this site: [Documentation Website](http://munchii.me/chirp), or at [our documentation repo](https://github.com/binkiklou/Chirp-Website/blob/master/Website/Documentation/)!
+Chirp's documentation is currently being written, but there's enough for you to get an idea of how the language works. If you want help on building Chirp and getting started, check out [Getting Started](https://github.com/binkiklou/Chirp-Website/blob/master/Website/Documentation/Getting%20Started.md). You can find all documentation at this site: [Documentation Website](http://munchii.me/chirp), or at [our documentation repo](https://github.com/binkiklou/Chirp-Documentation)!
 
 > The documentation website will be switched with a custom URL soon
 
