@@ -1,1 +1,2 @@
+mkdir build
 make all
