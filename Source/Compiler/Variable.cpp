@@ -42,7 +42,7 @@ void Variable::Register (int pos, Environement& env)
 		{
 			Var.Size = 1;
 		}
-		if (Type.compare("string") || Type.compare("float") == 0) // 4 bytes
+		if (Type.compare("string") == 0 || Type.compare("float") == 0) // 4 bytes
 		{
 			Var.Size = 4;
 		}
