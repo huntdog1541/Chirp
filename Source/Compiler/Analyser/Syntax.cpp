@@ -4,14 +4,14 @@
 
 #include <iostream>
 
-void Syntax::MakeSyntax(Environement* env)
+void Syntax::MakeSyntax(Environement& env)
 {
 	int pos = 0;
 	
 	bool InASM = false;
 	bool InArgs = false;
 
-	for (auto& t : env->Cluster)
+	for (auto& t : env.Cluster)
 	{
 		// Preprocessor commands
 		if(t.Identifier == PREP_ASM)
@@ -28,38 +28,38 @@ void Syntax::MakeSyntax(Environement* env)
 		{
 			if (t.Identifier == OBJECT_TYPE_TOKEN)
 			{
-				if (env->Cluster.at(pos + 1).Identifier == VAR_CONFIRM_TOKEN) // Is a variable
+				if (env.Cluster.at(pos + 1).Identifier == VAR_CONFIRM_TOKEN) // Is a variable
 				{
 					// >int< : a = 123
 					Token Var;
 					Var.Identifier = VAR_TOKEN;
-					env->Syntax.push_back(Var);
+					env.Syntax.push_back(Var);
 
 					Token Dec; // Declaration
 					Dec.Identifier = VAR_DEC_TOKEN;
-					env->Syntax.push_back(Dec);
+					env.Syntax.push_back(Dec);
 
-					env->Syntax.push_back(env->Cluster.at(pos)); // Data type
+					env.Syntax.push_back(env.Cluster.at(pos)); // Data type
 
 					Token Name;
 					Name.Identifier = OBJECT_ID_TOKEN;
-					Name.Lexeme = env->Cluster.at(pos + 2).Lexeme;
-					env->Syntax.push_back(Name); // After Assignement, so it's in order
+					Name.Lexeme = env.Cluster.at(pos + 2).Lexeme;
+					env.Syntax.push_back(Name); // After Assignement, so it's in order
 				}
 				else // Is probably a function
 				{
 					// int abc() { }
 					// ^^^ 1  23 4 5
-					if (env->Cluster.at(pos + 1).Identifier == UNPARSED_TOKEN)
+					if (env.Cluster.at(pos + 1).Identifier == UNPARSED_TOKEN)
 					{
 						Token Func;
 						Func.Identifier = FUNC_TOKEN;
-						env->Syntax.push_back(Func);
+						env.Syntax.push_back(Func);
 
 						Token Name;
 						Name.Identifier = OBJECT_ID_TOKEN;
-						Name.Lexeme = env->Cluster.at(pos + 1).Lexeme;
-						env->Syntax.push_back(Name);
+						Name.Lexeme = env.Cluster.at(pos + 1).Lexeme;
+						env.Syntax.push_back(Name);
 					}
 				}
 			}
@@ -67,31 +67,31 @@ void Syntax::MakeSyntax(Environement* env)
 			{
 				Token Exp; // Expression
 				Exp.Identifier = EXPRESSION_TOKEN;
-				env->Syntax.push_back(Exp);
+				env.Syntax.push_back(Exp);
 
-				env->Syntax.push_back(t);
+				env.Syntax.push_back(t);
 
-				if (env->Cluster.at(pos + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN)
+				if (env.Cluster.at(pos + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN)
 				{
 					Token Value; // Very very very very temporary
 
-					if (isdigit(env->Cluster.at(pos + 1).Lexeme.at(0)))
+					if (isdigit(env.Cluster.at(pos + 1).Lexeme.at(0)))
 					{
 						Value.Identifier = INTERGER_TOKEN;
-						Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+						Value.Lexeme = env.Cluster.at(pos + 1).Lexeme;
 					}
-					else if (env->Cluster.at(pos + 1).Lexeme.compare("true") == 0 || env->Cluster.at(pos + 1).Lexeme.compare("false") == 0)
+					else if (env.Cluster.at(pos + 1).Lexeme.compare("true") == 0 || env.Cluster.at(pos + 1).Lexeme.compare("false") == 0)
 					{
 						Value.Identifier = BOOLEAN_TOKEN;
-						Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+						Value.Lexeme = env.Cluster.at(pos + 1).Lexeme;
 					}
 					else
 					{
 						Value.Identifier = OBJECT_ID_TOKEN;
-						Value.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+						Value.Lexeme = env.Cluster.at(pos + 1).Lexeme;
 					}
 
-					env->Syntax.push_back(Value);
+					env.Syntax.push_back(Value);
 				}
 			}
 			if (t.Identifier == ARITHMETIC_OPERATOR_TOKEN)
@@ -101,13 +101,13 @@ void Syntax::MakeSyntax(Environement* env)
 				Arth.Lexeme = t.Lexeme;
 
 				Token First;
-				First.Lexeme = env->Cluster.at(pos - 1).Lexeme;
+				First.Lexeme = env.Cluster.at(pos - 1).Lexeme;
 
 				Token Second;
-				Second.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+				Second.Lexeme = env.Cluster.at(pos + 1).Lexeme;
 
 				// Checks for identifiers
-				if (isdigit(env->Cluster.at(pos - 1).Lexeme.at(0)))
+				if (isdigit(env.Cluster.at(pos - 1).Lexeme.at(0)))
 				{
 					First.Identifier = INTERGER_TOKEN;
 				}
@@ -116,7 +116,7 @@ void Syntax::MakeSyntax(Environement* env)
 					First.Identifier = OBJECT_ID_TOKEN;
 				}
 
-				if (isdigit(env->Cluster.at(pos + 1).Lexeme.at(0)))
+				if (isdigit(env.Cluster.at(pos + 1).Lexeme.at(0)))
 				{
 					Second.Identifier = INTERGER_TOKEN;
 				}
@@ -125,41 +125,41 @@ void Syntax::MakeSyntax(Environement* env)
 					Second.Identifier = OBJECT_ID_TOKEN;
 				}
 
-				env->Syntax.push_back(First);
-				env->Syntax.push_back(Arth);
-				env->Syntax.push_back(Second);
+				env.Syntax.push_back(First);
+				env.Syntax.push_back(Arth);
+				env.Syntax.push_back(Second);
 			}
 			if (t.Identifier == GATE_ARG_TOKEN)
 			{
-				env->Syntax.push_back(t);
+				env.Syntax.push_back(t);
 			}
 			if (t.Identifier == GATE_SCOPE_TOKEN)
 			{
-				env->Syntax.push_back(t);
+				env.Syntax.push_back(t);
 			}
 			if (t.Identifier == KEYWORD_ENTRY_TOKEN) // Entry functions
 			{
 				Token Func;
 				Func.Identifier = FUNC_TOKEN;
-				env->Syntax.push_back(Func);
+				env.Syntax.push_back(Func);
 
-				env->Syntax.push_back(t);
+				env.Syntax.push_back(t);
 
 				Token Name;
 				Name.Identifier = OBJECT_ID_TOKEN;
-				Name.Lexeme = env->Cluster.at(pos + 1).Lexeme;
+				Name.Lexeme = env.Cluster.at(pos + 1).Lexeme;
 
 				if (Name.Lexeme.compare("(") == 0)
 				{
 					Name.Lexeme = "undefined";
-					env->Syntax.push_back(Name);
+					env.Syntax.push_back(Name);
 				}
 				else
 				{
-					env->Syntax.push_back(Name);
+					env.Syntax.push_back(Name);
 				}
 
-				env->EntryLabel = Name.Lexeme;
+				env.EntryLabel = Name.Lexeme;
 				/*
 				Token Arg;
 				Arg.Identifier = GATE_ARG_TOKEN;
@@ -173,19 +173,19 @@ void Syntax::MakeSyntax(Environement* env)
 			{
 				if (pos - 2 > 0) // So we don't get an out of range if entry is the first token.
 				{
-					if (env->Cluster.at(pos - 2).Identifier != OBJECT_TYPE_TOKEN && env->Cluster.at(pos - 1).Identifier != KEYWORD_ENTRY_TOKEN) // Confirming not a declaration or def
+					if (env.Cluster.at(pos - 2).Identifier != OBJECT_TYPE_TOKEN && env.Cluster.at(pos - 1).Identifier != KEYWORD_ENTRY_TOKEN) // Confirming not a declaration or def
 					{
 						if (t.Lexeme.compare("(") == 0)
 						{
 							// Confirmed function call
 							Token Call;
 							Call.Identifier = FUNC_CALL_TOKEN;
-							env->Syntax.push_back(Call);
+							env.Syntax.push_back(Call);
 
 							Token Name;
 							Name.Identifier = OBJECT_ID_TOKEN;
-							Name.Lexeme = env->Cluster.at(pos - 1).Lexeme;
-							env->Syntax.push_back(Name);
+							Name.Lexeme = env.Cluster.at(pos - 1).Lexeme;
+							env.Syntax.push_back(Name);
 
 							InArgs = true;
 						}
@@ -219,9 +219,9 @@ void Syntax::MakeSyntax(Environement* env)
 
 				Param.Lexeme = t.Lexeme;
 
-				if (env->Cluster.at(pos - 1).Identifier != ASSIGNEMENT_OPERATOR_TOKEN || env->Cluster.at(pos - 1).Identifier != ARITHMETIC_OPERATOR_TOKEN)
+				if (env.Cluster.at(pos - 1).Identifier != ASSIGNEMENT_OPERATOR_TOKEN || env.Cluster.at(pos - 1).Identifier != ARITHMETIC_OPERATOR_TOKEN)
 				{
-					env->Syntax.push_back(Param);
+					env.Syntax.push_back(Param);
 				}
 			}
 		}
@@ -230,11 +230,11 @@ void Syntax::MakeSyntax(Environement* env)
 		Token tkn;
 		tkn.Identifier = PREP_ASM_WORD;
 		tkn.Lexeme = t.Lexeme.append(" ");
-		env->Syntax.push_back(tkn);
+		env.Syntax.push_back(tkn);
 
 			if (t.Identifier == NEWLINE_TOKEN)
 			{
-				env->Syntax.push_back(t);
+				env.Syntax.push_back(t);
 			}
 		}
 		pos++;

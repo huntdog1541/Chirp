@@ -192,13 +192,13 @@ namespace Command
 			e.ObjectList.push_back(undefined);
 			
 			// Parsing
-			Parser::Setup(FileData,&e);
-			Lexer::Tokenize (&e);
-			Syntax::MakeSyntax(&e);
-			Output::Generate(&e);
+			Parser::Setup(FileData,e);
+			Lexer::Tokenize (e);
+			Syntax::MakeSyntax(e);
+			Output::Generate(e);
 
 			// Building
-			Output::Write(&e);
+			Output::Write(e);
 			Tools::Build (e.AltFile, e.OutFile,e.Architecture);
 
 			// Debugging
