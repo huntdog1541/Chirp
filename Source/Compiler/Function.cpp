@@ -9,7 +9,9 @@ namespace Function
 	void GenOpen (Environement* env)
 	{
 	//	std::string Output = "push ebp \nmov ebp,esp \n";
-
+        if(nullptr == env){
+            return;
+        }
 		std::string Out = "push ";
 		Out.append(Output::Reg("bp",env));
 		Out.append("\nmov ");
@@ -23,7 +25,10 @@ namespace Function
 	void GenClose(Environement* env)
 	{
 	//	std::string Output = "mov esp,ebp \npop ebp \nret 0 \n";
-		std::string Out = "mov ";
+	    if(nullptr == env){
+            return;
+        }
+	    std::string Out = "mov ";
 		Out.append(Output::Reg("sp",env));
 		Out.append(", ");
 		Out.append(Output::Reg("bp",env));
@@ -39,7 +44,11 @@ namespace Function
 	}
 	std::string WriteFunction(int pos,Environement* env)
 	{
-		env->Stack = 0; // Reset the stack
+	    if(nullptr == env){
+            return std::string{__PRETTY_FUNCTION__} + std::string{":Error, env is null"};
+        }
+
+	    env->Stack = 0; // Reset the stack
 		env->StackId = env->StackId + 1;
 
 		bool Failure = false;
@@ -111,7 +120,9 @@ namespace Function
 	}
 	std::string CallFunction(int pos, Environement* env)
 	{
-
+        if(nullptr == env){
+             return std::string{__PRETTY_FUNCTION__} + std::string{":Error, env is null"};
+        }   
 		bool Failure = false;
 		bool HasName = false;
 
