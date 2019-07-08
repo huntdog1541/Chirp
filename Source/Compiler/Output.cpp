@@ -2,7 +2,7 @@
 
 #include "Variable.h"
 #include "Function.h"
-#include "Error.h"
+#include "../Console/Log/Error.h"
 
 #include <fstream>
 #include <iostream>

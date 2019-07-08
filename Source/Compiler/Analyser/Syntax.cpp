@@ -1,6 +1,6 @@
 #include "Syntax.h"
 
-#include "Variable.h"
+#include "../Variable.h"
 
 #include <iostream>
 

@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "Log.h"
+#include "../../Console/Log/Log.h"
 
 #include <iostream>
 

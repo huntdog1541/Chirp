@@ -1,5 +1,5 @@
 #include "Build.h"
-#include "Log.h"
+#include "Console/Log/Log.h"
 #include <iostream>
 
 namespace Tools

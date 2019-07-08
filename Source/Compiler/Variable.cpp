@@ -1,7 +1,8 @@
 #include "Variable.h"
 
-#include "Log.h"
+#include "../Console/Log/Log.h"
 #include "Output.h"
+
 
 #include <iostream>
 

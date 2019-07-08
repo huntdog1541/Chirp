@@ -3,7 +3,7 @@
 // #include "Tree.h"
 
 #include "Token.h"
-#include "Object.h"
+#include "../Object.h"
 
 #include <vector>
 #include <string>
