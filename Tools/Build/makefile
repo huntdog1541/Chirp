@@ -22,8 +22,6 @@ OBJECTS = $(SOURCE_FILES:%.cpp=$(DEST_DIR)/%.o)
 .ONESHELL:
 all: $(APP_NAME)
 
-$(OBJECTS) : setup
-
 $(APP_NAME) : $(OBJECTS)
 	$(CXX) -o $(APP_NAME) $^ $(CXX_FLAGS)	
 
