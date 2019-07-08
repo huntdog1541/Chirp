@@ -6,12 +6,9 @@
 
 namespace Function
 {
-	void GenOpen (Environement* env)
+	void GenOpen (Environement& env)
 	{
 	//	std::string Output = "push ebp \nmov ebp,esp \n";
-        if(nullptr == env){
-            return;
-        }
 		std::string Out = "push ";
 		Out.append(Output::Reg("bp",env));
 		Out.append("\nmov ");
@@ -20,14 +17,11 @@ namespace Function
 		Out.append(Output::Reg("sp",env));
 		Out.append("\n");
 
-		env->Text.append(Out);
+		env.Text.append(Out);
 	}
-	void GenClose(Environement* env)
+	void GenClose(Environement& env)
 	{
 	//	std::string Output = "mov esp,ebp \npop ebp \nret 0 \n";
-	    if(nullptr == env){
-            return;
-        }
 	    std::string Out = "mov ";
 		Out.append(Output::Reg("sp",env));
 		Out.append(", ");
@@ -36,20 +30,17 @@ namespace Function
 		Out.append(Output::Reg("bp",env));
 		Out.append("\nret 0 \n");
 
-		env->Text.append(Out);
+		env.Text.append(Out);
 	}
-	void RegisterFunction(int pos,Environement* env)
+	void RegisterFunction(int pos,Environement& env)
 	{
 		// I'm gonna write it, in the next 1-2 commits
 	}
-	std::string WriteFunction(int pos,Environement* env)
+	std::string WriteFunction(int pos,Environement& env)
 	{
-	    if(nullptr == env){
-            return std::string{__PRETTY_FUNCTION__} + std::string{":Error, env is null"};
-        }
 
-	    env->Stack = 0; // Reset the stack
-		env->StackId = env->StackId + 1;
+	    env.Stack = 0; // Reset the stack
+		env.StackId = env.StackId + 1;
 
 		bool Failure = false;
 		bool HasName = false;
@@ -60,9 +51,9 @@ namespace Function
 		std::string Name;
 		std::vector<std::string> Params;
 
-		for (int i = pos; i < env->Syntax.size() - 1; i++)
+		for (int i = pos; i < env.Syntax.size() - 1; i++)
 		{
-			Token t = env->Syntax.at(i);
+			Token t = env.Syntax.at(i);
 
 			if (InArgs)
 			{
@@ -89,7 +80,7 @@ namespace Function
 
 			if (t.Identifier == OBJECT_ID_TOKEN && !HasName && !InArgs && !HasArgs)
 			{
-				if (t.Lexeme.compare(env->EntryLabel) == 0)
+				if (t.Lexeme.compare(env.EntryLabel) == 0)
 				{
 					Name = "_start";
 				}
@@ -110,7 +101,7 @@ namespace Function
 		{
 			std::string head = "global ";
 			head.append(Name).append("\n");
-			env->Header.append(head);
+			env.Header.append(head);
 
 			std::string out = Name;
 			Name.append(": \n");
@@ -118,11 +109,8 @@ namespace Function
 		}
 
 	}
-	std::string CallFunction(int pos, Environement* env)
+	std::string CallFunction(int pos, Environement& env)
 	{
-        if(nullptr == env){
-             return std::string{__PRETTY_FUNCTION__} + std::string{":Error, env is null"};
-        }   
 		bool Failure = false;
 		bool HasName = false;
 
@@ -133,9 +121,9 @@ namespace Function
 
 		std::string Name; // Name(), should I call it identifier instead ?
 
-		for (int i = pos; i < env->Syntax.size() - 1; i++)
+		for (int i = pos; i < env.Syntax.size() - 1; i++)
 		{
-			Token t = env->Syntax.at(i);
+			Token t = env.Syntax.at(i);
 
 			if (t.Identifier == GATE_ARG_TOKEN && !HasArgs)
 			{
@@ -165,7 +153,7 @@ namespace Function
 			{
 				std::string stackPos = "[";
 				stackPos.append(Output::Reg("bp-",env));
-				stackPos.append(std::to_string(env->ObjectList.at(Obj::FindByName(t.Lexeme,env->ObjectList)).Position));
+				stackPos.append(std::to_string(env.ObjectList.at(Obj::FindByName(t.Lexeme,env.ObjectList)).Position));
 				stackPos.append("]");
 				Params.push_back(stackPos);
 			}
@@ -187,7 +175,7 @@ namespace Function
 			for (auto& p : Params)
 			{
 			//	std::cout << "Yoodle hihou" << std::endl;
-				env->Text.append("push ").append(p).append("\n");;
+				env.Text.append("push ").append(p).append("\n");;
 			}
 
 			std::string Output = "call ";

@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-void Variable::Register (int pos, Environement* env)
+void Variable::Register (int pos, Environement& env)
 {
 	Object Var; // New variable
 	bool Failure = false;
@@ -16,13 +16,13 @@ void Variable::Register (int pos, Environement* env)
 	std::string Name;
 	std::string Type;
 
-	Token t = env->Syntax.at(pos); // phew fixed it
+	Token t = env.Syntax.at(pos); // phew fixed it
 
 	try
 	{
 		// VAR >VAR_DEC< OBJECT_TYPE CONFIRM OBJECT_NAME
-		Name = env->Syntax.at(pos + 2).Lexeme; // type : >name<
-		Type = env->Syntax.at(pos + 1).Lexeme; // >type< : name
+		Name = env.Syntax.at(pos + 2).Lexeme; // type : >name<
+		Type = env.Syntax.at(pos + 1).Lexeme; // >type< : name
 	}
 	catch (std::out_of_range)
 	{
@@ -51,7 +51,7 @@ void Variable::Register (int pos, Environement* env)
 			Var.Size = 2;
 		}
 
-		env->ObjectList.push_back(Var);
+		env.ObjectList.push_back(Var);
 	}
 }
 
@@ -59,7 +59,7 @@ void Variable::Register (int pos, Environement* env)
 // and it is also pretty important. So yea, I guess i could
 // make an issue about it. But nah, it's fine
 // - Binkiklou
-std::string Variable::Operation(int pos, Environement* env)
+std::string Variable::Operation(int pos, Environement& env)
 {
 	// The types looks like this
 	// 0: Addition
@@ -70,12 +70,12 @@ std::string Variable::Operation(int pos, Environement* env)
 	// 5: Decrementation
 	int Op;
 
-	std::string OpSymbol = env->Syntax.at(pos).Lexeme;
+	std::string OpSymbol = env.Syntax.at(pos).Lexeme;
 
-	Token First = env->Syntax.at(pos - 1);
-	Token Second = env->Syntax.at(pos + 1);
+	Token First = env.Syntax.at(pos - 1);
+	Token Second = env.Syntax.at(pos + 1);
 
-//	std::cout << "Operation is " << env->Syntax.at(pos).Lexeme << std::endl;
+//	std::cout << "Operation is " << env.Syntax.at(pos).Lexeme << std::endl;
 
 	// Recognizing symbol
 	if(OpSymbol.compare("+") == 0)
@@ -150,12 +150,12 @@ std::string Variable::Operation(int pos, Environement* env)
 
 		if (First.Identifier == OBJECT_ID_TOKEN)
 		{
-			int FPos = Obj::FindByName(First.Lexeme, env->ObjectList); // Fucked if there is two of the same type
+			int FPos = Obj::FindByName(First.Lexeme, env.ObjectList); // Fucked if there is two of the same type
 			FVal = "[";
 			FVal.append(Output::Reg("bp-",env));
-			FVal.append(std::to_string(env->ObjectList.at(FPos).Position));
+			FVal.append(std::to_string(env.ObjectList.at(FPos).Position));
 			FVal.append("]");
-			env->Text.append("mov ").append(Output::Reg("dx",env)).append(",").append(FVal).append("\n");
+			env.Text.append("mov ").append(Output::Reg("dx",env)).append(",").append(FVal).append("\n");
 			Opcode.append(Output::Reg("ax",env));
 			Opcode.append(", ");
 		}
@@ -169,13 +169,13 @@ std::string Variable::Operation(int pos, Environement* env)
 
 		if (Second.Identifier == OBJECT_ID_TOKEN)
 		{
-			int SPos = Obj::FindByName(Second.Lexeme, env->ObjectList); // Fucked if there is two of the same type
+			int SPos = Obj::FindByName(Second.Lexeme, env.ObjectList); // Fucked if there is two of the same type
 			SVal = "[";
 			SVal .append(Output::Reg("bp+", env));
-			SVal.append(std::to_string(env->ObjectList.at(SPos).Position));
+			SVal.append(std::to_string(env.ObjectList.at(SPos).Position));
 			SVal.append("]");
 
-			env->Text.append("mov ").append(Output::Reg("ax",env)).append(", ").append(SVal).append("\n");
+			env.Text.append("mov ").append(Output::Reg("ax",env)).append(", ").append(SVal).append("\n");
 
 			Opcode.append(Output::Reg("dx",env));
 			Opcode.append("\n");
@@ -186,12 +186,12 @@ std::string Variable::Operation(int pos, Environement* env)
 			Opcode.append(SVal).append("\n");
 		}
 
-		env->Text.append(Opcode);
+		env.Text.append(Opcode);
 		return Output::Reg("ax",env);
 	}
 }
 
-std::string Variable::Assign(int pos, Environement* env)
+std::string Variable::Assign(int pos, Environement& env)
 {
 	bool Failure = false;
 	bool TargetSet = false; //This should look like int: Target = Source
@@ -202,9 +202,9 @@ std::string Variable::Assign(int pos, Environement* env)
 	std::string Target; // Variable to be assigned
 	std::string Source;
 
-	for (int i = pos; i < env->Syntax.size() - 1; i++) // This has ok efficiency
+	for (int i = pos; i < env.Syntax.size() - 1; i++) // This has ok efficiency
 	{
-		Token t = env->Syntax.at(i);
+		Token t = env.Syntax.at(i);
 
 		if (t.Identifier == OBJECT_ID_TOKEN)
 		{
@@ -222,16 +222,16 @@ std::string Variable::Assign(int pos, Environement* env)
 		if (t.Identifier == ASSIGNEMENT_OPERATOR_TOKEN && !AssignSet)
 		{
 		//	std::cout << t.Lexeme << std::endl << std::endl;
-			if (env->Syntax.at(i + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
+			if (env.Syntax.at(i + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
 			{
-				if (env->Syntax.at(i + 1).Identifier == INTERGER_TOKEN)
+				if (env.Syntax.at(i + 1).Identifier == INTERGER_TOKEN)
 				{
-					Source = env->Syntax.at(i + 1).Lexeme;
+					Source = env.Syntax.at(i + 1).Lexeme;
 					ConstantVal = true;
 				}
-				else if (env->Syntax.at(i + 1).Identifier == BOOLEAN_TOKEN)
+				else if (env.Syntax.at(i + 1).Identifier == BOOLEAN_TOKEN)
 				{
-					std::string v = env->Syntax.at(i + 1).Lexeme;
+					std::string v = env.Syntax.at(i + 1).Lexeme;
 
 					// Fun fact: In memory, true & false are 1 and 0, so you can actually do
 					// bool: something = true
@@ -248,11 +248,11 @@ std::string Variable::Assign(int pos, Environement* env)
 
 					ConstantVal = true;
 				}
-				else if(env->Syntax.at(i + 1).Identifier == OBJECT_ID_TOKEN)
+				else if(env.Syntax.at(i + 1).Identifier == OBJECT_ID_TOKEN)
 				{
 					Object Src;
-					Src = env->ObjectList.at(Obj::FindByName(env->Syntax.at(i + 1).Lexeme,env->ObjectList));
-					env->Text.append("mov eax, ").append("[").append(Output::Reg("bp-", env)).append(std::to_string(Src.Position)).append("] \n");
+					Src = env.ObjectList.at(Obj::FindByName(env.Syntax.at(i + 1).Lexeme,env.ObjectList));
+					env.Text.append("mov eax, ").append("[").append(Output::Reg("bp-", env)).append(std::to_string(Src.Position)).append("] \n");
 					Source = "eax";
 				};
 			}
@@ -278,30 +278,30 @@ std::string Variable::Assign(int pos, Environement* env)
 
 	if (!Failure)
 	{
-		int lPos = Obj::FindByName(Target, env->ObjectList); // position of local
+		int lPos = Obj::FindByName(Target, env.ObjectList); // position of local
 		Object local;
-		local = env->ObjectList.at(lPos);
+		local = env.ObjectList.at(lPos);
 		std::string output = "mov ";
 
 		if (local.Size == 1) // Writing the approriate size
 		{
-			local.Position = env->Stack + 1;
+			local.Position = env.Stack + 1;
 			output.append("byte ");
 		}
 		else if (local.Size == 2)
 		{
-			local.Position = env->Stack + 2;
+			local.Position = env.Stack + 2;
 			output.append("word ");
 		}
 		else if (local.Size == 4)
 		{
-			local.Position = env->Stack + 4;
+			local.Position = env.Stack + 4;
 			output.append("dword ");
 
 		}
 		else if (local.Size == 8)
 		{
-			local.Position = env->Stack + 8;
+			local.Position = env.Stack + 8;
 			output.append("qword ");
 		}
 
@@ -316,8 +316,8 @@ std::string Variable::Assign(int pos, Environement* env)
 	*/
 
 		output.append(" [").append(Output::Reg("bp",env)).append("-").append(std::to_string(local.Position)).append("],").append(Source).append("\n");
-		env->ObjectList.at(lPos) = local;
-		env->Stack = local.Position; // So the stack updates
+		env.ObjectList.at(lPos) = local;
+		env.Stack = local.Position; // So the stack updates
 		return output;
 	}
 	else
