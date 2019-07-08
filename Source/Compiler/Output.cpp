@@ -81,7 +81,7 @@ namespace Output
 			// Succes
 		}
 	}
-	std::string Reg(std::string p, Environement& env)
+	std::string Reg(const std::string & p, Environement& env)
 	{
 		std::string Out = p;
 
