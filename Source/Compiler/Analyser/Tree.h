@@ -4,7 +4,7 @@
 #include <string>
 #include <stdexcept>
 
-#include "Error.h"
+#include "../../Console/Log/Error.h"
 #include "Token.h"
 
 /*

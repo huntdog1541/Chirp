@@ -3,7 +3,7 @@
 // #include "Tree.h"
 
 #include "Token.h"
-#include "Object.h"
+#include "../Object.h"
 
 #include <vector>
 #include <string>
@@ -41,7 +41,7 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 namespace Parser
 {
-	void Setup(std::string,Environement*);
+	void Setup(std::string,Environement&);
 //	void Tokenize (Environement*); // Makes the text into tokens
 //	void MakeTree (Environement*); // Creates the parse tree
 //	void MakeIndex (Environement*); // Read the tree and create an index to make reading it easier

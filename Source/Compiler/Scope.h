@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Parser.h"
+#include "./Analyser/Parser.h"
 
 namespace Scope
 {
-	void Generate (Environement*);
+	void Generate (Environement&);
 }

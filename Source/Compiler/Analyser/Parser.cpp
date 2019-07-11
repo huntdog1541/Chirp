@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "Log.h"
+#include "../../Console/Log/Log.h"
 
 #include <iostream>
 
@@ -8,7 +8,7 @@
 /*
 Makes the string into processable code
 */
-void Parser::Setup(std::string txt,Environement* env)
+void Parser::Setup(std::string txt,Environement& env)
 {
 // Ok so basically in here let's seperate words.
 // and make them in seperate keywords, but let's not touch any assembly code
@@ -25,7 +25,7 @@ void Parser::Setup(std::string txt,Environement* env)
 		{
 			if (Word.compare("") != 0)
 			{
-				env->Processed.push_back(Word);
+				env.Processed.push_back(Word);
 				Word.erase();
 			}
 		}
@@ -35,11 +35,11 @@ void Parser::Setup(std::string txt,Environement* env)
 			{
 				if (Word.compare("") != 0) // hmm
 				{
-					env->Processed.push_back(Word);
+					env.Processed.push_back(Word);
 					Word.clear();
 				}
 				Word.append(1, c);
-				env->Processed.push_back(Word);
+				env.Processed.push_back(Word);
 				Word.clear();
 			}
 			else
@@ -50,7 +50,7 @@ void Parser::Setup(std::string txt,Environement* env)
 			if (Pos >= txt.length())
 			{
 				// Ending
-				env->Processed.push_back(Word);
+				env.Processed.push_back(Word);
 				Word.erase();
 			}
 		}

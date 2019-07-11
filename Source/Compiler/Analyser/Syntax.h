@@ -13,5 +13,5 @@ namespace Syntax
 	bit more tokens. So things are more organized.
 	Basically structure the cluster
 	*/
-	void MakeSyntax(Environement*);
+	void MakeSyntax(Environement&);
 }

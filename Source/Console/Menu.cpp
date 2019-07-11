@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "./Log/Error.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -80,6 +81,10 @@ void Menu::Update()
 	// it wasn't supposed to be that hard.
 	// I would call it "tricky" thought
 
+    if(nullptr == Current){
+        Log::Error::Custom("Current is null, unable to update main menu");
+        return;
+    }
 	int key = Key::Get();
 
 	if (key == 72) // Up arrow
