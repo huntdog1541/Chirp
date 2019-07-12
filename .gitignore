@@ -13,3 +13,4 @@ Tools/Build/yeet.ch.asm
 Tools/Build/yeet.ch
 exec.out
 Test/*.asm
+build/

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./Analyser/Parser.h"
+#include "Parser.h"
 
 namespace Variable
 {
