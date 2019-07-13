@@ -12,7 +12,7 @@ int main (int ArgC, char *ArgV[])
         A.push_back (Text);
     }
 
-    Command::Run (A);
+    Command::Run (ArgC, ArgV);
 
 	return 0;
 }

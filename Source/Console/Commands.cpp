@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "boost/program_options.hpp"
+
 std::string Read (std::string File)
 {
 	char Char;
@@ -38,8 +40,36 @@ std::string Read (std::string File)
 
 namespace Command
 {
-	void Run(std::vector<std::string> Args)
+	void Run(const int argc, char** argv)
 	{
+        namespace po = boost::program_options;
+
+        auto arch = std::string{};
+        auto output = std::string{};
+        auto input = std::string{};
+        try{
+            auto desc = po::options_description("Options");
+            desc.add_options()
+                ( "help,h", "Help Screen")
+                ( "input,i", po::value<std::string>(), "Input File")
+                ( "output,o", po::value<std::string>(&output)->implicit_value("exec.out"), "Output filename")
+                ( "arch,a", po::value<std::string>(&arch)->implicit_value("x64"), "Architecture")
+                ( "debug-menu,d", "Show debug menu");
+
+            auto vm = po::variables_map();
+            po::store(po::parse_command_line(argc, argv, desc), vm);
+            po::notify(vm);
+        
+            if(vm.count("help")){
+                std::cout << desc;
+                return;
+            }
+        }
+        catch(const po::error &ex){
+            std::cerr << ex.what() << "\n";
+            return;
+        }
+/*
 		// Once the -i flag is declared, this is on.Until there is another flag
 		bool IncludeFlag = false;
 		bool OutputFlag = false;
@@ -208,5 +238,6 @@ namespace Command
 				Debug::MakeMenu();
 		    }
 		}
+    */
 	}
 }
