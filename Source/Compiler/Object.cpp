@@ -1,68 +1,21 @@
 #include "Object.h"
 
-#include <iostream>
-
+#include <algorithm>
 namespace Obj
 {
-	int FindByName (std::string name,std::vector<Object> objects)
+	int FindByName (const std::string& name, const std::vector<Object>& objects)
 	{
-		bool hasFound = false;
-
-		int pos = 0;
-
-		for (auto& obj : objects)
-		{
-			if (hasFound)
-			{
-				break;
-			}
-
-			if (obj.Name == name)
-			{
-				hasFound = true;
-				return pos;
-		//		return obj;
-			}
-			pos++;
-		}
-
-		if (!hasFound)
-		{
-			Object undef; // Undefined object
-			undef.Name = "undefined";
-			undef.Size = 1;
-			return 0;
-		//	return undef;
-		}
+        const auto it = std::find_if(objects.begin(), objects.end(),[&](const Object& obj){ return obj.Name == name; });
+        if(objects.end() == it){ return -1; }
+        
+        return std::distance(objects.begin(), it);
 	}
-	int FindById(std::string id, std::vector<Object> objects)
+
+	int FindById(const std::string& id, const std::vector<Object>& objects)
 	{
-		bool hasFound = false;
-		int pos = 0;
-
-		for (auto& obj : objects)
-		{
-			if (hasFound)
-			{
-				break;
-			}
-
-			if (obj.Id == id) // I forgot that works
-			{
-				hasFound = true;
-				return pos;
-		//		return obj;
-			}
-			pos++;
-		}
-
-		if (!hasFound)
-		{
-			Object undef; // Undefined object
-			undef.Name = "undefined";
-			undef.Size = 1;
-			return 0;
-		//	return undef;
-		}
+        const auto it = std::find_if(objects.begin(), objects.end(),[&](const Object& obj){ return obj.Id == id; });
+        if(objects.end() == it){ return -1; }
+        
+        return std::distance(objects.begin(), it);
 	}
 }

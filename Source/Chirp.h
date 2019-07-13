@@ -1,7 +1,8 @@
 #pragma once
 
-#define Version 0.05
-
+namespace Chirp{
+    static constexpr const char* Version = "0.05";
+};
 #include "Commands.h"
 
 #include <iostream>

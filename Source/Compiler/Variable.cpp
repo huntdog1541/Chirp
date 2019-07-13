@@ -190,6 +190,7 @@ std::string Variable::Operation(int pos, Environement& env)
 		env.Text.append(Opcode);
 		return Output::Reg("ax",env);
 	}
+    return std::string{__PRETTY_FUNCTION__} + std::string{":FAILURE"};
 }
 
 std::string Variable::Assign(int pos, Environement& env)

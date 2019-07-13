@@ -88,13 +88,13 @@ namespace Output
 		if (env.Architecture == 32)
 		{
 			Out.insert(0,"e");
-			return Out;
 		}
 		else if (env.Architecture == 64)
 		{
 			Out.insert(0,"r");
-			return Out;
 		}
+
+        return Out;
 
 	}
 }

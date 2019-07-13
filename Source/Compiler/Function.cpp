@@ -107,7 +107,7 @@ namespace Function
 			Name.append(": \n");
 			return Name;
 		}
-
+        return std::string{__PRETTY_FUNCTION__} + std::string{": FAILURE"};
 	}
 	std::string CallFunction(int pos, Environement& env)
 	{
