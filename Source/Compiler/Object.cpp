@@ -1,39 +1,21 @@
 #include "Object.h"
 
-#include <iostream>
-
+#include <algorithm>
 namespace Obj
 {
-	int FindByName (std::string name,std::vector<Object> objects)
+	int FindByName (const std::string& name, const std::vector<Object>& objects)
 	{
-		bool hasFound = false;
-
-		int pos = 0;
-
-		for (auto& obj : objects)
-		{
-			if (obj.Name == name)
-			{
-				return pos;
-			}
-			pos++;
-		}
-
-        return -1;
+        const auto it = std::find_if(objects.begin(), objects.end(),[&](const Object& obj){ return obj.Name == name; });
+        if(objects.end() == it){ return -1; }
+        
+        return std::distance(objects.begin(), it);
 	}
-	int FindById(std::string id, std::vector<Object> objects)
-	{
-		bool hasFound = false;
-		int pos = 0;
 
-		for (auto& obj : objects)
-		{
-			if (obj.Id == id)
-			{
-				return pos;
-			}
-			pos++;
-		}
-        return -1;
+	int FindById(const std::string& id, const std::vector<Object>& objects)
+	{
+        const auto it = std::find_if(objects.begin(), objects.end(),[&](const Object& obj){ return obj.Id == id; });
+        if(objects.end() == it){ return -1; }
+        
+        return std::distance(objects.begin(), it);
 	}
 }
