@@ -1,9 +1,9 @@
 #include "Commands.h"
 
-#include "../Compiler/Analyser/Parser.h"
-#include "../Compiler/Analyser/Syntax.h"
-#include "../Compiler/Output.h"
-#include "../Build.h"
+#include "Parser.h"
+#include "Syntax.h"
+#include "Output.h"
+#include "Build.h"
 #include "Log/Log.h"
 #include "Debug.h"
 

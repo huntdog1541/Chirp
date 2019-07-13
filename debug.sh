@@ -1,5 +1,5 @@
 # this file is used to create a debuggable executable, not for debug itself
 # you run this, and use it with gdb
-cd Tools/Build
-mkdir build
-make FLAGS=-g all
+mkdir -p build && cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make all

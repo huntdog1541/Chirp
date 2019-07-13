@@ -1,5 +1,5 @@
 #include "Menu.h"
-#include "./Log/Error.h"
+#include "Error.h"
 
 #include <iostream>
 #include <stdexcept>
