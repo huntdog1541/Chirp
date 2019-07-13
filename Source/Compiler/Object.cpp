@@ -12,28 +12,14 @@ namespace Obj
 
 		for (auto& obj : objects)
 		{
-			if (hasFound)
-			{
-				break;
-			}
-
 			if (obj.Name == name)
 			{
-				hasFound = true;
 				return pos;
-		//		return obj;
 			}
 			pos++;
 		}
 
-		if (!hasFound)
-		{
-			Object undef; // Undefined object
-			undef.Name = "undefined";
-			undef.Size = 1;
-			return 0;
-		//	return undef;
-		}
+        return -1;
 	}
 	int FindById(std::string id, std::vector<Object> objects)
 	{
@@ -42,27 +28,12 @@ namespace Obj
 
 		for (auto& obj : objects)
 		{
-			if (hasFound)
+			if (obj.Id == id)
 			{
-				break;
-			}
-
-			if (obj.Id == id) // I forgot that works
-			{
-				hasFound = true;
 				return pos;
-		//		return obj;
 			}
 			pos++;
 		}
-
-		if (!hasFound)
-		{
-			Object undef; // Undefined object
-			undef.Name = "undefined";
-			undef.Size = 1;
-			return 0;
-		//	return undef;
-		}
+        return -1;
 	}
 }

@@ -1,5 +1,5 @@
 #include "Commands.h"
-
+#include "Chirp.h"
 #include "Parser.h"
 #include "Syntax.h"
 #include "Output.h"
@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 
 #include "boost/program_options.hpp"
 
@@ -40,204 +41,80 @@ std::string Read (std::string File)
 
 namespace Command
 {
+    void ShowVersion(std::ostream& os){
+        os << "Chirp Verion " << Chirp::Version << "\n";
+    }
+
 	void Run(const int argc, char** argv)
 	{
         namespace po = boost::program_options;
 
+        const std::unordered_map<std::string, int> supportedArchitectures{
+            {"x64", 64},
+            {"x86", 32}
+        };
+
         auto arch = std::string{};
         auto output = std::string{};
         auto input = std::string{};
-        try{
-            auto desc = po::options_description("Options");
-            desc.add_options()
-                ( "help,h", "Help Screen")
-                ( "input,i", po::value<std::string>(), "Input File")
-                ( "output,o", po::value<std::string>(&output)->implicit_value("exec.out"), "Output filename")
-                ( "arch,a", po::value<std::string>(&arch)->implicit_value("x64"), "Architecture")
-                ( "debug-menu,d", "Show debug menu");
+            
+        auto desc = po::options_description("Options");
+        desc.add_options()
+            ( "help,h", "Help Screen")
+            ( "input,i", po::value<std::string>(&input), "Input File")
+            ( "output,o", po::value<std::string>(&output)->default_value("exec.out"), "Output filename")
+            ( "arch,a", po::value<std::string>(&arch)->default_value("x64"), "Architecture")
+            ( "version", "Show chirp version")
+            ( "debug-menu,d", "Show debug menu");
 
-            auto vm = po::variables_map();
-            po::store(po::parse_command_line(argc, argv, desc), vm);
-            po::notify(vm);
-        
-            if(vm.count("help")){
-                std::cout << desc;
-                return;
-            }
-        }
-        catch(const po::error &ex){
-            std::cerr << ex.what() << "\n";
+        auto vm = po::variables_map();
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
+    
+        if(vm.count("version")){
+            ShowVersion(std::cout);
             return;
         }
-/*
-		// Once the -i flag is declared, this is on.Until there is another flag
-		bool IncludeFlag = false;
-		bool OutputFlag = false;
 
-		// Temporary
-		bool In = false;
-		bool Out = false;
-		bool Arched = false; // Architecture
-		bool DebugMenu = false;
+        if(vm.count("help")){
+            ShowVersion(std::cout);
+            std::cout << desc;
+            return;
+        }
 
-		std::string InputFile;
-		std::string OutputFile;
-		std::string Architecture; // 32 = x86, 64 = x64
-		int Arch;
+        if(!vm.count("input")){
+            std::cerr << "Must specify an input file\n";
+            return;
+        }
 
-		// Start
-		// This code is litteraly one of the first lines of code, of the whole 
-		// compiler. I am already 1-2 months in the project and I think I am
-		// already 10x better because this is horrible. - Ya boi binkiklou
-		for (const auto& Arg : Args)
-		{
-			if (Arg.compare("-i") == 0)
-			{
-				IncludeFlag = true;
-				OutputFlag = false;
-			}
+        auto e = Environement{};
+        e.Architecture = supportedArchitectures.at(arch);
+        e.InFile = input;
+        e.OutFile = output;
+        e.AltFile = output + ".asm";
+        
+        Object undefined; // To keep away from errors
+        undefined.Name = "undefined";
+        undefined.Id = "unefined";
+        undefined.Size = 1;
+        e.ObjectList.push_back(undefined);
+        
+        std::string FileData = Read (input);
+        // Parsing
+        Parser::Setup(FileData,e);
+        Lexer::Tokenize (e);
+        Syntax::MakeSyntax(e);
+        Output::Generate(e);
 
-			else if (Arg.compare("-o") == 0)
-			{
-				IncludeFlag = false;
-				OutputFlag = true;
-			}
+        // Building
+        Output::Write(e);
+        Tools::Build (e.AltFile, e.OutFile,e.Architecture);
 
-			else if (Arg.compare("-debug_menu") == 0)
-			{
-				DebugMenu = true;
-			}
-
-			else if (Arg.compare("-arch") == 0)
-			{
-				Arched = true;
-			}
-
-			else
-			{
-				if (IncludeFlag == true)
-				{
-					// Wait maybe you should have only one input, so the input is the main file
-					// and include other stuff from there, but the code here is easy to make it run
-					// multiple files.
-
-					if (In == false)
-					{
-						InputFile = Arg;
-						In = true;
-					}
-					else
-					{
-						// Temporary, should make&use Logger's error
-						std::cout << "Error, cannot currently include more than one file" << std::endl;
-					}
-				}
-
-				else if (OutputFlag == true)
-				{
-					// You shouldn't be able to have more than one input, i think.
-					if (Out == false)
-					{
-						OutputFile = Arg;
-						Out = true;
-					}
-
-					else
-					{
-						std::cout << "Error, cannot output to more than one file" << std::endl;
-					}
-				}
-				else if (Arched == true)
-				{
-					Architecture = Arg;
-				}
-			}
-		}
-		//End
-
-		bool Error = false;
-
-		if (InputFile.empty())
-		{
-			std::cout << "Error, No input files are specified!" << std::endl;
-			Error = true;
-		}
-
-		else
-		{
-			std::cout << "Input file is: " << InputFile << std::endl;
-		}
-
-		if (OutputFile.empty())
-		{
-			std::cout << "Error, No output file are specified!" << std::endl;
-			Error = true;
-		}
-
-		else
-		{
-			std::cout << "Output file is: " << OutputFile << std::endl;
-		}
-
-		if (Architecture.empty())
-		{
-			Log::Warning("No architecture has been set, defaulted to x86 32 bit");
-			Arch = 32;
-		}
-		else
-		{
-			if (Architecture.compare("x86") == 0)
-			{
-				Arch = 32;
-			}
-			else if (Architecture.compare("x64") == 0)
-			{
-				Arch = 64;
-			}
-			else
-			{
-				Log::Warning("Unrecognized architecture, defaulted to 32 bit");
-				Arch = 32;
-			}
-		}
-
-		if (Error == false) // Lets compile now
- 		{
-			// Ok we can finally get started on doing real stuff
-
-			std::string FileData = Read (InputFile);
-		//	std::string Asm = InputFile.append (".asm");
-
-			// Setup
-			Environement e;
-			e.Architecture = Arch;
-			e.InFile = InputFile;
-			e.OutFile = OutputFile;
-			e.AltFile = OutputFile.append(".asm");
-			
-			Object undefined; // To keep away from errors
-			undefined.Name = "undefined";
-			undefined.Id = "unefined";
-			undefined.Size = 1;
-			e.ObjectList.push_back(undefined);
-			
-			// Parsing
-			Parser::Setup(FileData,e);
-			Lexer::Tokenize (e);
-			Syntax::MakeSyntax(e);
-			Output::Generate(e);
-
-			// Building
-			Output::Write(e);
-			Tools::Build (e.AltFile, e.OutFile,e.Architecture);
-
-			// Debugging
-			if (DebugMenu)
-			{
-				Menu DebugUI;
-				Debug::MakeMenu();
-		    }
-		}
-    */
+        // Debugging
+        if (vm.count("debug-menu"))
+        {
+            Menu DebugUI;
+            Debug::MakeMenu();
+        }
 	}
 }
