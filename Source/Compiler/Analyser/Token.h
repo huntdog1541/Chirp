@@ -16,7 +16,7 @@
 #define FUNC_TOKEN 23
 #define FUNC_CALL_TOKEN 24
 
-#define INTERGER_TOKEN 9
+#define INTEGER_TOKEN 9
 #define BOOLEAN_TOKEN 29
 
 #define GATE_STRING_TOKEN 7

@@ -4,7 +4,7 @@
 
 namespace Variable
 {
-	void Register (int,Environement&); // Register the variable so it remembers
-	std::string Operation (int, Environement&); // Return the asm to do an operation
-	std::string Assign (int,Environement&);  // Assign a variable and return the asm
+	void Register (int,Environment&); // Register the variable so it remembers
+	std::string Operation (int, Environment&); // Return the asm to do an operation
+	std::string Assign (int,Environment&);  // Assign a variable and return the asm
 }

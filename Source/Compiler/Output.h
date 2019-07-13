@@ -4,7 +4,7 @@
 
 namespace Output
 {
-	void Generate (Environement&);
-	void Write (Environement&); // Writes inside a file the ouput of env
-	std::string Reg (const std::string&,Environement&);
+	void Generate (Environment&);
+	void Write (Environment&); // Writes inside a file the ouput of env
+	std::string Reg (const std::string&,Environment&);
 }

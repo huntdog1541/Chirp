@@ -8,7 +8,7 @@ To make the project go progress further we are looking for and priorize the foll
 * Minor and Major bug fixes
 * Modification of existing code to make it better or more efficient
 * Cross-platform code or ports of existing code
-* Additionsts to the language, that respect the existing grammar rules
+* Additions to the language, that respect the existing grammar rules
 
 <br>
 
