@@ -10,9 +10,9 @@
 #include <stdexcept> // Very important, might create errors if not there on certain system
 
 /*
-There can be multiple environements, for multiple files. So environement is a class.
+There can be multiple environments, for multiple files. So environment is a class.
 */
-class Environement
+class Environment
 {
 public: // Ok so you can see that the lower you go, the later the compiler is gonna work on it
 	// Tree ParseTree;
@@ -41,8 +41,8 @@ public: // Ok so you can see that the lower you go, the later the compiler is go
 
 namespace Parser
 {
-	void Setup(std::string,Environement&);
-//	void Tokenize (Environement*); // Makes the text into tokens
-//	void MakeTree (Environement*); // Creates the parse tree
-//	void MakeIndex (Environement*); // Read the tree and create an index to make reading it easier
+	void Setup(std::string,Environment&);
+//	void Tokenize (Environment*); // Makes the text into tokens
+//	void MakeTree (Environment*); // Creates the parse tree
+//	void MakeIndex (Environment*); // Read the tree and create an index to make reading it easier
 }

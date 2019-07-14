@@ -4,9 +4,9 @@
 
 namespace Function
 {
-	void GenOpen (Environement&); // Generate the function opening
-	void GenClose (Environement&); // Generate the function close
-	void RegisterFunction (int, Environement&);
-	std::string WriteFunction (int,Environement&);
-	std::string CallFunction (int, Environement&);
+	void GenOpen (Environment&); // Generate the function opening
+	void GenClose (Environment&); // Generate the function close
+	void RegisterFunction (int, Environment&);
+	std::string WriteFunction (int,Environment&);
+	std::string CallFunction (int, Environment&);
 }

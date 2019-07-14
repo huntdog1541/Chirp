@@ -87,7 +87,7 @@ namespace Command
             return;
         }
 
-        auto e = Environement{};
+        auto e = Environment{};
         e.Architecture = supportedArchitectures.at(arch);
         e.InFile = input;
         e.OutFile = output;

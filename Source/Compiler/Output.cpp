@@ -9,7 +9,7 @@
 
 namespace Output
 {
-	void Generate (Environement& env)
+	void Generate (Environment& env)
 	{
 	//	std::cout << "Starting assembly generator" << std::endl;
 
@@ -65,7 +65,7 @@ namespace Output
 		}
 	}
 
-	void Write(Environement& env)
+	void Write(Environment& env)
 	{
 		std::ofstream Write(env.AltFile);
 
@@ -81,7 +81,7 @@ namespace Output
 			// Succes
 		}
 	}
-	std::string Reg(const std::string & p, Environement& env)
+	std::string Reg(const std::string & p, Environment& env)
 	{
 		std::string Out = p;
 

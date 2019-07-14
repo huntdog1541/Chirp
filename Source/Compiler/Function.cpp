@@ -6,7 +6,7 @@
 
 namespace Function
 {
-	void GenOpen (Environement& env)
+	void GenOpen (Environment& env)
 	{
 	//	std::string Output = "push ebp \nmov ebp,esp \n";
 		std::string Out = "push ";
@@ -19,7 +19,7 @@ namespace Function
 
 		env.Text.append(Out);
 	}
-	void GenClose(Environement& env)
+	void GenClose(Environment& env)
 	{
 	//	std::string Output = "mov esp,ebp \npop ebp \nret 0 \n";
 	    std::string Out = "mov ";
@@ -32,11 +32,11 @@ namespace Function
 
 		env.Text.append(Out);
 	}
-	void RegisterFunction(int pos,Environement& env)
+	void RegisterFunction(int pos,Environment& env)
 	{
 		// I'm gonna write it, in the next 1-2 commits
 	}
-	std::string WriteFunction(int pos,Environement& env)
+	std::string WriteFunction(int pos,Environment& env)
 	{
 
 	    env.Stack = 0; // Reset the stack
@@ -109,7 +109,7 @@ namespace Function
 		}
         return std::string{__PRETTY_FUNCTION__} + std::string{": FAILURE"};
 	}
-	std::string CallFunction(int pos, Environement& env)
+	std::string CallFunction(int pos, Environment& env)
 	{
 		bool Failure = false;
 		bool HasName = false;
@@ -144,7 +144,7 @@ namespace Function
 				HasName = true;
 			}
 
-			if (t.Identifier == INTERGER_TOKEN && InArgs)
+			if (t.Identifier == INTEGER_TOKEN && InArgs)
 			{
 				//Variable::Register(pos,env);
 				Params.push_back(/*Variable::Assign(pos, env)*/  t.Lexeme); // Value

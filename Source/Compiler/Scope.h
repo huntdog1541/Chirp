@@ -4,5 +4,5 @@
 
 namespace Scope
 {
-	void Generate (Environement&);
+	void Generate (Environment&);
 }

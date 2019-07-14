@@ -5,5 +5,5 @@
 
 namespace Lexer
 {
-	void Tokenize(Environement&);
+	void Tokenize(Environment&);
 }

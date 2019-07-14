@@ -8,7 +8,7 @@
 /*
 Makes the string into processable code
 */
-void Parser::Setup(std::string txt,Environement& env)
+void Parser::Setup(std::string txt,Environment& env)
 {
 // Ok so basically in here let's seperate words.
 // and make them in seperate keywords, but let's not touch any assembly code
@@ -58,7 +58,7 @@ void Parser::Setup(std::string txt,Environement& env)
 }
 
 /*
-void Parser::MakeTree(Environement* env)
+void Parser::MakeTree(Environment* env)
 {
 	Node Start;
 	Start.Value.Identifier = TREE_START_TOKEN;
@@ -109,7 +109,7 @@ void Parser::MakeTree(Environement* env)
 					if(env->Cluster.at(pos + 4).Identifier == KEYWORD_UNKNOWN_TOKEN)
                 	{
                     	Node Val;
-                    	Val.Value.Identifier = VALUE_INTERGER_TOKEN;
+                    	Val.Value.Identifier = VALUE_INTEGER_TOKEN;
                     	env->ParseTree.AddChild(Val.SelfPos, &Val);
                 	}
 				}
@@ -125,7 +125,7 @@ void Parser::MakeTree(Environement* env)
 */
 
 /*
-void Parser::MakeIndex(Environement* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
+void Parser::MakeIndex(Environment* env) // ThIs CoDe Is JuSt MiSunDeRsToOD gEnIuS
 {
 	bool Finished = false;
 	bool Climbing = false; // Will climb until it find the earliest way to fall down

@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-void Syntax::MakeSyntax(Environement& env)
+void Syntax::MakeSyntax(Environment& env)
 {
 	int pos = 0;
 	
@@ -77,7 +77,7 @@ void Syntax::MakeSyntax(Environement& env)
 
 					if (isdigit(env.Cluster.at(pos + 1).Lexeme.at(0)))
 					{
-						Value.Identifier = INTERGER_TOKEN;
+						Value.Identifier = INTEGER_TOKEN;
 						Value.Lexeme = env.Cluster.at(pos + 1).Lexeme;
 					}
 					else if (env.Cluster.at(pos + 1).Lexeme.compare("true") == 0 || env.Cluster.at(pos + 1).Lexeme.compare("false") == 0)
@@ -109,7 +109,7 @@ void Syntax::MakeSyntax(Environement& env)
 				// Checks for identifiers
 				if (isdigit(env.Cluster.at(pos - 1).Lexeme.at(0)))
 				{
-					First.Identifier = INTERGER_TOKEN;
+					First.Identifier = INTEGER_TOKEN;
 				}
 				else // Doesn't take into account(yet) for char
 				{
@@ -118,7 +118,7 @@ void Syntax::MakeSyntax(Environement& env)
 
 				if (isdigit(env.Cluster.at(pos + 1).Lexeme.at(0)))
 				{
-					Second.Identifier = INTERGER_TOKEN;
+					Second.Identifier = INTEGER_TOKEN;
 				}
 				else
 				{
@@ -209,7 +209,7 @@ void Syntax::MakeSyntax(Environement& env)
 				{
 					if (isdigit(t.Lexeme.at(0)))
 					{
-						Param.Identifier = INTERGER_TOKEN;
+						Param.Identifier = INTEGER_TOKEN;
 					}
 					else
 					{

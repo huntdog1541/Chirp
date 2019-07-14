@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-void Variable::Register (int pos, Environement& env)
+void Variable::Register (int pos, Environment& env)
 {
 	Object Var; // New variable
 	bool Failure = false;
@@ -60,7 +60,7 @@ void Variable::Register (int pos, Environement& env)
 // and it is also pretty important. So yea, I guess i could
 // make an issue about it. But nah, it's fine
 // - Binkiklou
-std::string Variable::Operation(int pos, Environement& env)
+std::string Variable::Operation(int pos, Environment& env)
 {
 	// The types looks like this
 	// 0: Addition
@@ -106,7 +106,7 @@ std::string Variable::Operation(int pos, Environement& env)
 		Op = 5;
 	}
 
-	if (First.Identifier == INTERGER_TOKEN && Second.Identifier == INTERGER_TOKEN) // Two constant intergers
+	if (First.Identifier == INTEGER_TOKEN && Second.Identifier == INTEGER_TOKEN) // Two constant intergers
 	{
 		// Ok, so this is the first little optimisation
 		switch (Op)
@@ -193,7 +193,7 @@ std::string Variable::Operation(int pos, Environement& env)
     return std::string{__PRETTY_FUNCTION__} + std::string{":FAILURE"};
 }
 
-std::string Variable::Assign(int pos, Environement& env)
+std::string Variable::Assign(int pos, Environment& env)
 {
 	bool Failure = false;
 	bool TargetSet = false; //This should look like int: Target = Source
@@ -226,7 +226,7 @@ std::string Variable::Assign(int pos, Environement& env)
 		//	std::cout << t.Lexeme << std::endl << std::endl;
 			if (env.Syntax.at(i + 2).Identifier != ARITHMETIC_OPERATOR_TOKEN && !SourceSet)
 			{
-				if (env.Syntax.at(i + 1).Identifier == INTERGER_TOKEN)
+				if (env.Syntax.at(i + 1).Identifier == INTEGER_TOKEN)
 				{
 					Source = env.Syntax.at(i + 1).Lexeme;
 					ConstantVal = true;
