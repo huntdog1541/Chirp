@@ -2,14 +2,19 @@
 
 set(chirplib_SOURCES
     ./cli/cli.cpp
-    ./cli/log.cpp)
+    ./cli/log.cpp
+    ./parser/lexer.cpp
+    ./parser/token.cpp
+    ./parser/syntax.cpp
+    ./preprocessor.cpp)
 
 set(chirp_SOURCES
     ./chirp.cpp)
 
 set(chirplib_INCLUDE_DIRS
     ./
-    ./cli)
+    ./cli
+    ./parser)
 
 # Split the program into a library and an executable for testing purposes
 add_library(chirplib SHARED ${chirplib_SOURCES})

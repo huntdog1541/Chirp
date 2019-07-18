@@ -13,10 +13,6 @@ int main(int argc, char* argv[])
     }
 
     cli::parse_Command(args);
-
-    cli::log(LOG,"This works");
-    cli::log(WARNING,"This may not work");
-    cli::log(ERROR, "This doesn't work at all");
-
+    
     return 0;
 }
