@@ -14,3 +14,6 @@ Tools/Build/yeet.ch
 exec.out
 Test/*.asm
 build/
+CMakeFiles/*
+CMAkeList.txt
+CMakeCache\.txt
