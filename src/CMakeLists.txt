@@ -1,12 +1,15 @@
 
 
-set(chirplib_SOURCES ./other.cpp)
+set(chirplib_SOURCES
+    ./cli/cli.cpp
+    ./cli/log.cpp)
 
 set(chirp_SOURCES
     ./chirp.cpp)
 
 set(chirplib_INCLUDE_DIRS
-    ./)
+    ./
+    ./cli)
 
 # Split the program into a library and an executable for testing purposes
 add_library(chirplib SHARED ${chirplib_SOURCES})
