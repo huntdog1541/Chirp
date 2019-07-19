@@ -38,6 +38,7 @@ namespace cli
 {
     void parse_Command(std::vector<std::string> args)
     {
+        //std::cout<<"I hope dis works"<<std::endl;
         std::string inputFile;
         std::string outputFile;
 

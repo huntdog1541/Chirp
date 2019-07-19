@@ -3,39 +3,71 @@ This does tree related stuff, like a tiny library inside the main source code.
 */
 
 #include "tree.h"
+#include <queue>
+
+#include <iostream>
+
+// === NODE ===
+
+node::node(std::string value)
+{
+    this->value = value;
+}
+
+void node::addChild(node* child)
+{
+    this->childs.push_back(child);
+}
+
+int node::getChildSize()
+{
+    return this->childs.size();
+}
+
+node* node::getChild(int pos)
+{
+    return this->childs.at(pos);
+}
+
+// === TREE === 
 
 tree::tree()
 {
-
+    // does tree stuff
 }
-
-// geeksforgeek generic  tree level-order traversal tutorial really helped for this
+// geeksforgeek generic tree level-order traversal tutorial really helped for this
 std::vector<std::string> tree::traverse()
 {
-    node* root = this->root;
-
-    std::vector<node *> queue; // traversal queue
-    std::vector<std::string> order; // order in which has been traversed
-    queue.push_back(root);
-
-    while(!queue.empty())
+    std::vector<std::string> treeResult;
+    if(this->root == NULL)
     {
-        int n = queue.size();
+        return treeResult; // No segfault eheh
+    }
+
+    std::queue<node *> q;
+    q.push(this->root);
+
+    while(!q.empty())
+    {
+        int n = q.size();
+
         while(n > 0)
         {
-            // Dequeue item
-            node* p = queue.front();
-            queue.pop_back();
-
-            order.push_back(p->value);
-
-            // Queue all childs of dequeued item
-            for(auto& c : p->child)
+            node* p = q.front();
+            q.pop();
+            treeResult.push_back(p->value);
+            // Range-based loop gave segfaults
+            for(int i = 0; i < p->getChildSize(); i++)
             {
-                queue.push_back(c);
+                q.push(p->getChild(i));
             }
             n--;
         }
     }
-    return order;
+    return treeResult;
+}
+
+void tree::setRoot(node* newRoot)
+{
+    this->root = newRoot;
 }
