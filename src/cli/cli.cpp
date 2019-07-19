@@ -28,7 +28,9 @@ std::string openFile(std::string filename)
     }
 
     reader.close();
-    
+
+    file.pop_back(); // this is a lazy but "efficient" fix
+
     return file;
 }
 
@@ -45,7 +47,7 @@ namespace cli
         {
             if(word == "-o")
             {
-
+                // outputFile = word.at(pos + 1);
             }
             else
             {
@@ -80,6 +82,7 @@ namespace cli
         if(outputArgs == "")
         {
             log(WARNING,"No output file specified, using default.");
+
             output = input;
 
             output.pop_back();

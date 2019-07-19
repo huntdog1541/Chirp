@@ -1,16 +1,13 @@
 #include "build.h"
 #include "preprocessor.h"
+#include "log.h"
 
 #include <iostream>
 
 void compile(std::string source)
 {
     std::vector<std::string> prep = preprocess(source);
-
-    for(auto w: prep)
-    {
-        std::cout<<w<<std::endl;
-    }
+    cli::log(SUCCESS,"Nothing wen't wrong, and this is all it can do right now");
 }
 
 void build()

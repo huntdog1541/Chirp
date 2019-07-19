@@ -28,6 +28,10 @@ namespace cli
         {
             result += "33m";
         }
+        else if(color == GREEN)
+        {
+            result += "32m";
+        }
 
         result += text;
         result += " \u001b[0m"; // Reset code
@@ -35,19 +39,23 @@ namespace cli
         return result;
     }
     #endif
-    void log(int level,std::string messsage)
+    void log(int level,std::string message)
     {
         if(level == LOG)
         {
-            std::cout<<"LOG: "<<messsage<<std::endl;
+            std::cout<<"LOG: "<<message<<std::endl;
         }
         else if(level == WARNING)
         {
-            std::cout<<writeColor(YELLOW,"WARNING: ")<<messsage<<std::endl;
+            std::cout<<writeColor(YELLOW,"WARNING: ")<<message<<std::endl;
         }
         else if(level == ERROR)
         {
-            std::cout<<writeColor(RED,"ERROR: ")<<messsage<<std::endl;
+            std::cout<<writeColor(RED,"ERROR: ")<<message<<std::endl;
+        }
+        else if(level == SUCCESS)
+        {
+            std::cout<<writeColor(GREEN,"SUCCESS: ")<<message<<std::endl;
         }
     }
 }

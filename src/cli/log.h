@@ -4,11 +4,13 @@
 #define LOG 0
 #define WARNING 1
 #define ERROR 2
+#define SUCCESS 3
 
 #define BLACK 0
 #define WHITE 1
 #define RED 2
 #define YELLOW 3
+#define GREEN 4
 
 namespace cli
 {
