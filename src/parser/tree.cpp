@@ -35,6 +35,7 @@ tree::tree()
 {
     // does tree stuff
 }
+
 // geeksforgeek generic tree level-order traversal tutorial really helped for this
 std::vector<std::string> tree::traverse()
 {

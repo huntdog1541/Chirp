@@ -10,7 +10,8 @@ set(chirplib_SOURCES
     ./parser/parser.cpp
     ./parser/tree.cpp
     ./preprocessor.cpp
-    ./build.cpp)
+    ./build.cpp
+    ./error.cpp)
 
 set(chirp_SOURCES
     ./chirp.cpp)

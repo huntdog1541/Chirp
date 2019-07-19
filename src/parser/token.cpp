@@ -1,15 +1,13 @@
 /*
-This file is used to define the token class
+This file is used for defining the token class, so it doesn't do much.
 */
 
 #include "token.h"
 
-token::token()
-{
-    // To do
-}
+// Does nothing
+token::token () {}
 
-token::token(std::string n,std::string v)
+token::token(token_name n,std::string v)
 {
     this->name = n;
     this->value = v;
