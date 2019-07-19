@@ -1,3 +1,4 @@
+#pragma once
 /*
 This file is used to declare the token class
 */
@@ -6,7 +7,17 @@ This file is used to declare the token class
 
 // I'm pretty sure I only named it "token_name" to make munchii angry
 enum token_name {
-    identifier, keyword, separator, literal
+    identifier,
+    // keywords
+    data_type, // (more to be added)...
+    // separator
+    lparen,rparen,lbracket,rbracket,
+    // operator
+    assignment,
+    // other
+    confirm, // the : symbol
+    litteral,
+    end_of_string // the last token
 };
 
 class token

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 
@@ -15,6 +17,10 @@ class node
 
     // Returns the child at given position
     node* getChild(int);
+
+    // Would be cool to overload the 
+    // subscript operator, so you could get childs with a [ ]
+    // or even with their name like, node1[node2]
 
     // Node's value
     std::string value;

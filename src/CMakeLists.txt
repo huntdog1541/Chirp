@@ -4,14 +4,15 @@ set(chirplib_SOURCES
     ./cli/cli.cpp
     ./cli/log.cpp
     ./parser/lexer.cpp
-    ./parser/token.cpp
-    ./parser/syntax.cpp
-    ./parser/semantic.cpp
     ./parser/parser.cpp
+    ./parser/semantic.cpp
+    ./parser/syntax.cpp
+    ./parser/token.cpp
     ./parser/tree.cpp
-    ./preprocessor.cpp
     ./build.cpp
-    ./error.cpp)
+    ./chirp.cpp
+    ./error.cpp
+    ./preprocessor.cpp)
 
 set(chirp_SOURCES
     ./chirp.cpp)
