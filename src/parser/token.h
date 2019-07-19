@@ -17,6 +17,7 @@ enum token_name {
     // other
     confirm, // the : symbol
     litteral,
+    no_token, // probably should find another way
     end_of_string // the last token
 };
 

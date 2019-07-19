@@ -6,6 +6,7 @@ This file isn't the parser by itself, but the custom parser generator. The actua
 
 token lookAhead()
 {
+    // This is probably a misuse of look ahead in recursive parsers, but ¯\_(ツ)_/¯
     if(parser.token_pos + 1 <= parser.token_cluster.size())
     {
         cli::log(LOG,"Looking ahead"); // Debug, should be removed
