@@ -11,5 +11,5 @@ namespace cli
     /*
     Runs the command
     */
-    void run_Command();
+    void run_Command(std::string, std::string);
 }

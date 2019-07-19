@@ -6,7 +6,9 @@ set(chirplib_SOURCES
     ./parser/lexer.cpp
     ./parser/token.cpp
     ./parser/syntax.cpp
-    ./preprocessor.cpp)
+    ./parser/semantic.cpp
+    ./preprocessor.cpp
+    ./build.cpp)
 
 set(chirp_SOURCES
     ./chirp.cpp)
