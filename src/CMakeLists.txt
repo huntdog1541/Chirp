@@ -7,6 +7,8 @@ set(chirplib_SOURCES
     ./parser/token.cpp
     ./parser/syntax.cpp
     ./parser/semantic.cpp
+    ./parser/parser.cpp
+    ./parser/tree.cpp
     ./preprocessor.cpp
     ./build.cpp)
 
