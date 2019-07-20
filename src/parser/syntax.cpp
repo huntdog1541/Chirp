@@ -8,12 +8,87 @@ This should use a bottom up parsing algorithm, but I'm not sure which.
 
 #include <iostream>
 
+/*
+Test grammar
+
+Statement
+Stat -> Decl
+Decl -> data_type VarDec
+
+VarDec -> confirm identifier
+*/
+
+// I have no idea if this is ok, but this seems to work
 namespace syntax
 {
-    tree parse(parser* p)
-    {
-        tree parseTree;
+    parser* local_env; // *munchii is triggered*
+    tree* local_tree;
 
-        return parseTree;
+    bool match(token t)
+    {
+        if(local_env->getToken().name == t.name)
+        {
+            local_env->nextToken();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
+    bool expect(token t)
+    {
+
+    }
+
+    void Vardec()
+    {
+        if(local_env->getToken().name == confirm)
+        {
+            if(local_env->lookAhead().name == identifier)
+            {
+                std::cout<<"Variable matched"<<std::endl;
+            }
+        }
+    }
+
+    bool Decl()
+    {
+        if(local_env->getToken().name == data_type)
+        {
+            local_env->nextToken();
+            Vardec();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void Stat()
+    {
+        if(Decl())
+        {
+            std::cout<<"Statement"<<std::endl;
+            std::cout<<"Declaration"<<std::endl;
+        }
+        else
+        {
+            // welp
+        }
+    }
+
+    void parse(parser* p,tree* t)
+    {
+        node root("root");
+        t->setRoot(&root);
+
+        local_tree = t;
+        local_env = p;
+
+        Stat();
     }
 }

@@ -3,8 +3,9 @@ This does tree related stuff, like a tiny library inside the main source code.
 */
 
 #include "tree.h"
-#include <queue>
+#include "../cli/log.h"
 
+#include <queue>
 #include <iostream>
 
 // === NODE ===
@@ -17,6 +18,7 @@ node::node(std::string value)
 void node::addChild(node* child)
 {
     this->childs.push_back(child);
+    //std::cout<<this->childs.at(this->childs.size())->value<<std::endl;
 }
 
 int node::getChildSize()
@@ -56,12 +58,21 @@ std::vector<std::string> tree::traverse()
         {
             node* p = q.front();
             q.pop();
-            treeResult.push_back(p->value);
+
+            try
+            {
+                treeResult.push_back(p->value);
+                cli::log(LOG,"Succesfully pushed value: " + p->value);
+            }
+            catch(...)
+            {
+                cli::log(WARNING,"Error while adding value to traversal");
+            }
+            //std::cout<<p->value<<std::endl;
+
             // Range-based loop gave segfaults
             for(int i = 0; i < p->getChildSize(); i++)
-            {
                 q.push(p->getChild(i));
-            }
             n--;
         }
     }
@@ -71,4 +82,9 @@ std::vector<std::string> tree::traverse()
 void tree::setRoot(node* newRoot)
 {
     this->root = newRoot;
+}
+
+node* tree::getRoot()
+{
+    return this->root;
 }

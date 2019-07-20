@@ -39,6 +39,9 @@ class tree
 
     // Sets the root node
     void setRoot(node*);
+
+    // Returns the root node
+    node* getRoot();
     private:
     node* root;
 };

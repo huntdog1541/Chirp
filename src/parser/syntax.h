@@ -6,5 +6,5 @@
 
 namespace syntax
 {
-    tree parse(parser*);
+    void parse(parser*,tree*);
 }

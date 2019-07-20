@@ -16,7 +16,18 @@ void compile(std::string source)
     parser p_env;
     p_env.setTokens(tokens);
 
-    tree parseTree = syntax::parse(&p_env);
+    tree parseTree;
+    node root("root");
+    parseTree.setRoot(&root);
+
+    syntax::parse(&p_env,&parseTree);
+
+    std::vector<std::string> path = parseTree.traverse();
+    
+    for(auto v : path)
+    {
+        std::cout<<v<<std::endl;
+    }
 
     cli::log(SUCCESS,"Nothing wen't wrong, and this is all it can do right now");
 }
