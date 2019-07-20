@@ -4,18 +4,55 @@ This file isn't the parser by itself, but the custom parser generator. The actua
 #include "parser.h"
 #include "../cli/log.h"
 
-token lookAhead()
+parser::parser() {
+    this->tkn_pos = 0;
+    this->tokens.reserve(1);
+}
+
+void parser::setTokens(std::vector<token> newTokens)
 {
-    // This is probably a misuse of look ahead in recursive parsers, but ¯\_(ツ)_/¯
-    if(parser.token_pos + 1 <= parser.token_cluster.size())
+    for(token t : newTokens)
     {
-        cli::log(LOG,"Looking ahead"); // Debug, should be removed
-        parser.token_pos++;
-        return parser.token_cluster.at(parser.token_pos);
+        this->tokens.push_back(t);
+    }
+
+    this->tokens.push_back(token(end_of_string,""));
+    //std::cout<<newTokens.size()<<std::endl;
+}
+
+token parser::getToken()
+{
+    token t;
+    t = this->tokens.at(this->tkn_pos);
+    return t;
+}
+
+void parser::nextToken()
+{
+    if(this->tkn_pos + 1 <= this->tokens.size())
+    {
+        // good
+        this->tkn_pos++;
     }
     else
     {
-        token eof(end_of_string,"");
-        return eof;
+        // bad
+        cli::log(WARNING, "Cannot go forward");
     }
+}
+
+token parser::lookAhead()
+{
+    token t;
+
+    if(this->tkn_pos + 1 <= this->tokens.size())
+    {
+        t = this->tokens.at(this->tkn_pos + 1);
+    }
+    else
+    {
+        cli::log(WARNING, "Cannot look ahead");
+    }
+
+    return t;
 }

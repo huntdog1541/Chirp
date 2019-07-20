@@ -5,3 +5,15 @@ This is the actual parser(but I didn't call it that). It reads the tokens genera
 This should use a bottom up parsing algorithm, but I'm not sure which.
 */
 #include "syntax.h"
+
+#include <iostream>
+
+namespace syntax
+{
+    tree parse(parser* p)
+    {
+        tree parseTree;
+
+        return parseTree;
+    }
+}

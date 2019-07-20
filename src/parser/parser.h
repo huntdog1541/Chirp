@@ -8,17 +8,34 @@ will share, mostly the syntax analyser and semantic analyser.
 
 #include "token.h"
 
-static struct parser 
+class parser
 {
-    tree parseTree;
+    public:
+    /*
+    Parser constructor
+    */
+    parser();
 
-    // Shouldn't be accessed directly by the syntax analyser
-    // it should only look ahead.
-    std::vector<token> token_cluster;
-    int token_pos;
-} parser;
+    /*
+    */
+   void setTokens(std::vector<token>);
 
-/*
-Returns the next token
-*/
-token lookAhead();
+    /*
+    Returns the current token
+    */
+    token getToken();
+
+    /*
+    Advance the token
+    */
+    void nextToken();
+
+    /*
+    Returns the next token
+    */
+    token lookAhead();
+    private:
+
+    int tkn_pos;
+    std::vector<token> tokens;
+};
