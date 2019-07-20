@@ -45,9 +45,9 @@ namespace syntax
 
     void Vardec()
     {
-        if(local_env->getToken().name == confirm)
+        if(local_env->getToken().name == token_name::confirm)
         {
-            if(local_env->lookAhead().name == identifier)
+            if(local_env->lookAhead().name == token_name::identifier)
             {
                 std::cout<<"Variable matched"<<std::endl;
             }
@@ -56,7 +56,7 @@ namespace syntax
 
     bool Decl()
     {
-        if(local_env->getToken().name == data_type)
+        if(local_env->getToken().name == token_name::data_type)
         {
             local_env->nextToken();
             Vardec();

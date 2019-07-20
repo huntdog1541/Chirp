@@ -30,7 +30,7 @@ namespace lexer
     {
         std::vector<token> tokens;
 
-        token_name next = no_token;
+        token_name next = token_name::no_token;
 
         int pos = 0;
 
@@ -39,34 +39,34 @@ namespace lexer
             token tkn;
             tkn.value = word;
 
-            if(next != no_token)
+            if(next != token_name::no_token)
             {
                 tkn.name = next;
-                next = no_token;
+                next = token_name::no_token;
             }
             else
             {
                 if(word == "int") // Just int for the moment
                 {
-                    tkn.name = data_type;
+                    tkn.name = token_name::data_type;
                 }
                 else if(word == ":")
                 {
-                    tkn.name = confirm;
-                    next = identifier;
+                    tkn.name = token_name::confirm;
+                    next = token_name::identifier;
                 }
                 else if(word == "=")
                 {
-                    tkn.name = assignment;
+                    tkn.name = token_name::assignment;
 
                     // Doesn't detect char or string or bool yet
                     if(isNumber(prep.at(pos + 1)) == true)
                     {
-                        next = litteral;
+                        next = token_name::litteral;
                     }
                     else
                     {
-                        next = identifier;
+                        next = token_name::identifier;
                     }
                 }
             }

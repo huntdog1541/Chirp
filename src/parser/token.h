@@ -6,7 +6,7 @@ This file is used to declare the token class
 #include <string>
 
 // I'm pretty sure I only named it "token_name" to make munchii angry
-enum token_name {
+enum class token_name {
     identifier,
     // keywords
     data_type, // (more to be added)...
