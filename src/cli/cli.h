@@ -7,9 +7,9 @@ namespace cli
     /*
     Parses the command
     */
-    void parse_Command(std::vector<std::string>);
+    void parse_Command(const std::vector<std::string>&);
     /*
     Runs the command
     */
-    void run_Command(std::string, std::string);
+    void run_Command(const std::string&, const std::string&);
 }

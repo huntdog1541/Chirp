@@ -18,7 +18,7 @@ class parser
 
     /*
     */
-   void setTokens(std::vector<token>);
+   void setTokens(const std::vector<token>&);
 
     /*
     Returns the current token

@@ -14,11 +14,7 @@
 
 namespace cli
 {
-    #ifdef __WIN32
-    void writeColor(int,std::string)
-    #else
-    std::string writeColor(int,std::string);
-    #endif
+    std::string writeColor(const int,const std::string&);
     /*
     Logs a message to the console. Uses 3 different level of status,
     
@@ -26,5 +22,5 @@ namespace cli
     WARNING: Writes message in yellow
     ERROR: Writes message in red
     */
-    void log(int,std::string);
+    void log(const int,const std::string&);
 }

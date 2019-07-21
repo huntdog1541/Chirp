@@ -2,13 +2,7 @@
 
 namespace cli
 {
-    #ifdef __WIN32
-    void writeColor(int,std::string)
-    {
-        // To do
-    }
-    #else
-    std::string writeColor(int color,std::string text)
+    std::string writeColor(const int color, const std::string& text)
     {
         std::string result = "\u001b[";
         
@@ -38,8 +32,8 @@ namespace cli
 
         return result;
     }
-    #endif
-    void log(int level,std::string message)
+    
+    void log(const int level, const std::string& message)
     {
         if(level == LOG)
         {

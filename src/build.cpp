@@ -2,8 +2,8 @@
 #include "log.h"
 
 #include "preprocessor.h"
-#include "parser/parser.h"
-#include "parser/lexer.h"
+#include "parser.h"
+#include "lexer.h"
 #include "syntax.h"
 
 #include <iostream>
