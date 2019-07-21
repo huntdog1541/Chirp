@@ -16,7 +16,7 @@ void parser::setTokens(std::vector<token> newTokens)
         this->tokens.push_back(t);
     }
 
-    this->tokens.push_back(token(end_of_string,""));
+    this->tokens.push_back(token(token_name::end_of_string,""));
     //std::cout<<newTokens.size()<<std::endl;
 }
 
