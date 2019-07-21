@@ -3,7 +3,7 @@ This does tree related stuff, like a tiny library inside the main source code.
 */
 
 #include "tree.h"
-#include "../cli/log.h"
+#include "log.h"
 
 #include <queue>
 #include <iostream>

@@ -1,3 +1,3 @@
-#include "cli/cli.h"
+#include "cli.h"
 
 // This does nothing yet

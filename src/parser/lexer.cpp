@@ -9,7 +9,7 @@ This should take the ouput of the preprocessor, and assign tokens to each word &
 
 #define enumString(name) # name
 
-bool isNumber(std::string word)
+bool isNumber(const std::string& word)
 {
     bool result = false;
 
@@ -26,7 +26,7 @@ bool isNumber(std::string word)
 
 namespace lexer
 {
-    std::vector<token> tokenize(std::vector<std::string> prep)
+    std::vector<token> tokenize(const std::vector<std::string>& prep)
     {
         std::vector<token> tokens;
 

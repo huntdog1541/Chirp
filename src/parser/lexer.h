@@ -10,5 +10,5 @@ namespace lexer
     /*
     Takes preprocessed vector of string as input and outputs a vector of tokens
     */
-    std::vector<token> tokenize(std::vector<std::string>);
+    std::vector<token> tokenize(const std::vector<std::string>&);
 }

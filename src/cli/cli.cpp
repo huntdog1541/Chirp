@@ -1,13 +1,13 @@
 #include "cli.h"
 #include "log.h"
-#include "../build.h"
+#include "build.h"
 
 #include <fstream>
 
 /*
 Open the file and returns the content.. duh
 */
-std::string openFile(std::string filename)
+std::string openFile(const std::string& filename)
 {
     std::ifstream reader(filename);
 
@@ -36,7 +36,7 @@ std::string openFile(std::string filename)
 
 namespace cli
 {
-    void parse_Command(std::vector<std::string> args)
+    void parse_Command(const std::vector<std::string>& args)
     {
         //std::cout<<"I hope dis works"<<std::endl;
         std::string inputFile;
@@ -62,7 +62,7 @@ namespace cli
 
         run_Command(inputFile,outputFile);
     }
-    void run_Command(std::string inputArgs, std::string outputArgs)
+    void run_Command(const std::string& inputArgs, const std::string& outputArgs)
     {
         std::string input;
         std::string output;

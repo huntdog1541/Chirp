@@ -2,14 +2,14 @@
 This file isn't the parser by itself, but the custom parser generator. The actual parsing is happening in syntax.cpp
 */
 #include "parser.h"
-#include "../cli/log.h"
+#include "log.h"
 
 parser::parser() {
     this->tkn_pos = 0;
     this->tokens.reserve(1);
 }
 
-void parser::setTokens(std::vector<token> newTokens)
+void parser::setTokens(const std::vector<token>& newTokens)
 {
     for(token t : newTokens)
     {
