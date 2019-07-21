@@ -6,7 +6,7 @@ This does tree related stuff, like a tiny library inside the main source code.
 #include "log.h"
 
 #include <queue>
-#include <iostream>
+#include <sstream>
 
 // === NODE ===
 
@@ -29,6 +29,26 @@ int node::getChildSize()
 node* node::getChild(int pos)
 {
     return this->childs.at(pos);
+}
+
+const node& node::operator[](const std::string& node_name) const {
+    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const node* n) { return n->value == node_name; } );
+    if(childs.end() == match){
+        std::stringstream ss;
+        ss << node_name << " not found in " << value;
+        throw std::runtime_error(ss.str());
+    }
+    return **match;
+}
+
+node& node::operator[](const std::string& node_name) {
+    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const node* n) { return n->value == node_name; } );
+    if(childs.end() == match){
+        std::stringstream ss;
+        ss << node_name << " not found in " << value;
+        throw std::runtime_error(ss.str());
+    }
+    return **match;
 }
 
 // === TREE === 
