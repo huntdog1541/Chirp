@@ -1,8 +1,9 @@
 #include "cli.h"
 #include "log.h"
-#include "build.h"
 
 #include <fstream>
+
+#include "../build.h"
 
 /*
 Open the file and returns the content.. duh
@@ -98,7 +99,7 @@ namespace cli
 
         if(error != true)
         {
-            compile(openFile(input));
+			compile(openFile(input));
         }
     }
 }

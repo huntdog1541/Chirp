@@ -1,6 +1,6 @@
 #include "chirp.h"
 
-#include "log.h"
+#include "cli/log.h"
 
 int main(int argc, char* argv[])
 {

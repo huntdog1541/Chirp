@@ -1,10 +1,10 @@
 #include "build.h"
-#include "log.h"
+#include "cli/log.h"
 
 #include "preprocessor.h"
 #include "parser.h"
-#include "lexer.h"
-#include "syntax.h"
+#include "parser/lexer.h"
+#include "parser/syntax.h"
 
 #include <iostream>
 

@@ -2,7 +2,7 @@
 This file isn't the parser by itself, but the custom parser generator. The actual parsing is happening in syntax.cpp
 */
 #include "parser.h"
-#include "log.h"
+#include "../cli/log.h"
 
 parser::parser() {
     this->tkn_pos = 0;
