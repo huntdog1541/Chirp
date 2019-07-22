@@ -18,9 +18,9 @@ class node
     // Returns the child at given position
     node* getChild(int);
 
-    // Would be cool to overload the 
-    // subscript operator, so you could get childs with a [ ]
-    // or even with their name like, node1[node2]
+    const node& operator[](const std::string& node_name) const;
+    
+    node& operator[](const std::string& node_name);
 
     // Node's value
     std::string value;
