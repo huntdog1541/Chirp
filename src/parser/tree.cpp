@@ -73,29 +73,25 @@ std::vector<std::string> tree::traverse()
 
     while(!q.empty())
     {
-        int n = q.size();
 
-        while(n > 0)
+        auto* p = q.front();
+        std::cout << __PRETTY_FUNCTION__ << " Traversing " << p->value << "\n"; 
+        q.pop();
+
+        try
         {
-            auto* p = q.front();
-            std::cout << __PRETTY_FUNCTION__ << " Traversing " << p->value << "\n"; 
-            q.pop();
+            treeResult.push_back(p->value);
+            cli::log(LOG,"Succesfully pushed value: " + p->value);
+        }
+        catch(...)
+        {
+            cli::log(WARNING,"Error while adding value to traversal");
+        }
+        //std::cout<<p->value<<std::endl;
 
-            try
-            {
-                treeResult.push_back(p->value);
-                cli::log(LOG,"Succesfully pushed value: " + p->value);
-            }
-            catch(...)
-            {
-                cli::log(WARNING,"Error while adding value to traversal");
-            }
-            //std::cout<<p->value<<std::endl;
-
-            // Range-based loop gave segfaults
-            for(int i = 0; i < p->getChildSize(); i++)
-                q.push(&p->getChild(i));
-            n--;
+        // Range-based loop gave segfaults
+        for(int i = 0; i < p->getChildSize(); i++){
+            q.push(&p->getChild(i));
         }
     }
     return treeResult;

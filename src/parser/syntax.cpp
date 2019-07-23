@@ -82,8 +82,9 @@ namespace syntax
 
         auto statement = std::make_unique<node>("statement");
         auto declaration = std::make_unique<node>("declaration");
-
+        auto yeet = std::make_unique<node>("yeet");
         statement->addChild(std::move(declaration));
+        root.addChild(std::move(yeet));
         root.addChild(std::move(statement));
 
         }
