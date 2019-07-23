@@ -17,17 +17,21 @@ void compile(std::string source)
     p_env.setTokens(tokens);
 
     tree parseTree;
-    node root("root");
-    parseTree.setRoot(&root);
+    auto root = std::make_unique<node>("root");
+    parseTree.setRoot(std::move(root));
 
     syntax::parse(&p_env,&parseTree);
 
     std::vector<std::string> path = parseTree.traverse();
-    
+
+    std::cout<<"=== TREE START ==="<<std::endl;
+
     for(auto v : path)
     {
         std::cout<<v<<std::endl;
     }
+
+    std::cout<<"=== TREE ENDED ==="<<std::endl;
 
     cli::log(SUCCESS,"Nothing wen't wrong, and this is all it can do right now");
 }

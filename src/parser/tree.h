@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 class node
 {
@@ -10,13 +11,13 @@ class node
     node(std::string);
 
     // Adds a new child to current node
-    void addChild(node*);
+    void addChild(std::unique_ptr<node>);
 
     // Returns the size of the Child vector
     int getChildSize();
 
     // Returns the child at given position
-    node* getChild(int);
+    node& getChild(int);
 
     const node& operator[](const std::string& node_name) const;
     
@@ -25,7 +26,7 @@ class node
     // Node's value
     std::string value;
     private:
-    std::vector<node*> childs;
+    std::vector<std::unique_ptr<node>> childs;
 };
 
 class tree
@@ -38,10 +39,10 @@ class tree
     std::vector<std::string> traverse();
 
     // Sets the root node
-    void setRoot(node*);
+    void setRoot(std::unique_ptr<node>);
 
     // Returns the root node
-    node* getRoot();
+    node& getRoot();
     private:
-    node* root;
+    std::unique_ptr<node> root;
 };

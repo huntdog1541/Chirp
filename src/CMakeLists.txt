@@ -24,7 +24,7 @@ set(chirplib_INCLUDE_DIRS
 
 # Split the program into a library and an executable for testing purposes
 add_library(chirplib SHARED ${chirplib_SOURCES})
-target_compile_features(chirplib PUBLIC cxx_auto_type)
+target_compile_features(chirplib PUBLIC cxx_auto_type cxx_std_14) 
 target_include_directories(chirplib PUBLIC ${chirplib_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 target_link_libraries(chirplib PUBLIC ${Boost_LIBRARIES})
 

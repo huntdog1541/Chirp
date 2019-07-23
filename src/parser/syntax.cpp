@@ -5,7 +5,8 @@ This is the actual parser(but I didn't call it that). It reads the tokens genera
 This should use a bottom up parsing algorithm, but I'm not sure which.
 */
 #include "syntax.h"
-
+#include <memory>
+#include "../cli/log.h"
 #include <iostream>
 
 /*
@@ -43,6 +44,8 @@ namespace syntax
 
     }
 
+    // === Handwritten grammar(probably temporary) ===
+
     void Vardec()
     {
         if(local_env->getToken().name == token_name::confirm)
@@ -72,8 +75,18 @@ namespace syntax
     {
         if(Decl())
         {
-            std::cout<<"Statement"<<std::endl;
-            std::cout<<"Declaration"<<std::endl;
+        cli::log(LOG,"Ok, so two nodes should have been added to the tree");
+
+        auto& root = local_tree->getRoot();
+        std::cout << __PRETTY_FUNCTION__ << "*root = " << root.value << "\n";
+
+        auto statement = std::make_unique<node>("statement");
+        auto declaration = std::make_unique<node>("declaration");
+        auto yeet = std::make_unique<node>("yeet");
+        statement->addChild(std::move(declaration));
+        root.addChild(std::move(yeet));
+        root.addChild(std::move(statement));
+
         }
         else
         {
@@ -83,8 +96,8 @@ namespace syntax
 
     void parse(parser* p,tree* t)
     {
-        node root("root");
-        t->setRoot(&root);
+        auto root = std::make_unique<node>("root");
+        t->setRoot(std::move(root));
 
         local_tree = t;
         local_env = p;
