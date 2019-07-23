@@ -23,11 +23,15 @@ void compile(std::string source)
     syntax::parse(&p_env,&parseTree);
 
     std::vector<std::string> path = parseTree.traverse();
-    
+
+    std::cout<<"=== TREE START ==="<<std::endl;
+
     for(auto v : path)
     {
         std::cout<<v<<std::endl;
     }
+
+    std::cout<<"=== TREE ENDED ==="<<std::endl;
 
     cli::log(SUCCESS,"Nothing wen't wrong, and this is all it can do right now");
 }

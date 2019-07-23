@@ -6,6 +6,7 @@ This should use a bottom up parsing algorithm, but I'm not sure which.
 */
 #include "syntax.h"
 
+#include "../cli/log.h"
 #include <iostream>
 
 /*
@@ -43,6 +44,8 @@ namespace syntax
 
     }
 
+    // === Handwritten grammar(probably temporary) ===
+
     void Vardec()
     {
         if(local_env->getToken().name == token_name::confirm)
@@ -72,8 +75,16 @@ namespace syntax
     {
         if(Decl())
         {
-            std::cout<<"Statement"<<std::endl;
-            std::cout<<"Declaration"<<std::endl;
+        cli::log(LOG,"Ok, so two nodes should have been added to the tree");
+
+        node* root = local_tree->getRoot();
+
+        node statement("statement");
+        node declaration("declaration");
+
+        statement.addChild(&declaration);
+        root->addChild(&statement);
+
         }
         else
         {
