@@ -5,7 +5,7 @@ This is the actual parser(but I didn't call it that). It reads the tokens genera
 This should use a bottom up parsing algorithm, but I'm not sure which.
 */
 #include "syntax.h"
-
+#include <memory>
 #include "../cli/log.h"
 #include <iostream>
 
@@ -77,13 +77,14 @@ namespace syntax
         {
         cli::log(LOG,"Ok, so two nodes should have been added to the tree");
 
-        node* root = local_tree->getRoot();
+        auto& root = local_tree->getRoot();
+        std::cout << __PRETTY_FUNCTION__ << "*root = " << root.value << "\n";
 
-        node statement("statement");
-        node declaration("declaration");
+        auto statement = std::make_unique<node>("statement");
+        auto declaration = std::make_unique<node>("declaration");
 
-        statement.addChild(&declaration);
-        root->addChild(&statement);
+        statement->addChild(std::move(declaration));
+        root.addChild(std::move(statement));
 
         }
         else
@@ -94,8 +95,8 @@ namespace syntax
 
     void parse(parser* p,tree* t)
     {
-        node root("root");
-        t->setRoot(&root);
+        auto root = std::make_unique<node>("root");
+        t->setRoot(std::move(root));
 
         local_tree = t;
         local_env = p;

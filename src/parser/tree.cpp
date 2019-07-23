@@ -16,10 +16,10 @@ node::node(std::string value)
     this->value = value;
 }
 
-void node::addChild(node* child)
+void node::addChild(std::unique_ptr<node> child)
 {
-    this->childs.push_back(child);
-    //std::cout<<this->childs.at(this->childs.size())->value<<std::endl;
+    this->childs.push_back(std::move(child));
+    std::cout<< __PRETTY_FUNCTION__ << " Added " << childs.back()->value << " to " << value << "\n";
 }
 
 int node::getChildSize()
@@ -27,13 +27,13 @@ int node::getChildSize()
     return this->childs.size();
 }
 
-node* node::getChild(int pos)
+node& node::getChild(int pos)
 {
-    return this->childs.at(pos);
+    return *childs.at(pos);
 }
 
 const node& node::operator[](const std::string& node_name) const {
-    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const node* n) { return n->value == node_name; } );
+    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node>& n) { return n->value == node_name; } );
     if(childs.end() == match){
         std::stringstream ss;
         ss << node_name << " not found in " << value;
@@ -43,7 +43,7 @@ const node& node::operator[](const std::string& node_name) const {
 }
 
 node& node::operator[](const std::string& node_name) {
-    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const node* n) { return n->value == node_name; } );
+    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node>& n) { return n->value == node_name; } );
     if(childs.end() == match){
         std::stringstream ss;
         ss << node_name << " not found in " << value;
@@ -68,8 +68,8 @@ std::vector<std::string> tree::traverse()
         return treeResult; // No segfault eheh
     }
 
-    std::queue<node *> q;
-    q.push(this->root);
+    std::queue<node*> q;
+    q.push(root.get());
 
     while(!q.empty())
     {
@@ -77,7 +77,8 @@ std::vector<std::string> tree::traverse()
 
         while(n > 0)
         {
-            node* p = q.front();
+            auto* p = q.front();
+            std::cout << __PRETTY_FUNCTION__ << " Traversing " << p->value << "\n"; 
             q.pop();
 
             try
@@ -93,19 +94,19 @@ std::vector<std::string> tree::traverse()
 
             // Range-based loop gave segfaults
             for(int i = 0; i < p->getChildSize(); i++)
-                q.push(p->getChild(i));
+                q.push(&p->getChild(i));
             n--;
         }
     }
     return treeResult;
 }
 
-void tree::setRoot(node* newRoot)
+void tree::setRoot(std::unique_ptr<node> newRoot)
 {
-    this->root = newRoot;
+    this->root = std::move(newRoot);
 }
 
-node* tree::getRoot()
+node& tree::getRoot()
 {
-    return this->root;
+    return *this->root;
 }

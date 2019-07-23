@@ -17,8 +17,8 @@ void compile(std::string source)
     p_env.setTokens(tokens);
 
     tree parseTree;
-    node root("root");
-    parseTree.setRoot(&root);
+    auto root = std::make_unique<node>("root");
+    parseTree.setRoot(std::move(root));
 
     syntax::parse(&p_env,&parseTree);
 
