@@ -7,7 +7,7 @@ This does tree related stuff, like a tiny library inside the main source code.
 
 #include <queue>
 #include <sstream>
-#include <bits/stdc++.h> // fixed it ;)
+#include <algorithm> // fixed it ;)
 
 // === NODE ===
 
