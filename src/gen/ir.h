@@ -2,10 +2,6 @@
 Intermediate code
 This declare the intermediate code, but doesn't generate it. This is like the relation between the parser and syntax files.
 */
-<<<<<<< Updated upstream
-
-#include <string>
-=======
 //  
 #pragma once
 
@@ -41,4 +37,3 @@ namespace ir
         std::vector<property> arguments;
     };
 }
->>>>>>> Stashed changes

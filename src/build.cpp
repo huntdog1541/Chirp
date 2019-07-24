@@ -6,6 +6,7 @@
 #include "parser/lexer.h"
 #include "parser/syntax.h"
 #include "parser/semantic.h"
+#include "gen/gen_ir.h"
 
 #include <iostream>
 
@@ -23,16 +24,12 @@ void compile(std::string source)
     parseTree.setRoot(std::move(root));
 
     syntax::parse(&p_env,&parseTree);
-<<<<<<< Updated upstream
-    semantic::analyze(&parseTree);
-=======
 
     semantic::env sema;
     sema = semantic::analyze(&parseTree);
 
     std::vector<ir::operation> intermediate;
     intermediate = gen::make_ir(&sema.ast);
->>>>>>> Stashed changes
 
     cli::log(cli::log_level::success, "Nothing wen't wrong, and this is all it can do right now");
 }

@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-#include "ir.h"
-=======
 #include "ir.h"
 
 #include <stdarg.h>
@@ -61,4 +58,3 @@ property* operation::getProperty(std::string name)
 }
 
 }
->>>>>>> Stashed changes
