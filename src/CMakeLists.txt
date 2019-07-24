@@ -12,6 +12,7 @@ set(chirplib_SOURCES
     ./gen/gen_asm.cpp
     ./gen/gen_ir.cpp
     ./gen/ir.cpp
+    ./gen/asm.cpp
     ./build.cpp
     ./chirp.cpp
     ./error.cpp

@@ -7,6 +7,7 @@
 #include "parser/syntax.h"
 #include "parser/semantic.h"
 #include "gen/gen_ir.h"
+#include "gen/gen_asm.h"
 
 #include <iostream>
 
@@ -30,6 +31,9 @@ void compile(std::string source)
 
     std::vector<ir::operation> intermediate;
     intermediate = gen::make_ir(&sema.ast);
+
+    std::string output;
+    output = gen::make_asm(intermediate);
 
     cli::log(cli::log_level::success, "Nothing wen't wrong, and this is all it can do right now");
 }

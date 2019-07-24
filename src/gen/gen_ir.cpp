@@ -28,6 +28,7 @@ namespace gen
                 ir::operation dec(ir::op::declaration);
                 dec.set("type",a_type.value);
                 dec.set("name",a_name.value);
+                ir.push_back(dec);
             }
         }
 
