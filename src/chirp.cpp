@@ -2,8 +2,10 @@
 
 #include "cli/log.h"
 
+bool debug_mode;
 int main(int argc, char* argv[])
 {
+    debug_mode = true;
     std::vector<std::string> args;
 
    for(int i = 1; i < argc; i++)
