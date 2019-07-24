@@ -46,7 +46,7 @@ namespace lexer
             }
             else
             {
-                if(word == "int") // Just int for the moment
+                if(word == "int" || word == "char" || word == "bool") // Just int for the moment
                 {
                     tkn.name = token_name::data_type;
                 }

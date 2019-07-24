@@ -9,16 +9,6 @@ This should use a bottom up parsing algorithm, but I'm not sure which.
 #include "../cli/log.h"
 #include <iostream>
 
-/*
-Test grammar
-
-Statement
-Stat -> Decl
-Decl -> data_type VarDec
-
-VarDec -> confirm identifier
-*/
-
 // I have no idea if this is ok, but this seems to work
 namespace syntax
 {
@@ -45,48 +35,43 @@ namespace syntax
     }
 
     // === Handwritten grammar(i hope it's temporary - me) ===
+    /*
+    Looks something like this
 
-    void Vardec()
+    Statement -> Declaration
+    Declaration -> data_type(token) Variable_Declaration
+    Variable_Declaration -> confirm(token) identifier(token)
+    
+    btw it's really simple right now
+    */
+    void var_decl()
     {
         if(local_env->getToken().name == token_name::confirm)
         {
             if(local_env->lookAhead().name == token_name::identifier)
             {
-                std::cout<<"Variable matched"<<std::endl;
             }
         }
     }
 
-    bool Decl()
+    bool decl()
     {
         if(local_env->getToken().name == token_name::data_type)
         {
             local_env->nextToken();
-            Vardec();
-            return true;
+            var_decl();
         }
         else
         {
-            return false;
+            cli::log(DEBUG,"oof");
         }
     }
 
-    void Stat()
+    void stat()
     {
-        if(Decl())
+        if(decl())
         {
-            auto& root = local_tree->getRoot();
-            auto statement = std::make_unique<node>("statement");
-            auto declaration = std::make_unique<node>("declaration");
-            auto yeet = std::make_unique<node>("yeet");
-        
-	        statement->addChild(std::move(declaration));
-            root.addChild(std::move(yeet));
-            root.addChild(std::move(statement));
-        }
-        else
-        {
-            // Other statements not added yet
+
         }
     }
 
@@ -98,6 +83,7 @@ namespace syntax
         local_tree = t;
         local_env = p;
 
-        Stat();
+        auto& rootptr = local_tree->getRoot();
+        // rootptr.addChild(std::move(statement));
     }
 }

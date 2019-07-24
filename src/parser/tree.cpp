@@ -19,7 +19,6 @@ node::node(std::string value)
 void node::addChild(std::unique_ptr<node> child)
 {
     this->childs.push_back(std::move(child));
-    // std::cout<< __PRETTY_FUNCTION__ << " Added " << childs.back()->value << " to " << value << "\n";
 }
 
 int node::getChildSize()
