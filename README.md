@@ -43,6 +43,7 @@ We are rewritting the compiler, and this is what we have done so far:
 - [ ] While statements
 - [ ] For statement
 - [ ] Pointers
+- [ ] Classes
 - [ ] Dynamic memory allocation
 - [ ] IO library
 
