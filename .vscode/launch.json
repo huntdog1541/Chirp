@@ -7,7 +7,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/src/chirp",
-            "args": ["test.ch"],
+            "args": ["test/variable_dec.ch"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

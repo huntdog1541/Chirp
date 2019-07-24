@@ -103,12 +103,20 @@ namespace syntax
         current_node = std::make_unique<node>("statement");
         if(decl())
         {
+            rootptr.addChild(std::move(current_node));
         }
         else
         {
-            cli::log(ERROR,"Unrecognized statement");
+            if(match(token_name::end_of_string))
+            {
+                cli::log(DEBUG,"Reached end");
+            }
+            else
+            {
+                cli::log(ERROR,"Unrecognized statement");   
+            }
+            local_env->nextToken();
         }
-        rootptr.addChild(std::move(current_node));
     }
 
     void parse(parser* p,tree* t)
@@ -123,7 +131,6 @@ namespace syntax
         while(local_env->getToken().name != token_name::end_of_string)
         {
             stat();
-            cli::log(DEBUG,"This works");
         }
         // rootptr.addChild(std::move(statement));
     }
