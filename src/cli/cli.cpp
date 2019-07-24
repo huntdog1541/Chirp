@@ -17,7 +17,7 @@ std::string openFile(const std::string& filename)
 
     if(!reader)
     {
-        cli::log(ERROR,"Couldn't open file " + filename);
+        cli::log(cli::log_level::error ,"Couldn't open file " + filename);
         exit(0);
         return "";
     }
@@ -51,12 +51,12 @@ namespace cli
             {
                 // outputFile = word.at(pos + 1);
             }
-            else
-            {
-                if(pos == 0)
-                {
-                    inputFile = word;
-                }
+            else if(word == "-v"){
+                cli::verbose_enable();
+                cli::log(cli::log_level::log, "Verbose mode enabled, so you'll see debug messages too");
+            }
+            else if(pos == 0){
+                inputFile = word;
             }
             pos++;
         }
@@ -73,7 +73,7 @@ namespace cli
         if(inputArgs == "")
         {
             error = true;
-            log(ERROR, "No input file specified.");
+            log(cli::log_level::error, "No input file specified.");
             exit(0);
         }
         else
@@ -83,7 +83,7 @@ namespace cli
 
         if(outputArgs == "")
         {
-            log(WARNING,"No output file specified, using default.");
+            log(cli::log_level::warning ,"No output file specified, using default.");
 
             output = input;
 

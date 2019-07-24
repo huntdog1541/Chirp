@@ -94,7 +94,7 @@ tree::tree()
 // geeksforgeek generic tree level-order traversal tutorial really helped for this
 std::vector<node*> tree::traverse()
 {
-    cli::log(DEBUG,"-=- TREE TRAVERSAL BEGIN -=-");
+    cli::log(cli::log_level::debug,"-=- TREE TRAVERSAL BEGIN -=-");
     std::vector<node*> path;
 
     if(this->root == NULL)
@@ -114,23 +114,21 @@ std::vector<node*> tree::traverse()
         
         q.pop();
 
-        try
-        {
+        try{
             path.push_back(p);
-            cli::log(DEBUG,"Succesfully pushed value: " + p->value);
+            cli::log(cli::log_level::debug, "Succesfully pushed value: " + p->value);
         }
         catch(...)
         {
-            cli::log(ERROR,"Couldn't add value to tree traversal");
+            cli::log(cli::log_level::warning, "Error while adding value to traversal");
         }
-        //std::cout<<p->value<<std::endl;
 
         // Range-based loop gave segfaults
         for(int i = 0; i < p->getChildSize(); i++){
             q.push(&p->getChild(i));
         }
     }
-    cli::log(DEBUG,"-=- TREE TRAVERSAL END -=-");
+    cli::log(cli::log_level::debug,"-=- TREE TRAVERSAL END -=-");
     return path;
 }
 

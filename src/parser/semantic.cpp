@@ -16,7 +16,7 @@ namespace semantic
 // === Semantic analysis ===
 env analyze(tree* t)
 {
-    cli::log(DEBUG, "--===-- SEMANTIC ANALYSIS --===--");
+    cli::log(cli::log_level::debug, "--===-- SEMANTIC ANALYSIS --===--");
 
     env e;
 
@@ -51,9 +51,9 @@ env analyze(tree* t)
                 v_type = p_type.value;
                 v_name = p_name.value;
                 
-                cli::log(DEBUG,"Analysed variable declaration");
-                cli::log(DEBUG,"type:" + v_type);
-                cli::log(DEBUG,"name:" + v_name);
+                cli::log(cli::log_level::debug,"Analysed variable declaration");
+                cli::log(cli::log_level::debug,"type:" + v_type);
+                cli::log(cli::log_level::debug,"name:" + v_name);
 
                 // AST
                 auto declaration = std::make_unique<node>("declaration");

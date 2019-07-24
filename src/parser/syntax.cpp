@@ -39,7 +39,7 @@ namespace syntax
         else
         {
             // TO-DO: An error handler
-            cli::log(ERROR,"Unexpected token");
+            cli::log(cli::log_level::error,"Unexpected token");
             return false;
         }
     }
@@ -59,10 +59,10 @@ namespace syntax
     {
        if(local_env->getToken().name == token_name::confirm)
        {
-           cli::log(DEBUG,"Matched confirm token");
+           cli::log(cli::log_level::debug, "Matched confirm token");
            if(local_env->lookAhead().name == token_name::identifier)
            {
-               cli::log(DEBUG,"Matched identifier token");
+               cli::log(cli::log_level::debug, "Matched identifier token");
                // btw when I write a variable with a name like namel, the l is for litteral
                auto name = std::make_unique<node>("identifier");
                auto namel = std::make_unique<node>(local_env->lookAhead().value);
@@ -94,7 +94,7 @@ namespace syntax
         }
         else
         {
-            cli::log(DEBUG,"Not a declaration");
+            cli::log(cli::log_level::debug, "Not a declaration");
             return false;
         }
     }
@@ -111,11 +111,11 @@ namespace syntax
         {
             if(match(token_name::end_of_string))
             {
-                cli::log(DEBUG,"Reached end");
+                cli::log(cli::log_level::debug, "Reached end");
             }
             else
             {
-                cli::log(ERROR,"Unrecognized statement");   
+                cli::log(cli::log_level::error, "Unrecognized statement");   
             }
             local_env->nextToken();
         }
@@ -123,7 +123,7 @@ namespace syntax
 
     void parse(parser* p,tree* t)
     {
-        cli::log(DEBUG,"--===-- SYNTAX ANALYSIS --===--");
+        cli::log(cli::log_level::debug,"--===-- SYNTAX ANALYSIS --===--");
         auto root = std::make_unique<node>("root");
         t->setRoot(std::move(root));
 
