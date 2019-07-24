@@ -75,7 +75,9 @@ std::vector<std::string> tree::traverse()
     {
 
         auto* p = q.front();
-        std::cout << __PRETTY_FUNCTION__ << " Traversing " << p->value << "\n"; 
+        
+        // std::cout << __PRETTY_FUNCTION__ << " Traversing " << p->value << "\n"; 
+        
         q.pop();
 
         try

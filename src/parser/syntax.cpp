@@ -44,7 +44,7 @@ namespace syntax
 
     }
 
-    // === Handwritten grammar(probably temporary) ===
+    // === Handwritten grammar(i hope it's temporary - me) ===
 
     void Vardec()
     {
@@ -75,22 +75,18 @@ namespace syntax
     {
         if(Decl())
         {
-        cli::log(LOG,"Ok, so two nodes should have been added to the tree");
-
-        auto& root = local_tree->getRoot();
-        std::cout << __PRETTY_FUNCTION__ << "*root = " << root.value << "\n";
-
-        auto statement = std::make_unique<node>("statement");
-        auto declaration = std::make_unique<node>("declaration");
-        auto yeet = std::make_unique<node>("yeet");
-        statement->addChild(std::move(declaration));
-        root.addChild(std::move(yeet));
-        root.addChild(std::move(statement));
-
+            auto& root = local_tree->getRoot();
+            auto statement = std::make_unique<node>("statement");
+            auto declaration = std::make_unique<node>("declaration");
+            auto yeet = std::make_unique<node>("yeet");
+        
+	        statement->addChild(std::move(declaration));
+            root.addChild(std::move(yeet));
+            root.addChild(std::move(statement));
         }
         else
         {
-            // welp
+            // Other statements not added yet
         }
     }
 
