@@ -29,6 +29,22 @@
 
 Chirp is a modern low-level programming language written in C++. Currently the language is still very early and can barely run yet, but I am actively working on the compiler, and hope one day it will be a functioning language.
 
+### Features
+
+We are rewritting the compiler, and this is what we have done so far:
+
+- [ x ] Variable declaration
+- [ ] Variable definition
+- [ ] Assembly preprocessor
+- [ ] Functions
+- [ ] Function call
+- [ ] If statements
+- [ ] Else statements
+- [ ] While statements
+- [ ] For statement
+- [ ] Dynamic memory allocation
+- [ ] IO library
+
 <br>
 
 ### Simple Example
