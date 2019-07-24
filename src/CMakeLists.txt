@@ -11,7 +11,7 @@ set(chirplib_SOURCES
     ./parser/tree.cpp
     ./gen/gen_asm.cpp
     ./gen/gen_ir.cpp
-    ./gen_ir.cpp
+    ./gen/ir.cpp
     ./build.cpp
     ./chirp.cpp
     ./error.cpp
