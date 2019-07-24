@@ -10,4 +10,4 @@ The parser will generate a parse tree, each statements is a node with the type o
 int: a
 ```
 
-![This image was generated with mshang's syntax tree generator](https://i.ibb.co/Xx9TZ03/download.png)
+![This image was generated with mshang's syntax tree generator](https://i.ibb.co/2sGdLFW/download-1.png)
