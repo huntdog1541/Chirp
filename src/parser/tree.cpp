@@ -5,7 +5,6 @@ This does tree related stuff, like a tiny library inside the main source code.
 #include "tree.h"
 #include "../cli/log.h"
 
-#include <queue>
 #include <sstream>
 #include <algorithm> // fixed it ;)
 
@@ -31,6 +30,17 @@ node& node::getChild(int pos)
     return *childs.at(pos);
 }
 
+node& node::getChild(std::string val)
+{
+    const auto match = std::find_if(childs.begin(), childs.end(), [val](const std::unique_ptr<node>& n) { return n->value == val; } );
+    if(childs.end() == match){
+        std::stringstream ss;
+        ss << val << " not found in " << value;
+        throw std::runtime_error(ss.str());
+    }
+    return **match;
+}
+
 const node& node::operator[](const std::string& node_name) const {
     const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node>& n) { return n->value == node_name; } );
     if(childs.end() == match){
@@ -51,6 +61,29 @@ node& node::operator[](const std::string& node_name) {
     return **match;
 }
 
+bool node::hasChild(int p)
+{
+    bool res = false;
+
+    if(p > childs.size())
+    {
+        res = false;
+    }
+    else
+    {
+        res = true;
+    }
+
+    return res;
+}
+
+bool node::hasChild(std::string v)
+{
+    bool res = false;
+
+    return res;
+}
+
 // === TREE === 
 
 tree::tree()
@@ -59,12 +92,14 @@ tree::tree()
 }
 
 // geeksforgeek generic tree level-order traversal tutorial really helped for this
-std::vector<std::string> tree::traverse()
+std::vector<node*> tree::traverse()
 {
-    std::vector<std::string> treeResult;
+    cli::log(DEBUG,"-=- TREE TRAVERSAL BEGIN -=-");
+    std::vector<node*> path;
+
     if(this->root == NULL)
     {
-        return treeResult; // No segfault eheh
+        return path;
     }
 
     std::queue<node*> q;
@@ -81,12 +116,12 @@ std::vector<std::string> tree::traverse()
 
         try
         {
-            treeResult.push_back(p->value);
-            cli::log(LOG,"Succesfully pushed value: " + p->value);
+            path.push_back(p);
+            cli::log(DEBUG,"Succesfully pushed value: " + p->value);
         }
         catch(...)
         {
-            cli::log(WARNING,"Error while adding value to traversal");
+            cli::log(ERROR,"Couldn't add value to tree traversal");
         }
         //std::cout<<p->value<<std::endl;
 
@@ -95,7 +130,8 @@ std::vector<std::string> tree::traverse()
             q.push(&p->getChild(i));
         }
     }
-    return treeResult;
+    cli::log(DEBUG,"-=- TREE TRAVERSAL END -=-");
+    return path;
 }
 
 void tree::setRoot(std::unique_ptr<node> newRoot)

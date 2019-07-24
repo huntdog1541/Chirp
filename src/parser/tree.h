@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <queue>
 
 class node
 {
@@ -19,9 +20,18 @@ class node
     // Returns the child at given position
     node& getChild(int);
 
+    // Returns child with given value
+    node& getChild(std::string);
+
     const node& operator[](const std::string& node_name) const;
-    
+
     node& operator[](const std::string& node_name);
+
+    // Returns true if has child at given position
+    bool hasChild(int);
+
+    // Returns true if has child with given value
+    bool hasChild(std::string);
 
     // Node's value
     std::string value;
@@ -36,7 +46,7 @@ class tree
     tree();
 
     //Traverse the tree and returns the id in order of each nodes.
-    std::vector<std::string> traverse();
+    std::vector<node*> traverse();
     
     // Sets the root node
     void setRoot(std::unique_ptr<node>);

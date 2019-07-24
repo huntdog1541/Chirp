@@ -67,14 +67,14 @@ namespace syntax
                auto name = std::make_unique<node>("identifier");
                auto namel = std::make_unique<node>(local_env->lookAhead().value);
                name->addChild(std::move(namel));
-               current_node->addChild(std::move(name));
+               current_node->getChild(0).addChild(std::move(name));
            }
        }
     }
 
     bool decl()
     {
-        if(match(token_name::data_type))
+        if(local_env->getToken().name == token_name::data_type)
         {
             auto decl = std::make_unique<node>("declaration");
 
@@ -86,8 +86,10 @@ namespace syntax
             spec->addChild(std::move(type));
             decl->addChild(std::move(spec));
             current_node->addChild(std::move(decl));
-            //local_env->nextToken();
+
+            local_env->nextToken();
             var_decl();
+
             return true;
         }
         else
@@ -121,6 +123,7 @@ namespace syntax
 
     void parse(parser* p,tree* t)
     {
+        cli::log(DEBUG,"--===-- SYNTAX ANALYSIS --===--");
         auto root = std::make_unique<node>("root");
         t->setRoot(std::move(root));
 
