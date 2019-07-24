@@ -33,7 +33,7 @@ Chirp is a modern low-level programming language written in C++. Currently the l
 
 We are rewritting the compiler, and this is what we have done so far:
 
-- [ x ] Variable declaration
+- [x] Variable declaration
 - [ ] Variable definition
 - [ ] Assembly preprocessor
 - [ ] Functions
