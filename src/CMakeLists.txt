@@ -9,6 +9,9 @@ set(chirplib_SOURCES
     ./parser/syntax.cpp
     ./parser/token.cpp
     ./parser/tree.cpp
+    ./gen/gen_asm.cpp
+    ./gen/gen_ir.cpp
+    ./gen_ir.cpp
     ./build.cpp
     ./chirp.cpp
     ./error.cpp
@@ -20,6 +23,7 @@ set(chirp_SOURCES
 set(chirplib_INCLUDE_DIRS
     ./
     ./cli
+    ./gen
     ./parser)
 
 # Split the program into a library and an executable for testing purposes
