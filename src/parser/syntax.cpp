@@ -14,10 +14,11 @@ namespace syntax
 {
     parser* local_env; // *munchii is triggered*
     tree* local_tree;
+    std::unique_ptr<node> current_node;
 
-    bool match(token t)
+    bool match(token_name t)
     {
-        if(local_env->getToken().name == t.name)
+        if(local_env->getToken().name == t)
         {
             local_env->nextToken();
             return true;
@@ -29,50 +30,85 @@ namespace syntax
         
     }
 
-    bool expect(token t)
+    bool expect(token_name t)
     {
-
+        if(match(t))
+        {
+            return true;
+        }
+        else
+        {
+            // TO-DO: An error handler
+            cli::log(ERROR,"Unexpected token");
+            return false;
+        }
     }
 
-    // === Handwritten grammar(i hope it's temporary - me) ===
+    // === Grammar ===
     /*
-    Looks something like this
+    The grammar something like this
 
     Statement -> Declaration
     Declaration -> data_type(token) Variable_Declaration
     Variable_Declaration -> confirm(token) identifier(token)
-    
-    btw it's really simple right now
+
+    For the moment I am using an handwritten grammar but I migt write a simple parser generator to make it easier.
     */
+
     void var_decl()
     {
-        if(local_env->getToken().name == token_name::confirm)
-        {
-            if(local_env->lookAhead().name == token_name::identifier)
-            {
-            }
-        }
+       if(local_env->getToken().name == token_name::confirm)
+       {
+           cli::log(DEBUG,"Matched confirm token");
+           if(local_env->lookAhead().name == token_name::identifier)
+           {
+               cli::log(DEBUG,"Matched identifier token");
+               // btw when I write a variable with a name like namel, the l is for litteral
+               auto name = std::make_unique<node>("identifier");
+               auto namel = std::make_unique<node>(local_env->lookAhead().value);
+               name->addChild(std::move(namel));
+               current_node->addChild(std::move(name));
+           }
+       }
     }
 
     bool decl()
     {
-        if(local_env->getToken().name == token_name::data_type)
+        if(match(token_name::data_type))
         {
-            local_env->nextToken();
+            auto decl = std::make_unique<node>("declaration");
+
+            auto spec = std::make_unique<node>("specifier");
+            auto type = std::make_unique<node>("data_type");
+            auto typel = std::make_unique<node>(local_env->getToken().value);
+            
+            type->addChild(std::move(typel));
+            spec->addChild(std::move(type));
+            decl->addChild(std::move(spec));
+            current_node->addChild(std::move(decl));
+            //local_env->nextToken();
             var_decl();
+            return true;
         }
         else
         {
-            cli::log(DEBUG,"oof");
+            cli::log(DEBUG,"Not a declaration");
+            return false;
         }
     }
 
     void stat()
     {
+        auto& rootptr = local_tree->getRoot();
+        current_node = std::make_unique<node>("statement");
         if(decl())
         {
-
         }
+        else
+        {
+            cli::log(ERROR,"Unrecognized statement");
+        }
+        rootptr.addChild(std::move(current_node));
     }
 
     void parse(parser* p,tree* t)
@@ -83,7 +119,12 @@ namespace syntax
         local_tree = t;
         local_env = p;
 
-        auto& rootptr = local_tree->getRoot();
+        // For the moment can only parse one statement
+        while(local_env->getToken().name != token_name::end_of_string)
+        {
+            stat();
+            cli::log(DEBUG,"This works");
+        }
         // rootptr.addChild(std::move(statement));
     }
 }

@@ -37,7 +37,7 @@ class tree
 
     //Traverse the tree and returns the id in order of each nodes.
     std::vector<std::string> traverse();
-
+    
     // Sets the root node
     void setRoot(std::unique_ptr<node>);
 
