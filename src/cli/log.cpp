@@ -2,69 +2,54 @@
 
 namespace cli
 {
-    std::string write_color(const int color, const std::string& text)
+    enum class output_col{ black, white, red, yellow, green, blue };
+        
+    std::string write_color(const output_col,const std::string&);
+
+    static bool debug_mode = false;
+
+    void verbose_enable(){
+        debug_mode = true;
+    }
+    
+    std::string write_color(const output_col color, const std::string& text)
     {
         std::string result = "\u001b[";
         
-        if(color == BLACK)
-        {
-            result += "30m";
-        }
-        else if(color == WHITE)
-        {
-            result += "37m";
-        }
-        else if(color == RED)
-        {
-            result += "31m";
-        }
-        else if(color == YELLOW)
-        {
-            result += "33m";
-        }
-        else if(color == GREEN)
-        {
-            result += "32m";
-        }
-        else if(color == BLUE)
-        {
-            result += "34m";
+        switch(color){
+            case output_col::black: result += "30m";    break;
+            case output_col::white: result += "37m";    break;
+            case output_col::red: result += "31m";      break;
+            case output_col::yellow: result += "33m";   break;
+            case output_col::green: result += "32m";    break;
+            case output_col::blue: result += "34m";     break;
         }
 
         result += text;
         result += " \u001b[0m"; // Reset code
-
         return result;
     }
     
-    void log(const int level, const std::string& message)
+    void log(const log_level lvl, const std::string& message)
     {
-        if(level == LOG)
-        {
-            std::cout<<"LOG: "<<message<<std::endl;
-        }
-        else if(level == WARNING)
-        {
-            std::cout<<write_color(YELLOW,"WARNING: ")<<message<<std::endl;
-        }
-        else if(level == ERROR)
-        {
-            std::cout<<write_color(RED,"ERROR: ")<<message<<std::endl;
-        }
-        else if(level == SUCCESS)
-        {
-            std::cout<<write_color(GREEN,"SUCCESS: ")<<message<<std::endl;
-        }
-        else if(level == DEBUG)
-        {
-            if(debug_mode == true)
-            {
-                std::cout<<write_color(BLUE, "DEBUG: ")<<message<<std::endl;
-            }
-            else
-            {
-                // do nothing
-            }
-        }
+        switch(lvl){
+            case log_level::log:
+                std::cout << "LOG: " << message << "\n";
+                break;
+            case log_level::warning:
+                std::cout << write_color(output_col::yellow, "WARNING: ") << message << "\n";
+                break;
+            case log_level::error:
+                std::cout << write_color(output_col::red ,"ERROR: ") << message << "\n";
+                break;
+            case log_level::success:
+                std::cout << write_color(output_col::green, "SUCCESS: ") << message << "\n";
+                break;
+            case log_level::debug:
+                if(debug_mode){
+                    std::cout << write_color(output_col::blue, "DEBUG: ") << message << "\n";
+                }
+                break;
+        }        
     }
 }
