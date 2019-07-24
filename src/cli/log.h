@@ -5,16 +5,20 @@
 #define WARNING 1
 #define ERROR 2
 #define SUCCESS 3
+#define DEBUG 4
 
 #define BLACK 0
 #define WHITE 1
 #define RED 2
 #define YELLOW 3
 #define GREEN 4
+#define BLUE 5
+
+extern bool debug_mode;
 
 namespace cli
 {
-    std::string writeColor(const int,const std::string&);
+    std::string write_color(const int,const std::string&);
     /*
     Logs a message to the console. Uses 3 different level of status,
     

@@ -2,7 +2,7 @@
 
 namespace cli
 {
-    std::string writeColor(const int color, const std::string& text)
+    std::string write_color(const int color, const std::string& text)
     {
         std::string result = "\u001b[";
         
@@ -26,6 +26,10 @@ namespace cli
         {
             result += "32m";
         }
+        else if(color == BLUE)
+        {
+            result += "34m";
+        }
 
         result += text;
         result += " \u001b[0m"; // Reset code
@@ -41,15 +45,26 @@ namespace cli
         }
         else if(level == WARNING)
         {
-            std::cout<<writeColor(YELLOW,"WARNING: ")<<message<<std::endl;
+            std::cout<<write_color(YELLOW,"WARNING: ")<<message<<std::endl;
         }
         else if(level == ERROR)
         {
-            std::cout<<writeColor(RED,"ERROR: ")<<message<<std::endl;
+            std::cout<<write_color(RED,"ERROR: ")<<message<<std::endl;
         }
         else if(level == SUCCESS)
         {
-            std::cout<<writeColor(GREEN,"SUCCESS: ")<<message<<std::endl;
+            std::cout<<write_color(GREEN,"SUCCESS: ")<<message<<std::endl;
+        }
+        else if(level == DEBUG)
+        {
+            if(debug_mode == true)
+            {
+                std::cout<<write_color(BLUE, "DEBUG: ")<<message<<std::endl;
+            }
+            else
+            {
+                // do nothing
+            }
         }
     }
 }
