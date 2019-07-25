@@ -72,15 +72,15 @@ We are rewritting the compiler, and this is what we have done so far:
 
 - [x] Variable declaration `24-07-2019`
 - [x] Variable definition `25-07-2019`
-- [ ] Assembly preprocessor
+- [ ] Math
 - [ ] Functions
 - [ ] Function call
-- [ ] Mathematical expressions
 - [ ] If statements
 - [ ] Else statements
+- [ ] Pointers
+- [ ] Assembly preprocessor
 - [ ] While statements
 - [ ] For statements
-- [ ] Pointers
 - [ ] Classes
 - [ ] Dynamic memory allocation
 - [ ] IO library
