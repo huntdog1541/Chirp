@@ -216,6 +216,7 @@ namespace syntax
         // For the moment can only parse one statement
         while(local_env->getToken().name != token_name::end_of_string)
         {
+            /*
             if(local_env->getToken().value == last)
             {
                 stuck++;
@@ -226,9 +227,10 @@ namespace syntax
                 cli::log(cli::log_level::error,"(PARSER) Endless loop detected, parsing terminate.");
                 break;
             }
+            */
 
             stat();
-            last = local_env->getToken().value;
+            // last = local_env->getToken().value;
         }
         // rootptr.addChild(std::move(statement));
     }
