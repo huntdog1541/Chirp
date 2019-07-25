@@ -1,7 +1,7 @@
 /*
 Phase 5: Assembly code generation
 
-This takes the intermediate code, and turns it into assembly.
+This takes the intermediate code, and turns it into assembly. Also this is the most fun part of the code to work on.
 */
 #include "gen_asm.h"
 
@@ -23,6 +23,16 @@ class object
     int position;
     int scope_height;
     type_size type;
+
+    std::string getRegister()
+    {
+        std::string result;
+
+        std::string bp = assembly::getReg("bp");
+        result = "[" + bp + "-" + std::to_string(this->position) + "]";
+
+        return result;
+    }
 };
 
 int last_pos;
@@ -64,25 +74,48 @@ object* getObjectByName(std::string name)
 
 namespace gen
 {
-    void make_declaration(ir::operation op)
+    void make_declaration(ir::operation* op)
     {
         cli::log(cli::log_level::debug,"Registering variable");
 
         object var;
         std::string typel; // type litteral
 
-        var.name = op.getProperty("name")->value;
+        typel = op->getProperty("type")->value;
+        var.name = op->getProperty("name")->value;
 
         if(typel == "int")
         {
             var.type = type_size::interger;
             last_pos += type_size::interger;
         }
+        else
+        {
+            cli::log(cli::log_level::error,"Couldn't register object " + var.name + ", type " + typel + "is unrecognized.");
+        }
+        
 
         var.position = last_pos;
         var.scope_height = height;
 
         scope.push_back(var);
+    }
+    std::string make_assignement(ir::operation* op)
+    {
+        std::string result;
+
+        object* target;
+        target = getObjectByName(op->getProperty("target")->value);
+
+        if(op->getProperty("source_type")->value == "litteral")
+        {
+            cli::log(cli::log_level::debug,"Litteral found");
+            result = assembly::mov(target->getRegister(),op->getProperty("source")->value);
+        }
+
+        cli::log(cli::log_level::debug,"Result of variable assignement is:\n<===> \n" + result + "<===>");
+
+        return result;
     }
     std::string make_asm(std::vector<ir::operation> code)
     {
@@ -94,7 +127,11 @@ namespace gen
         {
             if(op.type == ir::op::declaration)
             {
-                make_declaration(op);
+                make_declaration(&op);
+            }
+            if(op.type == ir::op::assignment)
+            {
+                res += make_assignement(&op);
             }
         }
 

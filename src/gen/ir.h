@@ -10,7 +10,7 @@ This declare the intermediate code, but doesn't generate it. This is like the re
 
 namespace ir
 {
-    enum class op{declaration};
+    enum class op{declaration,assignment};
 
     class property
     {

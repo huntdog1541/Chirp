@@ -20,6 +20,7 @@ namespace gen
 
         for(auto n : path)
         {
+            //std::cout<<n->value<<std::endl;
             if(n->value == "declaration")
             {
                 auto& a_type = n->getChild(0);
@@ -29,6 +30,24 @@ namespace gen
                 dec.set("type",a_type.value);
                 dec.set("name",a_name.value);
                 ir.push_back(dec);
+            }
+            if(n->value == "assignment")
+            {
+                std::string a_id = n->getChild(0).getChild(0).value;
+                std::string a_vtype = n->getChild(1).getChild(0).value;
+                std::string a_value = n->getChild(1).getChild(0).getChild(0).value;
+
+                // Godamn I love logging
+                cli::log(cli::log_level::debug,"Analysed assignment AST");
+                cli::log(cli::log_level::debug,"target:" + a_id);
+                cli::log(cli::log_level::debug,"source type:" + a_vtype);
+                cli::log(cli::log_level::debug,"source:" + a_value);
+
+                ir::operation assign(ir::op::assignment);
+                assign.set("target",a_id);
+                assign.set("source_type",a_vtype);
+                assign.set("source",a_value);
+                ir.push_back(assign);
             }
         }
 

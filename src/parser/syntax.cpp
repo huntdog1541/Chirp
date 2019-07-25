@@ -146,14 +146,12 @@ namespace syntax
                 auto id = std::make_unique<node>("identifier");
                 auto idl = std::make_unique<node>(local_env->lookBehind().value);
 
-                std::cout<<idl->value<<std::endl;
-
                 id->addChild(std::move(idl));
                 target->addChild(std::move(id));
                 assign->addChild(std::move(target));
                 current_node->addChild(std::move(assign));
 
-                 local_env->nextToken();
+                local_env->nextToken();
                 exp();
                 return true;
             }

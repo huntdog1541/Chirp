@@ -85,7 +85,7 @@ env analyze(tree* t)
                 cli::log(cli::log_level::debug,"source:" + v_source);
 
                 // AST
-                auto a_assign = std::make_unique<node>("assignement");
+                auto a_assign = std::make_unique<node>("assignment");
                 auto a_target = std::make_unique<node>("target");
                 auto a_source = std::make_unique<node>("source");
                 std::unique_ptr<node> a_sourcetype;
@@ -108,6 +108,8 @@ env analyze(tree* t)
                 a_sourcetype->addChild(std::move(a_sourcel));
                 a_source->addChild(std::move(a_sourcetype));
                 a_assign->addChild(std::move(a_source));
+
+                block_node->addChild(std::move(a_assign));
             }
         } 
     }
