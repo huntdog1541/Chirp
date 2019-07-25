@@ -61,7 +61,7 @@ token parser::lookBehind()
 {
     token t;
 
-    if(!this->tkn_pos >= 0)
+    if(this->tkn_pos > 0)
     {
         t = this->tokens.at(this->tkn_pos - 1);
     }
