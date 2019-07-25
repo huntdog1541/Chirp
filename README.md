@@ -39,36 +39,13 @@ Chirp is a modern low-level programming language written in C++. Currently the l
   }
 ```
 
-## Building
-
-We are using CMake, so building is very easy. Depending on your platform there might be scripts to run the CMake commands for you, but even without the scripts it's very easy.
-
-### Dependencies
-
-- any compiler that supports c++11
-- ``cmake`` 3.8.2 or higher
-
-### Linux
-
-You can build using the ``build.sh`` script
-
-```bash
-git clone https://github.com/chirp-language/Chirp.git
-cd Chirp
-sh build.sh
-```
-
-The executable will be created in ``./build/src/Chirp``.
-
-### Windows
-
-There is no scripts for windows, but you can use the CMake gui.
+<br>
 
 ## Features
 
 We are rewritting the compiler, and this is what we have done so far:
 
-- [x] Variable declaration ``24-07-2019``
+- [x] Variable declaration - `24-07-2019`
 - [ ] Variable definition
 - [ ] Assembly preprocessor
 - [ ] Functions
@@ -77,8 +54,37 @@ We are rewritting the compiler, and this is what we have done so far:
 - [ ] If statements
 - [ ] Else statements
 - [ ] While statements
-- [ ] For statement
+- [ ] For statements
 - [ ] Pointers
 - [ ] Classes
 - [ ] Dynamic memory allocation
 - [ ] IO library
+- [ ] Math library
+- [ ] Eve library
+
+<br>
+
+## Building
+
+We are using CMake, so building is very easy. Depending on your platform there might be scripts to run the CMake commands for you, but even without the scripts it's very easy.
+
+### Dependencies
+
+- any compiler that supports c++11
+- `cmake` 3.8.2 or higher
+
+### Linux
+
+You can build using the `build.sh` script
+
+```bash
+  git clone https://github.com/chirp-language/Chirp.git
+  cd Chirp
+  sh build.sh
+```
+
+The executable will be created in `./build/src/Chirp`.
+
+### Windows
+
+There's no scripts for windows, but you can use the CMake gui.
