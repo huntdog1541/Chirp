@@ -145,7 +145,7 @@ namespace syntax
     {
         // Assignment -> identifier(token) =(token) Expression
         // Assignement -> (backtrack) identifier(token) =(token) Expression
-        if(match(token_name::identifier))
+        if(match(token_name::identifier) || local_env->lookBehind().name == token_name::identifier)
         {   
             // Declaration and definition
             cli::log(cli::log_level::debug, "Identifier matched here");
@@ -168,14 +168,6 @@ namespace syntax
                 return true;
             }
             return false;
-        }
-        else if(local_env->lookBehind().name == token_name::identifier)
-        {
-            cli::log(cli::log_level::debug,"Identifier match behind");
-            if(local_env->getToken().name == token_name::assign_op)
-            {
-
-            }
         }
         return false;
     }
