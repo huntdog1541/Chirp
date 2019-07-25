@@ -1,7 +1,7 @@
 /*
 Phase 5: Assembly code generation
 
-This takes the intermediate code, and turns it into assembly. Also this is the most fun part of the code to work on.
+This takes the intermediate reprensentation, and turns it into assembly. Also this is the most fun part of the code to work on.
 */
 #include "gen_asm.h"
 
@@ -89,6 +89,16 @@ namespace gen
             var.type = type_size::interger;
             last_pos += type_size::interger;
         }
+        else if(typel == "char")
+        {
+            var.type = type_size::character;
+            last_pos += type_size::character;
+        }
+        else if(typel == "bool")
+        {
+            var.type = type_size::boolean;
+            last_pos += type_size::boolean;
+        }
         else
         {
             cli::log(cli::log_level::error,"Couldn't register object " + var.name + ", type " + typel + "is unrecognized.");
@@ -110,7 +120,36 @@ namespace gen
         if(op->getProperty("source_type")->value == "litteral")
         {
             cli::log(cli::log_level::debug,"Litteral found");
-            result = assembly::mov(target->getRegister(),op->getProperty("source")->value);
+
+            std::string source = op->getProperty("source")->value;
+            std::string value;
+
+            // This is basically doing what the code in the lexer did
+            if(source.at(0) == '\'')
+            {
+                // Character
+                value = std::to_string(int(source.at(1)));
+                // std::cout<<value<<std::endl;
+            }
+            else if(source == "true" || source == "false")
+            {
+                // Boolean
+                if(source == "true")
+                {
+                    value = "1";
+                }
+                else
+                {
+                    value = "0";
+                }
+            }
+            else
+            {
+                // Number
+                value = source;
+            }
+
+            result = assembly::mov(target->getRegister(),value);
         }
 
         cli::log(cli::log_level::debug,"Result of variable assignement is:\n<===> \n" + result + "<===>");

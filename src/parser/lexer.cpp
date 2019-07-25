@@ -64,6 +64,14 @@ namespace lexer
                     {
                         next = token_name::litteral;
                     }
+                    else if(prep.at(pos + 1) == "true" || prep.at(pos + 1) == "false")
+                    {
+                        next = token_name::litteral;
+                    }
+                    else if(prep.at(pos+1).at(0) == '\'')
+                    {
+                        next = token_name::litteral;
+                    }
                     else
                     {
                         next = token_name::identifier;
