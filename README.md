@@ -29,7 +29,42 @@
 
 Chirp is a modern low-level programming language written in C++. Currently the language is still very early and can barely run yet, but I am actively working on the compiler, and hope one day it will be a functioning language.
 
-### Features
+## Simple Example
+
+```chirp
+  entry ()
+  {
+    # Assign 123 to the variable "a", which is an int
+    int: a = 123
+  }
+```
+
+## Building
+
+We are using CMake, so building is very easy. Depending on your platform there might be scripts to run the CMake commands for you, but even without the scripts it's very easy.
+
+### Dependencies
+
+- any compiler that supports c++11
+- ``cmake`` 3.8.2 or higher
+
+### Linux
+
+You can build using the ``build.sh`` script
+
+```bash
+git clone https://github.com/chirp-language/Chirp.git
+cd Chirp
+sh build.sh
+```
+
+The executable will be created in ``./build/src/Chirp``.
+
+### Windows
+
+There is no scripts for windows, but you can use the CMake gui.
+
+## Features
 
 We are rewritting the compiler, and this is what we have done so far:
 
@@ -46,44 +81,3 @@ We are rewritting the compiler, and this is what we have done so far:
 - [ ] Classes
 - [ ] Dynamic memory allocation
 - [ ] IO library
-
-<br>
-
-### Simple Example
-
-```chirp
-  entry ()
-  {
-    # Assign 123 to the variable "a", which is an int
-    int: a = 123
-  }
-```
-
-<br>
-
-### Communicate
-
-Want to Communicate with us and the rest of the community? You can join [our Discord server](https://discord.gg/8EeVJaS). There's always someone ready to help you out or just chat with you.
-
-> If you have a bug report or feature request, you can also create a ticket on the repo
-
-<br>
-
-### Documentation
-
-Chirp's documentation is currently being written, but there's enough for you to get an idea of how the language works. If you want help on building Chirp and getting started, check out [Getting Started](https://github.com/binkiklou/Chirp-Website/blob/master/Website/Documentation/Getting%20Started.md). You can find all documentation at this site: [Documentation Website](http://munchii.me/chirp), or at [our documentation repo](https://github.com/binkiklou/Chirp-Documentation)!
-
-> The documentation website will be switched with a custom URL soon
-
-<br>
-
-### Contribute
-
-Wanna help us develop Chirp? We would love your help.
-Learn more on contributing in the [Official Contribute](Contributing.md) file!
-
-<br>
-
-### License
-
-Chirp is using the MIT license. Check out our license at our [License](https://github.com/binkiklou/Chirp/blob/master/LICENSE) file.
