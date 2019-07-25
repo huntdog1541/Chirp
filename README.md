@@ -73,6 +73,7 @@ We are rewritting the compiler, and this is what we have done so far:
 - [ ] Assembly preprocessor
 - [ ] Functions
 - [ ] Function call
+- [ ] Mathematical expressions
 - [ ] If statements
 - [ ] Else statements
 - [ ] While statements
