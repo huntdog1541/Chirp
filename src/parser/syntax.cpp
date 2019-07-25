@@ -54,7 +54,7 @@ namespace syntax
     Declaration -> data_type(token) Variable_Declaration
     Variable_Declaration -> confirm(token) identifier(token)
 
-    Assign -> (backtrack) identifier(token) =(token) Expresssion
+    Assign -> identifier(token) =(token) Expresssion
 
     Expression -> litteral
     Expression -> identifier
@@ -99,12 +99,12 @@ namespace syntax
 
             local_env->nextToken();
             var_decl();
+            local_env->nextToken();
 
             return true;
         }
         else
         {
-            cli::log(cli::log_level::debug, "Not a declaration");
             return false;
         }
     }
@@ -143,9 +143,12 @@ namespace syntax
     // Assignment
     bool assign()
     {
+        // Assignment -> identifier(token) =(token) Expression
+        // Assignement -> (backtrack) identifier(token) =(token) Expression
         if(match(token_name::identifier))
         {   
-            cli::log(cli::log_level::debug, "Identifier matched");
+            // Declaration and definition
+            cli::log(cli::log_level::debug, "Identifier matched here");
             if(local_env->getToken().name == token_name::assign_op)
             {
                 // This is the part where you get a pen and paper, because this is some complicated tree stuff
@@ -166,14 +169,25 @@ namespace syntax
             }
             return false;
         }
+        else if(local_env->lookBehind().name == token_name::identifier)
+        {
+            cli::log(cli::log_level::debug,"Identifier match behind");
+            if(local_env->getToken().name == token_name::assign_op)
+            {
+
+            }
+        }
         return false;
     }
 
     // Statement
     void stat()
     {
+        // Statement -> Declaration
+        // Statement -> Assignment
         auto& rootptr = local_tree->getRoot();
         current_node = std::make_unique<node>("statement");
+
         if(decl())
         {
             rootptr.addChild(std::move(current_node));
@@ -192,7 +206,6 @@ namespace syntax
             {
                 cli::log(cli::log_level::error, "Unrecognized statement, with token value:" + local_env->getToken().value);   
             }
-            local_env->nextToken();
         }
     }
 
@@ -205,10 +218,25 @@ namespace syntax
         local_tree = t;
         local_env = p;
 
+        std::string last = "";
+        int stuck = 0;
+
         // For the moment can only parse one statement
         while(local_env->getToken().name != token_name::end_of_string)
         {
+            if(local_env->getToken().value == last)
+            {
+                stuck++;
+            }
+
+            if(stuck > 10)
+            {
+                cli::log(cli::log_level::error,"(PARSER) Endless loop detected, parsing terminate.");
+                break;
+            }
+
             stat();
+            last = local_env->getToken().value;
         }
         // rootptr.addChild(std::move(statement));
     }

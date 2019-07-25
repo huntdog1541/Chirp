@@ -4,6 +4,7 @@ Phase 2: Lexing
 This should take the ouput of the preprocessor, and assign tokens to each word & symbols.
 */
 #include "lexer.h"
+#include "../cli/log.h"
 
 #include <iostream>
 
@@ -59,6 +60,17 @@ namespace lexer
                 {
                     tkn.name = token_name::assign_op;
 
+                    try
+                    {
+                        tokens.at(pos - 1).name = token_name::identifier;
+                        cli::log(cli::log_level::debug,"Setting back token");
+                    }
+                    catch(std::out_of_range)
+                    {
+                        // Not very important
+                        cli::log(cli::log_level::debug,"(LEXER) Out of range behind = symbol");
+                    }
+
                     // Doesn't detect char or string or bool yet
                     if(isNumber(prep.at(pos + 1)) == true)
                     {
@@ -83,6 +95,8 @@ namespace lexer
             pos++;
         }
 
+        token eos(token_name::end_of_string,"");
+        tokens.push_back(eos);
         return tokens;
     }
 }
