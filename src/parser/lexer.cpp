@@ -57,7 +57,7 @@ namespace lexer
                 }
                 else if(word == "=")
                 {
-                    tkn.name = token_name::assignment;
+                    tkn.name = token_name::assign_op;
 
                     // Doesn't detect char or string or bool yet
                     if(isNumber(prep.at(pos + 1)) == true)

@@ -60,7 +60,7 @@ object* getObjectByName(std::string name)
     return result;
 }
 
-// === GENERATION CODE ===
+// === CODE GENERATION ===
 
 namespace gen
 {

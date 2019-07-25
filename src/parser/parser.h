@@ -31,6 +31,11 @@ class parser
     void nextToken();
 
     /*
+    Returns the token, behind of the position
+    */
+    token lookBehind();
+
+    /*
     Returns the next token
     */
     token lookAhead();

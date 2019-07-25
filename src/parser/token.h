@@ -13,7 +13,7 @@ enum class token_name {
     // separator
     lparen,rparen,lbracket,rbracket,
     // operator
-    assignment,
+    assign_op,
     // other
     confirm, // the : symbol
     litteral,

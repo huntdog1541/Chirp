@@ -37,7 +37,7 @@ void parser::nextToken()
     else
     {
         // bad
-        cli::log(cli::log_level::warning, "Cannot go forward");
+        cli::log(cli::log_level::warning, "(parsing) Cannot go forward");
     }
 }
 
@@ -51,7 +51,23 @@ token parser::lookAhead()
     }
     else
     {
-        cli::log(cli::log_level::warning, "Cannot look ahead");
+        cli::log(cli::log_level::warning, "(parsing) Cannot look ahead");
+    }
+
+    return t;
+}
+
+token parser::lookBehind()
+{
+    token t;
+
+    if(!this->tkn_pos >= 0)
+    {
+        t = this->tokens.at(this->tkn_pos - 1);
+    }
+    else
+    {
+        cli::log(cli::log_level::warning, "(parsing) Cannot look behind");
     }
 
     return t;

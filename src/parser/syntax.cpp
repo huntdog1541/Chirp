@@ -49,17 +49,27 @@ namespace syntax
     The grammar something like this
 
     Statement -> Declaration
+    Statement -> Assign
+
     Declaration -> data_type(token) Variable_Declaration
     Variable_Declaration -> confirm(token) identifier(token)
 
+    Assign -> (backtrack) identifier(token) =(token) Expresssion
+
+    Expression -> litteral
+    Expression -> identifier
+    Expression -> identifier operator(token) identifier
+    Expression -> litteral operator(token) litteral
+
     For the moment I am using an handwritten grammar but I migt write a simple parser generator to make it easier.
     */
-
+   // Variable declaration
     void var_decl()
     {
        if(local_env->getToken().name == token_name::confirm)
        {
            cli::log(cli::log_level::debug, "Matched confirm token");
+           // Doesn't match, because we don't want to lose it yet
            if(local_env->lookAhead().name == token_name::identifier)
            {
                cli::log(cli::log_level::debug, "Matched identifier token");
@@ -71,7 +81,7 @@ namespace syntax
            }
        }
     }
-
+    // Declaration
     bool decl()
     {
         if(local_env->getToken().name == token_name::data_type)
@@ -99,11 +109,66 @@ namespace syntax
         }
     }
 
+    // Expression
+    void exp()
+    {
+        // Could replace it by a really smart for loop
+
+        if(match(token_name::litteral))
+        {
+            auto source = std::make_unique<node>("target");
+            auto expr = std::make_unique<node>("expression");
+            auto lit = std::make_unique<node>("litteral");
+            auto litl = std::make_unique<node>(local_env->lookBehind().value);
+
+            lit->addChild(std::move(litl));
+            expr->addChild(std::move(lit));
+            source->addChild(std::move(expr));
+            current_node->getChild(0).addChild(std::move(source));
+        }
+        else
+        {
+        }
+    }
+
+    // Assignment
+    bool assign()
+    {
+        if(match(token_name::identifier))
+        {   
+            cli::log(cli::log_level::debug, "Identifier matched");
+            if(match(token_name::assign_op))
+            {
+                cli::log(cli::log_level::debug, "Assignement operator matched");
+                auto assign = std::make_unique<node>("assignment");
+                auto target = std::make_unique<node>("target");
+                auto id = std::make_unique<node>("identifier");
+                auto idl = std::make_unique<node>(local_env->getToken().value);
+
+                id->addChild(std::move(idl));
+                target->addChild(std::move(id));
+                assign->addChild(std::move(target));
+                current_node->addChild(std::move(assign));
+
+                // local_env->nextToken();
+                exp();
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    // Statement
     void stat()
     {
         auto& rootptr = local_tree->getRoot();
         current_node = std::make_unique<node>("statement");
         if(decl())
+        {
+            rootptr.addChild(std::move(current_node));
+        }
+        else if(assign())
         {
             rootptr.addChild(std::move(current_node));
         }
@@ -115,7 +180,7 @@ namespace syntax
             }
             else
             {
-                cli::log(cli::log_level::error, "Unrecognized statement");   
+                cli::log(cli::log_level::error, "Unrecognized statement, with token value:" + local_env->getToken().value);   
             }
             local_env->nextToken();
         }
