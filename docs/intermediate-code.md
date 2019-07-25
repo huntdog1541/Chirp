@@ -9,3 +9,4 @@ This table represent the different token type
 | type | meaning |
 | --- | --- |
 |declaration| declaration operation |
+| assignment | variable assignment operation |
