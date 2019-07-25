@@ -151,6 +151,12 @@ namespace gen
 
             result = assembly::mov(target->getRegister(),value);
         }
+        else if(op->getProperty("source_type")->value == "identifier")
+        {
+            std::string id = op->getProperty("source")->value;
+            object* source = getObjectByName(id);
+            result = assembly::mov(target->getRegister(),source->getRegister());
+        }
 
         cli::log(cli::log_level::debug,"Result of variable assignement is:\n<===> \n" + result + "<===>");
 

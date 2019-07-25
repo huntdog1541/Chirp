@@ -126,8 +126,17 @@ namespace syntax
             source->addChild(std::move(expr));
             current_node->getChild(0).addChild(std::move(source));
         }
-        else
+        else if(match(token_name::identifier))
         {
+            auto source = std::make_unique<node>("target");
+            auto expr = std::make_unique<node>("expression");
+            auto id = std::make_unique<node>("identifier");
+            auto idl = std::make_unique<node>(local_env->lookBehind().value);
+
+            id->addChild(std::move(idl));
+            expr->addChild(std::move(id));
+            source->addChild(std::move(expr));
+            current_node->getChild(0).addChild(std::move(source));
         }
     }
 

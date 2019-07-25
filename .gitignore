@@ -6,6 +6,7 @@
 *.ipch
 *.bin
 *.swp
+*.asm
 Test.ch
 Test.ch.asm
 yeet.asm.save
