@@ -68,7 +68,7 @@ There is no scripts for windows, but you can use the CMake gui.
 
 We are rewritting the compiler, and this is what we have done so far:
 
-- [x] Variable declaration
+- [x] Variable declaration ``24-07-2019``
 - [ ] Variable definition
 - [ ] Assembly preprocessor
 - [ ] Functions
