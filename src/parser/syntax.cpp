@@ -137,20 +137,23 @@ namespace syntax
         if(match(token_name::identifier))
         {   
             cli::log(cli::log_level::debug, "Identifier matched");
-            if(match(token_name::assign_op))
+            if(local_env->getToken().name == token_name::assign_op)
             {
+                // This is the part where you get a pen and paper, because this is some complicated tree stuff
                 cli::log(cli::log_level::debug, "Assignement operator matched");
                 auto assign = std::make_unique<node>("assignment");
                 auto target = std::make_unique<node>("target");
                 auto id = std::make_unique<node>("identifier");
-                auto idl = std::make_unique<node>(local_env->getToken().value);
+                auto idl = std::make_unique<node>(local_env->lookBehind().value);
+
+                std::cout<<idl->value<<std::endl;
 
                 id->addChild(std::move(idl));
                 target->addChild(std::move(id));
                 assign->addChild(std::move(target));
                 current_node->addChild(std::move(assign));
 
-                // local_env->nextToken();
+                 local_env->nextToken();
                 exp();
                 return true;
             }
