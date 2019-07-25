@@ -33,6 +33,9 @@ class node
     // Returns true if has child with given value
     bool hasChild(std::string);
 
+    // Returns child vector
+    std::vector<std::unique_ptr<node>>* getAllChilds();
+
     // Node's value
     std::string value;
     private:

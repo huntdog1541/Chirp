@@ -129,7 +129,7 @@ namespace syntax
         }
         else if (op.value == "-")
         {
-        optype = "substraction";
+        optype = "subtraction";
         }
         else if (op.value == "/")
         {
@@ -151,7 +151,7 @@ namespace syntax
         operation->addChild(std::move(atype));
         operation->addChild(std::move(btype));
 
-        current_node->getChild(0).getChild(1).addChild(std::move(operation));
+        current_node->getChild(0).getChild(1).getChild(0).addChild(std::move(operation));
 
         local_env->nextToken();
         local_env->nextToken();

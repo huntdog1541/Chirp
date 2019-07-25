@@ -84,6 +84,11 @@ bool node::hasChild(std::string v)
     return res;
 }
 
+std::vector<std::unique_ptr<node>>* node::getAllChilds()
+{
+    return &this->childs;
+}
+
 // === TREE === 
 
 tree::tree()

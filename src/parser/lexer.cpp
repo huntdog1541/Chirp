@@ -99,6 +99,7 @@ namespace lexer
                     }
                     else
                     {
+                        // we don't care if it's true or false or even a char because it's not supposed to be there anywhere
                         tokens.at(pos - 1).name = token_name::identifier;
                     }
 
@@ -108,7 +109,7 @@ namespace lexer
                     }
                     else 
                     {
-                        next = token_name::litteral;
+                        next = token_name::identifier;
                     }
                 }
             }

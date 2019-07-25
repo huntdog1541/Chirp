@@ -67,49 +67,76 @@ env analyze(tree* t)
             }
             else if(n->getChild(0).value == "assignment")
             {
-                //cli::log(cli::log_level::debug,"Assignment found");
-                std::string v_target;
-                std::string v_source;
+                // Parse tree
+                auto& p_target = n->getChild(0).getChild(0);
+                auto& p_source = n->getChild(0).getChild(1);
+                auto& p_expr = p_source.getChild(0);
+                auto& p_identifier = p_target.getChild(0);
+                
+                std::string p_id = p_identifier.getChild(0).value;
 
-                auto& p_assign = n->getChild(0);
-                auto& p_target = p_assign.getChild(0);
-                auto& p_source = p_assign.getChild(1);
-                auto& p_id = p_target.getChild(0).getChild(0);
-                auto& p_src = p_source.getChild(0).getChild(0).getChild(0);
+                // std::cout<<p_expr.getChildSize()<<std::endl;
 
-                v_source = p_src.getChild(0).value;
-                v_target = p_id.value;
-
-                cli::log(cli::log_level::debug,"Analysed variable assignement");
-                cli::log(cli::log_level::debug,"target:" + v_target);
-                cli::log(cli::log_level::debug,"source:" + v_source);
-
-                // AST
+                // Creating the AST nodes
                 auto a_assign = std::make_unique<node>("assignment");
-                auto a_target = std::make_unique<node>("target");
                 auto a_source = std::make_unique<node>("source");
-                std::unique_ptr<node> a_sourcetype;
-                //auto a_sourcetype = std::make_unique<node>();
+                auto a_target = std::make_unique<node>("target");
 
-                if(p_src.value == "litteral")
+                auto a_targetid = std::make_unique<node>(p_id);
+                a_target->addChild(std::move(a_targetid));
+
+                if(p_expr.getChild(0).value == "static")
                 {
-                    a_sourcetype = std::make_unique<node>("litteral");
+                    cli::log(cli::log_level::debug,"Value is static expression");
+                    auto a_srctype = std::make_unique<node>(p_expr.getChild(0).getChild(0).value);
+                    auto a_src = std::make_unique<node>(p_expr.getChild(0).getChild(0).getChild(0).value);
+                    std::cout<<a_srctype->value<<std::endl;
+                    std::cout<<a_src->value<<std::endl;
+
+                    a_srctype->addChild(std::move(a_src));
+                    a_source->addChild(std::move(a_srctype));
+
+                    a_assign->addChild(std::move(a_target));
+                    a_assign->addChild(std::move(a_source));
+                    block_node->addChild(std::move(a_assign));
                 }
-                else if(p_src.value == "identifier")
+                else
                 {
-                    a_sourcetype = std::make_unique<node>("identifier");
+                    cli::log(cli::log_level::debug,"Value is an complete expression");
+                    for(auto& p_op : *p_expr.getAllChilds())
+                    {
+                        cli::log(cli::log_level::debug,"Added operation to AST");
+
+                        auto op = std::make_unique<node>("");
+                        auto a_type = std::make_unique<node>(p_op->getChild(0).value);
+                        auto a = std::make_unique<node>(p_op->getChild(0).getChild(0).value);
+                        auto b_type = std::make_unique<node>(p_op->getChild(1).value);
+                        auto b = std::make_unique<node>(p_op->getChild(1).getChild(0).value);
+
+                        if(p_op->value == "addition")
+                        {
+                            op->value = "add";
+                        }
+                        else if (p_op->value == "subtraction")
+                        {
+                            op->value = "sub";
+                        }
+                        else if (p_op->value == "multiplication")
+                        {
+                            op->value = "mul";
+                        }
+                        else if(p_op->value == "division")
+                        {
+                            op->value = "div";
+                        }
+                        
+                        a_type->addChild(std::move(a));
+                        b_type->addChild(std::move(b));
+                        op->addChild(std::move(a_type));
+                        op->addChild(std::move(b_type));
+                        a_source->addChild(std::move(op));
+                    }
                 }
-
-                auto a_sourcel = std::make_unique<node>(v_source);
-                auto a_targetl = std::make_unique<node>(v_target);
-
-                a_target->addChild(std::move(a_targetl));
-                a_assign->addChild(std::move(a_target));
-                a_sourcetype->addChild(std::move(a_sourcel));
-                a_source->addChild(std::move(a_sourcetype));
-                a_assign->addChild(std::move(a_source));
-
-                block_node->addChild(std::move(a_assign));
             }
         } 
     }
