@@ -1,4 +1,4 @@
 #include <string>
 
-void compile(std::string);
+std::string compile(std::string);
 void build();

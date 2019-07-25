@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-void compile(std::string source)
+std::string compile(std::string source)
 {
     cli::log(cli::log_level::debug, "Debug messages are now visible");
     std::vector<std::string> prep = preprocess(source);
@@ -35,7 +35,9 @@ void compile(std::string source)
     std::string output;
     output = gen::make_asm(intermediate);
 
-    cli::log(cli::log_level::success, "Nothing wen't wrong, and this is all it can do right now");
+    cli::log(cli::log_level::success, "Nothing went wrong, and this is all it can do right now");
+
+    return output;
 }
 
 void build()

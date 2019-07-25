@@ -35,13 +35,36 @@ std::string openFile(const std::string& filename)
     return file;
 }
 
+void writeFile(const std::string& content, const std::string&  filename)
+{
+    std::ofstream writer(filename);
+    
+    if(!writer)
+    {
+        cli::log(cli::log_level::error,"Couldn't open temporary file " + filename);
+    }
+
+    writer << content << std::endl;
+
+    writer.close();
+}
+
+void cleanup(const std::string& filename)
+{
+    remove(filename.c_str());
+}
+
 namespace cli
 {
+    bool keepAsm;
+
     void parse_Command(const std::vector<std::string>& args)
     {
         //std::cout<<"I hope dis works"<<std::endl;
         std::string inputFile;
         std::string outputFile;
+
+        keepAsm = false;
 
         int pos = 0;
         
@@ -54,6 +77,11 @@ namespace cli
             else if(word == "-v"){
                 cli::verbose_enable();
                 cli::log(cli::log_level::log, "Verbose mode enabled, so you'll see debug messages too");
+            }
+            else if(word == "-asm")
+            {
+                keepAsm = true;
+                cli::log(cli::log_level::warning, "Assembly file won't be cleaned up");
             }
             else if(pos == 0){
                 inputFile = word;
@@ -99,7 +127,16 @@ namespace cli
 
         if(error != true)
         {
-			compile(openFile(input));
+            std::string tmp = output; // temporary(the file where the assembly is) filename
+            tmp.pop_back();
+            tmp += "asm";
+			std::string content = compile(openFile(input));
+            writeFile(content, tmp);
+
+            if(!keepAsm)
+            {
+                cleanup(tmp);
+            }
         }
     }
 }
