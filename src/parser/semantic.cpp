@@ -75,7 +75,7 @@ env analyze(tree* t)
                 auto& p_target = p_assign.getChild(0);
                 auto& p_source = p_assign.getChild(1);
                 auto& p_id = p_target.getChild(0).getChild(0);
-                auto& p_src = p_source.getChild(0).getChild(0);
+                auto& p_src = p_source.getChild(0).getChild(0).getChild(0);
 
                 v_source = p_src.getChild(0).value;
                 v_target = p_id.value;

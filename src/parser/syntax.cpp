@@ -109,35 +109,101 @@ namespace syntax
         }
     }
 
+    void math_op()
+    {
+        if(local_env->getToken().name == token_name::math_op)
+        {
+        //std::cout<<"works"<<std::endl;
+        
+        std::string optype = "";
+        std::string at;
+        std::string bt;       
+        at = tokenToString(local_env->lookBehind().name);
+        bt = tokenToString(local_env->lookAhead().name);
+
+        token op = local_env->getToken();
+
+        if(op.value == "+")
+        {
+            optype = "addition";
+        }
+        else if (op.value == "-")
+        {
+        optype = "substraction";
+        }
+        else if (op.value == "/")
+        {
+            optype = "division";
+        }
+        else if(op.value == "*")
+        {
+            optype = "multiplication";
+        }
+
+        auto operation = std::make_unique<node>(optype);
+        auto atype = std::make_unique<node>(at);
+        auto btype = std::make_unique<node>(bt);
+        auto al = std::make_unique<node>(local_env->lookBehind().value);
+        auto bl = std::make_unique<node>(local_env->lookAhead().value);
+
+        atype->addChild(std::move(al));
+        btype->addChild(std::move(bl));
+        operation->addChild(std::move(atype));
+        operation->addChild(std::move(btype));
+
+        current_node->getChild(0).getChild(1).addChild(std::move(operation));
+
+        local_env->nextToken();
+        local_env->nextToken();
+        math_op();
+        //current_node->addChild(std::move(expr));
+        }
+        else
+        {
+            std::cout<<local_env->getToken().value<<std::endl;
+        }
+    }
+
     // Expression
     void exp()
     {
-        // Could replace it by a really smart for loop
+        auto source = std::make_unique<node>("source"); 
+        auto expr = std::make_unique<node>("expression");
+       
+       if(local_env->getToken().name == token_name::litteral || local_env->getToken().name == token_name::identifier)
+       {
+           local_env->nextToken();
+           // std::cout<<"doin some silly math"<<std::endl;
 
-        if(match(token_name::litteral))
-        {
-            auto source = std::make_unique<node>("target");
-            auto expr = std::make_unique<node>("expression");
-            auto lit = std::make_unique<node>("litteral");
-            auto litl = std::make_unique<node>(local_env->lookBehind().value);
+           if(local_env->getToken().name == token_name::math_op)
+           {
+               source->addChild(std::move(expr));
+               current_node->getChild(0).addChild(std::move(source));
+               math_op();
+           }
+           else
+           {
+                auto operation = std::make_unique<node>("static"); // static == no operation\
 
-            lit->addChild(std::move(litl));
-            expr->addChild(std::move(lit));
-            source->addChild(std::move(expr));
-            current_node->getChild(0).addChild(std::move(source));
-        }
-        else if(match(token_name::identifier))
-        {
-            auto source = std::make_unique<node>("target");
-            auto expr = std::make_unique<node>("expression");
-            auto id = std::make_unique<node>("identifier");
-            auto idl = std::make_unique<node>(local_env->lookBehind().value);
+                std::string t = tokenToString(local_env->lookBehind().name);
 
-            id->addChild(std::move(idl));
-            expr->addChild(std::move(id));
-            source->addChild(std::move(expr));
-            current_node->getChild(0).addChild(std::move(source));
-        }
+                auto type = std::make_unique<node>(t);
+                auto lit = std::make_unique<node>(local_env->lookBehind().value);
+
+                type->addChild(std::move(lit));
+                operation->addChild(std::move(type));
+                expr->addChild(std::move(operation));
+                source->addChild(std::move(expr));
+                current_node->getChild(0).addChild(std::move(source));
+
+                //local_env->nextToken();
+                //local_env->nextToken();
+           }
+       }
+       else
+       {
+           std::cout<<tokenToString(local_env->getToken().name)<<std::endl;
+       }
     }
 
     // Assignment
@@ -162,9 +228,10 @@ namespace syntax
                 target->addChild(std::move(id));
                 assign->addChild(std::move(target));
                 current_node->addChild(std::move(assign));
-
+                
                 local_env->nextToken();
                 exp();
+
                 return true;
             }
             return false;
@@ -183,10 +250,17 @@ namespace syntax
         if(decl())
         {
             rootptr.addChild(std::move(current_node));
+
+            if(local_env->lookAhead().name == token_name::end_of_string)
+            {
+                local_env->nextToken();
+            }
+            //std::cout<<"declaration ended with "<<local_env->getToken().value<<std::endl;
         }
         else if(assign())
         {
             rootptr.addChild(std::move(current_node));
+            //std::cout<<"assignment ended with "<<local_env->getToken().value<<std::endl;
         }
         else
         {
@@ -196,7 +270,7 @@ namespace syntax
             }
             else
             {
-                cli::log(cli::log_level::error, "Unrecognized statement, with token value:" + local_env->getToken().value);   
+                cli::log(cli::log_level::error, "Unrecognized statement, with token value:" + local_env->getToken().value); 
             }
         }
     }
@@ -216,21 +290,7 @@ namespace syntax
         // For the moment can only parse one statement
         while(local_env->getToken().name != token_name::end_of_string)
         {
-            /*
-            if(local_env->getToken().value == last)
-            {
-                stuck++;
-            }
-
-            if(stuck > 10)
-            {
-                cli::log(cli::log_level::error,"(PARSER) Endless loop detected, parsing terminate.");
-                break;
-            }
-            */
-
             stat();
-            // last = local_env->getToken().value;
         }
         // rootptr.addChild(std::move(statement));
     }

@@ -13,13 +13,18 @@ enum class token_name {
     // separator
     lparen,rparen,lbracket,rbracket,
     // operator
-    assign_op,
+    assign_op, math_op,
     // other
     confirm, // the : symbol
     litteral,
     no_token, // probably should find another way
     end_of_string // the last token
 };
+
+/*
+Returns the token name in string format
+*/
+std::string tokenToString(token_name);
 
 class token
 {

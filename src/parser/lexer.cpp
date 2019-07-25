@@ -89,6 +89,28 @@ namespace lexer
                         next = token_name::identifier;
                     }
                 }
+                else if(word == "+" || word == "-" || word == "*" || word == "/")
+                {
+                    tkn.name = token_name::math_op;
+
+                    if(isNumber(prep.at(pos - 1)) == true)
+                    {
+                        tokens.at(pos - 1).name = token_name::litteral;
+                    }
+                    else
+                    {
+                        tokens.at(pos - 1).name = token_name::identifier;
+                    }
+
+                    if(isNumber(prep.at(pos + 1)) == true)
+                    {
+                        next = token_name::litteral;
+                    }
+                    else 
+                    {
+                        next = token_name::litteral;
+                    }
+                }
             }
 
             tokens.push_back(tkn);
