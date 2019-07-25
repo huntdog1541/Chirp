@@ -41,29 +41,6 @@ Chirp is a modern low-level programming language written in C++. Currently the l
 
 <br>
 
-## Features
-
-We are rewritting the compiler, and this is what we have done so far:
-
-- [x] Variable declaration - `24-07-2019`
-- [ ] Variable definition
-- [ ] Assembly preprocessor
-- [ ] Functions
-- [ ] Function call
-- [ ] Mathematical expressions
-- [ ] If statements
-- [ ] Else statements
-- [ ] While statements
-- [ ] For statements
-- [ ] Pointers
-- [ ] Classes
-- [ ] Dynamic memory allocation
-- [ ] IO library
-- [ ] Math library
-- [ ] Eve library
-
-<br>
-
 ## Building
 
 We are using CMake, so building is very easy. Depending on your platform there might be scripts to run the CMake commands for you, but even without the scripts it's very easy.
@@ -88,3 +65,26 @@ The executable will be created in `./build/src/Chirp`.
 ### Windows
 
 There's no scripts for windows, but you can use the CMake gui.
+
+## Features
+
+We are rewritting the compiler, and this is what we have done so far:
+
+- [x] Variable declaration `24-07-2019`
+- [x] Variable definition `25-07-2019`
+- [ ] Assembly preprocessor
+- [ ] Functions
+- [ ] Function call
+- [ ] Mathematical expressions
+- [ ] If statements
+- [ ] Else statements
+- [ ] While statements
+- [ ] For statements
+- [ ] Pointers
+- [ ] Classes
+- [ ] Dynamic memory allocation
+- [ ] IO library
+- [ ] Math library
+- [ ] Eve library
+
+<br>
