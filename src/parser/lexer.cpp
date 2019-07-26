@@ -112,6 +112,22 @@ namespace lexer
                         next = token_name::identifier;
                     }
                 }
+                else if(word == "{")
+                {
+                    tkn.name = token_name::lbracket;
+                }
+                else if(word == "}")
+                {
+                    tkn.name = token_name::lbracket;
+                }
+                else if(word == "(")
+                {
+                    tkn.name = token_name::lbracket;
+                }
+                else if(word == ")")
+                {
+                    tkn.name = token_name::rparen;
+                }
             }
 
             tokens.push_back(tkn);

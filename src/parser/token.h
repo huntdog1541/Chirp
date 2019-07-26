@@ -11,7 +11,7 @@ enum class token_name {
     // keywords
     data_type, // (more to be added)...
     // separator
-    lparen,rparen,lbracket,rbracket,
+    lparen,rparen,lbracket,rbracket,comma,
     // operator
     assign_op, math_op,
     // other
