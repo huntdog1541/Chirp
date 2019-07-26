@@ -40,6 +40,26 @@ int last_pos;
 int height; // scope height, is weird
 std::vector<object> scope; // avaible objects in scope
 
+// Removes the items that are out of scope from the scope vector
+void updateScope()
+{
+    int count = 0;
+
+    auto begin = scope.begin();
+    auto end = scope.end();
+
+    for(auto it = begin; it != end; ++it)
+    {
+        if(it->scope_height > height)
+        {
+            scope.erase(it);
+            count++;
+        }
+    }
+
+    cli::log(cli::log_level::debug,"Updated scope, " + std::to_string(count) + " items deleted.");
+}
+
 bool objectExist(std::string name)
 {
     bool res = false;
@@ -71,7 +91,7 @@ object* getObjectByName(std::string name)
 
     if(!found)
     {
-        cli::log(cli::log_level::warning,"Unrecognized object " + name);
+        cli::log(cli::log_level::error,"Unrecognized object " + name);
         //result->name = "unknown";
     }
 
@@ -167,8 +187,17 @@ namespace gen
         else if(op->getProperty("source_type")->value == "identifier")
         {
             std::string id = op->getProperty("source")->value;
-            object* source = getObjectByName(id);
-            result = assembly::mov(target->getRegister(),source->getRegister());
+
+            if(objectExist(id))
+            {
+                object* source = getObjectByName(id);
+                result = assembly::mov(target->getRegister(),source->getRegister());
+            }
+            else
+            {
+                cli::log(cli::log_level::error,"Cannot reach object " + id + "object is either non-existing or out of scope");
+            }
+            
         }
         else if(op->getProperty("source_type")->value == "math")
         {
@@ -229,10 +258,15 @@ namespace gen
         res += assembly::push(assembly::getReg("sp"));
         res += assembly::mov(assembly::getReg("bp"),assembly::getReg("sp"));
 
+        height++;
+
         return res;
     }
     std::string make_funcEnd(ir::operation* op)
     {
+        height--;
+        updateScope();
+
         std::string res;
         res += assembly::pop(assembly::getReg("bp"));
         res += assembly::ret();
