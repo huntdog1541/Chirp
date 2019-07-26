@@ -1,6 +1,6 @@
 # Parsing
 
-This uses a Recursive descent parser, creating a tree from the top.
+This uses a Recursive descent parser, creating a tree from the top. It will analyze the tokens provided by the lexer until it runs out of those. When finished it will procced to do semantic analysis.
 
 ## Tree
 
