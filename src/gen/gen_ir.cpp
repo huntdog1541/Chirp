@@ -37,6 +37,42 @@ namespace gen
                 std::string a_vtype = n->getChild(1).getChild(0).value;
                 std::string a_value = n->getChild(1).getChild(0).getChild(0).value;
 
+                if(a_vtype != "litteral")
+                {
+                    a_vtype = "math";
+                    a_value = "";
+
+                    for(auto& a_op : *n->getChild(1).getAllChilds())
+                    {
+                        ir::operation op(ir::op::math_operation);
+
+                        op.set("first_type",a_op->getChild(0).value);
+                        op.set("first_value", a_op->getChild(0).getChild(0).value);
+
+                        op.set("second_type",a_op->getChild(1).value);
+                        op.set("second_value", a_op->getChild(1).getChild(0).value);
+
+                        if(a_op->value == "add")
+                        {
+                            op.set("type","add");
+                        }
+                        else if(a_op->value == "sub")
+                        {
+                            op.set("type","sub");
+                        }
+                        else if(a_op->value == "mul")
+                        {
+                            op.set("type","mul");
+                        }
+                        else if(a_op->value == "div")
+                        {
+                            op.set("type","div");
+                        }
+
+                        ir.push_back(op);
+                    }
+                }
+
                 // Godamn I love logging
                 cli::log(cli::log_level::debug,"Analysed assignment AST");
                 cli::log(cli::log_level::debug,"target:" + a_id);

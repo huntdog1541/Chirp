@@ -157,10 +157,56 @@ namespace gen
             object* source = getObjectByName(id);
             result = assembly::mov(target->getRegister(),source->getRegister());
         }
+        else if(op->getProperty("source_type")->value == "math")
+        {
+            result = assembly::mov(target->getRegister(), assembly::getReg("ax"));
+        }
 
         cli::log(cli::log_level::debug,"Result of variable assignement is:\n<===> \n" + result + "<===>");
 
         return result;
+    }
+    // add,sub,mul,div
+    std::string make_math(ir::operation* op)
+    {
+        std::string res;
+
+        std::string type = op->getProperty("type")->value;
+
+        std::string first_type = op->getProperty("first_type")->value;
+        std::string first_value = op->getProperty("first_value")->value;
+
+        std::string second_type = op->getProperty("second_type")->value;
+        std::string second_value = op->getProperty("second_value")->value;
+
+        if(first_type == "identifier")
+        {
+            first_value = getObjectByName(first_value)->getRegister();
+        }
+
+        if(second_type == "identifier")
+        {
+            second_value = getObjectByName(second_value)->getRegister();
+        }
+
+        if(type == "add"){
+            res += assembly::mov(assembly::getReg("ax"), first_value);
+            res += assembly::add(assembly::getReg("ax"), second_value);
+        }
+        else if (type == "sub"){
+            res += assembly::mov(assembly::getReg("ax"), first_value);
+            res += assembly::sub(assembly::getReg("ax"), second_value);
+        }
+        else if (type == "mul"){
+            res += assembly::mov(assembly::getReg("ax"), first_value);
+            res += assembly::mul(assembly::getReg("ax"), second_value);
+        }
+        else if(type == "div"){
+            res += assembly::mov(assembly::getReg("ax"), first_value);
+            res += assembly::div(assembly::getReg("ax"), second_value);
+        }
+
+        return res;
     }
     std::string make_asm(std::vector<ir::operation> code)
     {
@@ -177,6 +223,10 @@ namespace gen
             if(op.type == ir::op::assignment)
             {
                 res += make_assignement(&op);
+            }
+            if(op.type == ir::op::math_operation)
+            {
+                res += make_math(&op);
             }
         }
 

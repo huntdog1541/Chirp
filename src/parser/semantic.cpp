@@ -90,8 +90,8 @@ env analyze(tree* t)
                     cli::log(cli::log_level::debug,"Value is static expression");
                     auto a_srctype = std::make_unique<node>(p_expr.getChild(0).getChild(0).value);
                     auto a_src = std::make_unique<node>(p_expr.getChild(0).getChild(0).getChild(0).value);
-                    std::cout<<a_srctype->value<<std::endl;
-                    std::cout<<a_src->value<<std::endl;
+                    //std::cout<<a_srctype->value<<std::endl;
+                    //std::cout<<a_src->value<<std::endl;
 
                     a_srctype->addChild(std::move(a_src));
                     a_source->addChild(std::move(a_srctype));
@@ -135,6 +135,10 @@ env analyze(tree* t)
                         op->addChild(std::move(a_type));
                         op->addChild(std::move(b_type));
                         a_source->addChild(std::move(op));
+
+                        a_assign->addChild(std::move(a_target));
+                        a_assign->addChild(std::move(a_source));
+                        block_node->addChild(std::move(a_assign));
                     }
                 }
             }
