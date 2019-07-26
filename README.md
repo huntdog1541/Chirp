@@ -72,7 +72,7 @@ We are rewritting the compiler, and this is what we have done so far:
 
 - [x] Variable declaration `24-07-2019`
 - [x] Variable definition `25-07-2019`
-- [ ] Math
+- [x] Math ``25-07-2019``
 - [ ] Functions
 - [ ] Function call
 - [ ] If statements
