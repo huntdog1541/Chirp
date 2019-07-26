@@ -41,6 +41,7 @@ namespace cli
                 break;
             case log_level::error:
                 std::cout << write_color(output_col::red ,"ERROR: ") << message << "\n";
+                exit(1);
                 break;
             case log_level::success:
                 std::cout << write_color(output_col::green, "SUCCESS: ") << message << "\n";

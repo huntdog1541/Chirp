@@ -14,8 +14,10 @@ namespace syntax
 {
     parser* local_env; // *munchii is triggered*
     tree* local_tree;
-    std::unique_ptr<node> current_node;
+    std::unique_ptr<node>* current_node;
+    std::unique_ptr<node> subtree_node;
 
+    // Will advance the token stream if the current token is the one specified
     bool match(token_name t)
     {
         if(local_env->getToken().name == t)
@@ -30,6 +32,7 @@ namespace syntax
         
     }
 
+    // Will advance the token stream if hte current token is the one specified, it will throw an error if not
     bool expect(token_name t)
     {
         if(match(t))
@@ -63,50 +66,52 @@ namespace syntax
 
     For the moment I am using an handwritten grammar but I migt write a simple parser generator to make it easier.
     */
+
+   // int 
+
    // Variable declaration
     void var_decl()
     {
-       if(local_env->getToken().name == token_name::confirm)
+       if(match(token_name::identifier))
        {
            cli::log(cli::log_level::debug, "Matched confirm token");
            // Doesn't match, because we don't want to lose it yet
-           if(local_env->lookAhead().name == token_name::identifier)
-           {
-               cli::log(cli::log_level::debug, "Matched identifier token");
-               // btw when I write a variable with a name like namel, the l is for litteral
-               auto name = std::make_unique<node>("identifier");
-               auto namel = std::make_unique<node>(local_env->lookAhead().value);
-               name->addChild(std::move(namel));
-               current_node->getChild(0).addChild(std::move(name));
-           }
+            cli::log(cli::log_level::debug, "Matched identifier token");
+            // btw when I write a variable with a name like namel, the l is for litteral
+            auto name = std::make_unique<node>("identifier");
+            auto namel = std::make_unique<node>(local_env->lookBehind().value);
+            name->addChild(std::move(namel));
+            current_node->get()->getChild(current_node->get()->getChildSize() - 1).addChild(std::move(name));
        }
     }
     // Declaration
     bool decl()
     {
-        if(local_env->getToken().name == token_name::data_type)
+        //if(local_env->getToken().name == token_name::data_type && local_env->lookAhead().name == token_name::confirm)
+        if(match(token_name::data_type))
         {
-            auto decl = std::make_unique<node>("declaration");
+            auto typel = std::make_unique<node>(local_env->lookBehind().value);
 
+            if(match(token_name::confirm))
+            {
+            auto decl = std::make_unique<node>("declaration");
             auto spec = std::make_unique<node>("specifier");
             auto type = std::make_unique<node>("data_type");
-            auto typel = std::make_unique<node>(local_env->getToken().value);
             
             type->addChild(std::move(typel));
             spec->addChild(std::move(type));
             decl->addChild(std::move(spec));
-            current_node->addChild(std::move(decl));
+            current_node->get()->addChild(std::move(decl));
 
-            local_env->nextToken();
             var_decl();
-            local_env->nextToken();
-
+            //std::cout<<local_env->getToken().value<<std::endl;
             return true;
-        }
-        else
-        {
+            }
+            local_env->backtrack(); // So function conditions can be met
             return false;
         }
+        // std::cout<<"didn't match"<<local_env->getToken().value<<std::endl;
+        return false;
     }
 
     void math_op()
@@ -151,7 +156,7 @@ namespace syntax
         operation->addChild(std::move(atype));
         operation->addChild(std::move(btype));
 
-        current_node->getChild(0).getChild(1).getChild(0).addChild(std::move(operation));
+        current_node->get()->getChild(0).getChild(1).getChild(0).addChild(std::move(operation));
 
         local_env->nextToken();
         local_env->nextToken();
@@ -178,7 +183,7 @@ namespace syntax
            if(local_env->getToken().name == token_name::math_op)
            {
                source->addChild(std::move(expr));
-               current_node->getChild(0).addChild(std::move(source));
+               current_node->get()->getChild(0).addChild(std::move(source));
                math_op();
            }
            else
@@ -194,7 +199,7 @@ namespace syntax
                 operation->addChild(std::move(type));
                 expr->addChild(std::move(operation));
                 source->addChild(std::move(expr));
-                current_node->getChild(0).addChild(std::move(source));
+                current_node->get()->getChild(0).addChild(std::move(source));
 
                 //local_env->nextToken();
                 //local_env->nextToken();
@@ -227,7 +232,7 @@ namespace syntax
                 id->addChild(std::move(idl));
                 target->addChild(std::move(id));
                 assign->addChild(std::move(target));
-                current_node->addChild(std::move(assign));
+                current_node->get()->addChild(std::move(assign));
                 
                 local_env->nextToken();
                 exp();
@@ -239,17 +244,80 @@ namespace syntax
         return false;
     }
 
+    // Parameters aren't arguments,
+    // Parameters are in function definition
+    // Arguments are in function calls 
+    void param()
+    {
+        decl(); // Basically a parameter is just like a declaration, but we put thoses declaration inside Statement->Function->Params, instead of Statement->Declaration
+        if(match(token_name::rparen))
+        {
+            cli::log(cli::log_level::debug,"Closing params");
+            expect(token_name::lbracket);
+        }
+        else if(match(token_name::comma))
+        {
+            cli::log(cli::log_level::debug,"Found another parameter");
+            param();
+        }
+    }
+
+    bool function()
+    {
+        // func -> data_type(tkn) identifier(tkn) lparen(tkn) Param
+        if(match(token_name::data_type))
+        {
+            cli::log(cli::log_level::debug,"Suspecting function");
+            if(match(token_name::identifier))
+            {
+                cli::log(cli::log_level::debug,"Confirmed function");
+                auto p_function = std::make_unique<node>("function");
+                auto p_params = std::make_unique<node>("parameters");
+                auto p_spec = std::make_unique<node>("specifier");
+                auto p_datatype = std::make_unique<node>("data_type");
+                auto p_identifier = std::make_unique<node>("identifier");
+
+                local_env->backtrack();
+                auto p_datatypel = std::make_unique<node>(local_env->lookBehind().value);
+                auto p_identifierl = std::make_unique<node>(local_env->getToken().value);
+
+                p_datatype->addChild(std::move(p_datatypel));
+                p_identifier->addChild(std::move(p_identifierl));
+                p_spec->addChild(std::move(p_datatype));
+                p_spec->addChild(std::move(p_identifier));
+                p_function->addChild(std::move(p_spec));
+                local_env->nextToken(); // So it doesn't break the flow
+
+                expect(token_name::lparen);
+                cli::log(cli::log_level::debug,"Opening parenthesis found in function definition");
+                current_node = &p_params;
+                param();
+
+                p_function->addChild(std::move(p_params));
+                subtree_node->addChild(std::move(p_function));
+                return true;
+            }
+            else
+            {
+                cli::log(cli::log_level::debug,"Not a function");
+                return false;
+            }
+        }
+        return false;
+    }
+
     // Statement
     void stat()
     {
         // Statement -> Declaration
         // Statement -> Assignment
         auto& rootptr = local_tree->getRoot();
-        current_node = std::make_unique<node>("statement");
+        subtree_node = std::make_unique<node>("statement");
+        current_node = &subtree_node;
 
         if(decl())
         {
-            rootptr.addChild(std::move(current_node));
+            rootptr.addChild(std::move(*current_node));
 
             if(local_env->lookAhead().name == token_name::end_of_string)
             {
@@ -259,8 +327,20 @@ namespace syntax
         }
         else if(assign())
         {
-            rootptr.addChild(std::move(current_node));
+            rootptr.addChild(std::move(*current_node));
             //std::cout<<"assignment ended with "<<local_env->getToken().value<<std::endl;
+        }
+        else if(function())
+        {
+            rootptr.addChild(std::move(subtree_node));
+            //subtree_node = std::make_unique<node>("statement");
+            //std::unique_ptr<node>* test;
+        }
+        else if(match(token_name::rbracket))
+        {
+            auto close = std::make_unique<node>("closing_bracket");
+            subtree_node->addChild(std::move(close));
+            rootptr.addChild(std::move(subtree_node));
         }
         else
         {
@@ -270,7 +350,8 @@ namespace syntax
             }
             else
             {
-                cli::log(cli::log_level::error, "Unrecognized statement, with token value:" + local_env->getToken().value); 
+                cli::log(cli::log_level::warning, "Unrecognized statement, with token value:" + local_env->getToken().value); 
+                local_env->nextToken(); // Not to get stuck
             }
         }
     }

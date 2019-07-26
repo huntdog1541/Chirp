@@ -26,7 +26,7 @@ std::vector<std::string> preprocess(std::string source)
         }
         else
         {
-            if(c == '=' || c == ':' || c == '(' || c == ')' || c == '{' || c == '}' || c == '+' || c == '-' || c == '/' || c == '*')
+            if(c == '=' || c == ':' || c == '(' || c == ')' || c == '{' || c == '}' || c == '+' || c == '-' || c == '/' || c == '*' || c == ',')
             {
                 if(word.compare("") != 0)
                 {
