@@ -118,11 +118,12 @@ namespace lexer
                 }
                 else if(word == "}")
                 {
-                    tkn.name = token_name::lbracket;
+                    tkn.name = token_name::rbracket;
                 }
                 else if(word == "(")
                 {
-                    tkn.name = token_name::lbracket;
+                    tkn.name = token_name::lparen;
+                    tokens.at(pos - 1).name = token_name::identifier;
                 }
                 else if(word == ")")
                 {

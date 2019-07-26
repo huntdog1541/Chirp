@@ -84,7 +84,7 @@ namespace syntax
     // Declaration
     bool decl()
     {
-        if(local_env->getToken().name == token_name::data_type)
+        if(local_env->getToken().name == token_name::data_type && local_env->lookAhead().name == token_name::confirm)
         {
             auto decl = std::make_unique<node>("declaration");
 
@@ -239,6 +239,29 @@ namespace syntax
         return false;
     }
 
+    // Parameters aren't arguments,
+    // Parameters are in function definition
+    // Arguments are in function calls 
+    void param()
+    {
+
+    }
+
+    bool function()
+    {
+        // func -> data_type(tkn) identifier(tkn) lparen(tkn) Param
+
+        if(match(token_name::data_type))
+        {
+            if(match(token_name::identifier))
+            {
+                expect(token_name::lparen);
+                cli::log(cli::log_level::debug,"Hell ye");
+            }
+        }
+        return false;
+    }
+
     // Statement
     void stat()
     {
@@ -261,6 +284,10 @@ namespace syntax
         {
             rootptr.addChild(std::move(current_node));
             //std::cout<<"assignment ended with "<<local_env->getToken().value<<std::endl;
+        }
+        else if(function())
+        {
+
         }
         else
         {
