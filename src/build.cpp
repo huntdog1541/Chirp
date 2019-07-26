@@ -5,7 +5,6 @@
 #include "parser.h"
 #include "parser/lexer.h"
 #include "parser/syntax.h"
-#include "parser/semantic.h"
 #include "gen/gen_ir.h"
 #include "gen/gen_asm.h"
 
@@ -26,16 +25,13 @@ std::string compile(std::string source)
 
     syntax::parse(&p_env,&parseTree);
 
-    semantic::env sema;
-    sema = semantic::analyze(&parseTree);
-
     std::vector<ir::operation> intermediate;
-    intermediate = gen::make_ir(&sema.ast);
+    intermediate = gen::make_ir(&parseTree);
 
     std::string output;
     output = gen::make_asm(intermediate);
 
-    cli::log(cli::log_level::success, "Nothing went wrong, and this is all it can do right now");
+    cli::log(cli::log_level::success, "Code analysis succesfull");
 
     return output;
 }

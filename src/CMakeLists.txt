@@ -5,7 +5,6 @@ set(chirplib_SOURCES
     ./cli/log.cpp
     ./parser/lexer.cpp
     ./parser/parser.cpp
-    ./parser/semantic.cpp
     ./parser/syntax.cpp
     ./parser/token.cpp
     ./parser/tree.cpp

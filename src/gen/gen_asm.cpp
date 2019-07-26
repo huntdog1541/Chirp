@@ -117,7 +117,7 @@ namespace gen
         object* target;
         target = getObjectByName(op->getProperty("target")->value);
 
-        if(op->getProperty("source_type")->value == "litteral")
+        if(op->getProperty("source_type")->value == "static")
         {
             cli::log(cli::log_level::debug,"Litteral found");
 
