@@ -31,6 +31,11 @@ class parser
     void nextToken();
 
     /*
+    Reverse the token
+    */
+    void backtrack();
+
+    /*
     Returns the token, behind of the position
     */
     token lookBehind();

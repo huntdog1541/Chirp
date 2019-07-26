@@ -41,6 +41,18 @@ void parser::nextToken()
     }
 }
 
+void parser::backtrack()
+{
+    if(this->tkn_pos - 1 >= 0)
+    {
+        this->tkn_pos -= 1;
+    }
+    else
+    {
+        cli::log(cli::log_level::debug,"(parser) Cannot backtrack any further");
+    }
+}
+
 token parser::lookAhead()
 {
     token t;
