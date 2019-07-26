@@ -66,6 +66,9 @@ namespace syntax
 
     For the moment I am using an handwritten grammar but I migt write a simple parser generator to make it easier.
     */
+
+   // int 
+
    // Variable declaration
     void var_decl()
     {
@@ -78,7 +81,7 @@ namespace syntax
             auto name = std::make_unique<node>("identifier");
             auto namel = std::make_unique<node>(local_env->lookBehind().value);
             name->addChild(std::move(namel));
-            current_node->get()->getChild(0).addChild(std::move(name));
+            current_node->get()->getChild(current_node->get()->getChildSize() - 1).addChild(std::move(name));
        }
     }
     // Declaration
@@ -101,7 +104,7 @@ namespace syntax
             current_node->get()->addChild(std::move(decl));
 
             var_decl();
-            std::cout<<local_env->getToken().value<<std::endl;
+            //std::cout<<local_env->getToken().value<<std::endl;
             return true;
             }
             local_env->backtrack(); // So function conditions can be met

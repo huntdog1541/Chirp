@@ -16,6 +16,10 @@ namespace assembly
         {
             res = "rax";
         }
+        else if(reg == "sp")
+        {
+            res = "rsp";
+        }
         else
         {
             cli::log(cli::log_level::warning,"(ASM GEN) Unrecognized register " + reg);
@@ -31,6 +35,15 @@ namespace assembly
     std::string mov(std::string target, std::string source)
     {
         return "mov " + target + ", " + source + "\n";
+    }
+    std::string pop(std::string reg)
+    {
+        return "pop " + reg + "\n";
+    }
+    std::string ret()
+    {
+        // wow this is so incredibly useless lmao
+        return "ret \n";
     }
     std::string add(std::string a, std::string b)
     {

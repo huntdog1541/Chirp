@@ -58,13 +58,21 @@ bool objectExist(std::string name)
 object* getObjectByName(std::string name)
 {
     object* result;
+    bool found = false;
 
     for(auto& obj : scope)
     {
         if(obj.name == name)
         {
             result = &obj;
+            found = true;
         }
+    }
+
+    if(!found)
+    {
+        cli::log(cli::log_level::warning,"Unrecognized object " + name);
+        //result->name = "unknown";
     }
 
     return result;
@@ -116,6 +124,11 @@ namespace gen
 
         object* target;
         target = getObjectByName(op->getProperty("target")->value);
+
+    //    if(target->name == "unknown") // yea this sure isn't a weird limitation right
+    //    {
+    //        cli::log(cli::log_level::error,"Tried to assign unrecognized object");
+    //    }
 
         if(op->getProperty("source_type")->value == "static")
         {
@@ -208,6 +221,23 @@ namespace gen
 
         return res;
     }
+    std::string make_func(ir::operation* op)
+    {
+        std::string res;
+
+        res += op->getProperty("name")->value += ":\n";
+        res += assembly::push(assembly::getReg("sp"));
+        res += assembly::mov(assembly::getReg("bp"),assembly::getReg("sp"));
+
+        return res;
+    }
+    std::string make_funcEnd(ir::operation* op)
+    {
+        std::string res;
+        res += assembly::pop(assembly::getReg("bp"));
+        res += assembly::ret();
+        return res;
+    }
     std::string make_asm(std::vector<ir::operation> code)
     {
         std::string res = "";
@@ -227,6 +257,15 @@ namespace gen
             if(op.type == ir::op::math_operation)
             {
                 res += make_math(&op);
+            }
+            if(op.type == ir::op::function_begin)
+            {
+                cli::log(cli::log_level::debug,"Generating function");
+                res += make_func(&op);
+            }
+            if(op.type == ir::op::function_end)
+            {
+                res += make_funcEnd(&op);
             }
         }
 
