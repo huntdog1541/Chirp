@@ -129,6 +129,10 @@ namespace lexer
                 {
                     tkn.name = token_name::rparen;
                 }
+                else if(word == ",")
+                {
+                    tkn.name = token_name::comma;
+                }
             }
 
             tokens.push_back(tkn);

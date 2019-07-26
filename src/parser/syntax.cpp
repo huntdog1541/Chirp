@@ -14,7 +14,8 @@ namespace syntax
 {
     parser* local_env; // *munchii is triggered*
     tree* local_tree;
-    std::unique_ptr<node> current_node;
+    std::unique_ptr<node>* current_node;
+    std::unique_ptr<node> subtree_node;
 
     bool match(token_name t)
     {
@@ -77,7 +78,7 @@ namespace syntax
                auto name = std::make_unique<node>("identifier");
                auto namel = std::make_unique<node>(local_env->lookAhead().value);
                name->addChild(std::move(namel));
-               current_node->getChild(0).addChild(std::move(name));
+               current_node->get()->getChild(0).addChild(std::move(name));
            }
        }
     }
@@ -95,7 +96,7 @@ namespace syntax
             type->addChild(std::move(typel));
             spec->addChild(std::move(type));
             decl->addChild(std::move(spec));
-            current_node->addChild(std::move(decl));
+            current_node->get()->addChild(std::move(decl));
 
             local_env->nextToken();
             var_decl();
@@ -151,7 +152,7 @@ namespace syntax
         operation->addChild(std::move(atype));
         operation->addChild(std::move(btype));
 
-        current_node->getChild(0).getChild(1).getChild(0).addChild(std::move(operation));
+        current_node->get()->getChild(0).getChild(1).getChild(0).addChild(std::move(operation));
 
         local_env->nextToken();
         local_env->nextToken();
@@ -178,7 +179,7 @@ namespace syntax
            if(local_env->getToken().name == token_name::math_op)
            {
                source->addChild(std::move(expr));
-               current_node->getChild(0).addChild(std::move(source));
+               current_node->get()->getChild(0).addChild(std::move(source));
                math_op();
            }
            else
@@ -194,7 +195,7 @@ namespace syntax
                 operation->addChild(std::move(type));
                 expr->addChild(std::move(operation));
                 source->addChild(std::move(expr));
-                current_node->getChild(0).addChild(std::move(source));
+                current_node->get()->getChild(0).addChild(std::move(source));
 
                 //local_env->nextToken();
                 //local_env->nextToken();
@@ -227,7 +228,7 @@ namespace syntax
                 id->addChild(std::move(idl));
                 target->addChild(std::move(id));
                 assign->addChild(std::move(target));
-                current_node->addChild(std::move(assign));
+                current_node->get()->addChild(std::move(assign));
                 
                 local_env->nextToken();
                 exp();
@@ -244,19 +245,32 @@ namespace syntax
     // Arguments are in function calls 
     void param()
     {
-
+        decl(); // Basically a parameter is just like a declaration, but we put thoses declaration inside Statement->Function->Params, instead of Statement->Declaration
+        if(match(token_name::rparen))
+        {
+            cli::log(cli::log_level::debug,"Closing params");
+            expect(token_name::lbracket);
+        }
+        else if(match(token_name::comma))
+        {
+            cli::log(cli::log_level::debug,"Found another parameter");
+            param();
+        }
     }
 
     bool function()
     {
-        // func -> data_type(tkn) identifier(tkn) lparen(tkn) Param
-
+        // func -> data_type(tkn) identifier(tkn) lparen(tkn) Param        
         if(match(token_name::data_type))
         {
             if(match(token_name::identifier))
             {
+                auto p_function = std::make_unique<node>("function");
+                auto p_spec = std::make_unique<node>("specifier");
+                auto p_datatype = std::make_unique<node>("");
                 expect(token_name::lparen);
                 cli::log(cli::log_level::debug,"Hell ye");
+                param();
             }
         }
         return false;
@@ -268,11 +282,12 @@ namespace syntax
         // Statement -> Declaration
         // Statement -> Assignment
         auto& rootptr = local_tree->getRoot();
-        current_node = std::make_unique<node>("statement");
+        subtree_node = std::make_unique<node>("statement");
+        current_node = &subtree_node;
 
         if(decl())
         {
-            rootptr.addChild(std::move(current_node));
+            rootptr.addChild(std::move(*current_node));
 
             if(local_env->lookAhead().name == token_name::end_of_string)
             {
@@ -282,12 +297,13 @@ namespace syntax
         }
         else if(assign())
         {
-            rootptr.addChild(std::move(current_node));
+            rootptr.addChild(std::move(*current_node));
             //std::cout<<"assignment ended with "<<local_env->getToken().value<<std::endl;
         }
         else if(function())
         {
-
+            subtree_node = std::make_unique<node>("statement");
+            std::unique_ptr<node>* test;
         }
         else
         {
