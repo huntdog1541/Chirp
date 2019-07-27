@@ -50,6 +50,8 @@ int last_pos;
 int height; // scope height, is weird
 std::vector<object> scope; // avaible objects in scope
 
+std::string header;
+
 // Removes the items that are out of scope from the scope vector
 void updateScope()
 {
@@ -346,6 +348,7 @@ namespace gen
     std::string make_func(ir::operation* op)
     {
         std::string res;
+        header += "   global " + op->getProperty("name")->value + "\n";
 
         res += op->getProperty("name")->value += ":\n";
         res += assembly::push(assembly::getReg("sp"));
@@ -375,6 +378,7 @@ namespace gen
         std::string res = "";
         last_pos = 0;
         height = 0;
+        header = "section .text\n";
 
         for(auto op : code)
         {
@@ -408,6 +412,9 @@ namespace gen
                 res += make_arg(&op);
             }
         }
+
+        res.insert(res.begin(), header.begin(), header.end());
+
         return res;
     }
 }

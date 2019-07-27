@@ -327,7 +327,7 @@ namespace syntax
 
     bool function_call()
     {
-        cli::log(cli::log_level::debug,"-- Call --");
+        //cli::log(cli::log_level::debug,"-- Call --");
         if(match(token_name::identifier))
         {
             cli::log(cli::log_level::debug,"Matched identifier for function call");
@@ -358,6 +358,26 @@ namespace syntax
         return false;
     }
 
+    bool entry()
+    {
+        if(match(token_name::entry))
+        {
+            cli::log(cli::log_level::debug,"Entry point detected");
+            auto entry = std::make_unique<node>("entry");
+            auto params = std::make_unique<node>("parameters");
+            cli::log(cli::log_level::debug,"Entry point detected");
+
+            expect(token_name::lparen);
+            current_node = &params;
+            param();
+
+            entry->addChild(std::move(params));
+            subtree_node->addChild(std::move(entry));
+            return true;
+        }
+        return false;
+    }
+
     // Statement
     void stat()
     {
@@ -383,6 +403,11 @@ namespace syntax
             rootptr.addChild(std::move(*current_node));
             cli::log(cli::log_level::debug,"-- assign --");
         }
+        else if(entry())
+        {
+            rootptr.addChild(std::move(subtree_node));
+            cli::log(cli::log_level::debug,"-- entry --");
+        }
         else if(function())
         {
             rootptr.addChild(std::move(subtree_node));
@@ -393,7 +418,7 @@ namespace syntax
         else if(function_call())
         {
             rootptr.addChild(std::move(subtree_node));
-            cli::log(cli::log_level::debug,"-- call --");
+            cli::log(cli::log_level::debug,"-- Call --");
         }
         else if(match(token_name::rbracket))
         {

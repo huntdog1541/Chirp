@@ -55,6 +55,10 @@ namespace lexer
                 {
                     tkn.name = token_name::data_type;
                 }
+                else if(word == "entry")
+                {
+                    tkn.name = token_name::entry;
+                }
                 else if(word == ":")
                 {
                     tkn.name = token_name::confirm;
@@ -79,7 +83,7 @@ namespace lexer
                 else if(word == "(")
                 {
                     tkn.name = token_name::lparen;
-                    tokens.at(pos - 1).name = token_name::identifier;
+                    // tokens.at(pos - 1).name = token_name::identifier;
                 }
                 else if(word == ")")
                 {

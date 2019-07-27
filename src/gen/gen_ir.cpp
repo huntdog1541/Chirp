@@ -105,6 +105,15 @@ namespace gen
                 assign.set("source",p_value);
                 ir.push_back(assign);
             }
+            if(n.value == "entry")
+            {
+                scopeHeight++;
+
+                ir::operation func(ir::op::function_begin);
+                func.set("type","none");
+                func.set("name","_start");
+                ir.push_back(func);
+            }
             if(n.value == "function")
             {
                 //inFunc = true;

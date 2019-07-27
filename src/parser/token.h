@@ -9,7 +9,7 @@ This file is used to declare the token class
 enum class token_name {
     identifier,
     // keywords
-    data_type, // (more to be added)...
+    data_type, entry, // (more to be added)...
     // separator
     lparen,rparen,lbracket,rbracket,comma,
     // operator
