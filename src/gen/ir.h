@@ -10,7 +10,11 @@ This declare the intermediate code, but doesn't generate it. This is like the re
 
 namespace ir
 {
-    enum class op{declaration,assignment,math_operation,function_begin,function_end};
+    enum class op{
+        declaration,assignment, // variable stuff
+        math_operation, // math stuff
+        function_begin,function_end,function_call,push_arg // function stuff
+        };
 
     class property
     {

@@ -333,7 +333,7 @@ namespace syntax
             {
                 cli::log(cli::log_level::debug,"Matched function call");
 
-                auto fcall = std::make_unique<node>("function call");
+                auto fcall = std::make_unique<node>("function_call");
                 auto args = std::make_unique<node>("arguments");
                 auto id = std::make_unique<node>("identifier");
 

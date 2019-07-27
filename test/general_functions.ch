@@ -2,4 +2,4 @@ int add(int: x, int:y)
 {
 }
 
-add(6,9);
+add(6,9)

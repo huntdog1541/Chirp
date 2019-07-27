@@ -18,7 +18,7 @@ std::vector<std::string> preprocess(std::string source)
         pos++;
         if(isspace(c) || c == '\n')
         {
-            if(word.compare("") != 0)
+            if(word != "")
             {
                 processed.push_back(word);
                 word.erase();
@@ -28,7 +28,7 @@ std::vector<std::string> preprocess(std::string source)
         {
             if(c == '=' || c == ':' || c == '(' || c == ')' || c == '{' || c == '}' || c == '+' || c == '-' || c == '/' || c == '*' || c == ',')
             {
-                if(word.compare("") != 0)
+                if(word != "")
                 {
                     processed.push_back(word);
                     word.clear(); // no idea why it isn't "erase()", but this works
@@ -42,7 +42,7 @@ std::vector<std::string> preprocess(std::string source)
                 word.append(1,c);
             }
 
-            if(pos >= source.length())
+            if(pos >= source.length() && word != "")
             {
                 processed.push_back(word);
                 word.erase();
