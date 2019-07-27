@@ -33,7 +33,7 @@ void parser::nextToken()
     {
         // good
         this->tkn_pos++;
-        cli::log(cli::log_level::debug,"Advanced to" + std::to_string(tkn_pos) + ": " +  getToken().value);
+        cli::log(cli::log_level::debug,"Advanced to " + std::to_string(tkn_pos) + ": " +  getToken().value);
     }
     else
     {
@@ -47,7 +47,7 @@ void parser::backtrack()
     if(this->tkn_pos - 1 >= 0)
     {
         this->tkn_pos -= 1;
-        cli::log(cli::log_level::debug,"Backtracked to" + std::to_string(tkn_pos) + ": " +  getToken().value);
+        cli::log(cli::log_level::debug,"Backtracked to " + std::to_string(tkn_pos) + ": " +  getToken().value);
     }
     else
     {
