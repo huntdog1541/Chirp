@@ -74,7 +74,7 @@ We are rewritting the compiler, and this is what we have done so far:
 - [x] Variable definition `25-07-2019`
 - [x] Math ``25-07-2019``
 - [x] Functions ``26-07-2019``
-- [ ] Function call
+- [x] Function calls ``27-07-2019``
 - [ ] If statements
 - [ ] Else statements
 - [ ] Pointers
