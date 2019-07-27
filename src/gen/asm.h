@@ -17,4 +17,6 @@ namespace assembly
     std::string sub(std::string,std::string);
     std::string mul(std::string,std::string);
     std::string div(std::string,std::string);
+    // Function
+    std::string call(std::string);
 }

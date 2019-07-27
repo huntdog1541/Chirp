@@ -8,6 +8,44 @@ assembly target code.
 
 #include "../cli/log.h"
 
+void make_exp(node* n,std::vector<ir::operation>* ir)
+{
+    //std::vector<ir::operation> result;
+    // *n->getChild(1).getChild(0).getAllChilds()
+    for(auto& a_op : *n->getAllChilds()) // assignment->source->expression->...
+    {
+        ir::operation op(ir::op::math_operation);
+
+        cli::log(cli::log_level::debug,"First source is " + a_op->getChild(0).getChild(0).value);
+
+        op.set("first_type",a_op->getChild(0).value);
+        op.set("first_value", a_op->getChild(0).getChild(0).value);
+
+        op.set("second_type",a_op->getChild(1).value);
+        op.set("second_value", a_op->getChild(1).getChild(0).value);
+
+        if(a_op->value == "addition")
+        {
+            op.set("type","add");
+        }
+        else if(a_op->value == "subtraction")
+        {
+            op.set("type","sub");
+        }
+        else if(a_op->value == "multiplication")
+        {
+            op.set("type","mul");
+        }
+        else if(a_op->value == "division")
+        {
+            op.set("type","div");
+        }
+
+        ir->push_back(op);
+    }
+    //return result;
+}
+
 namespace gen
 {
     //bool inFunc = false;
@@ -51,35 +89,8 @@ namespace gen
                     p_vtype = "math";
                     p_value = "";
 
-                    for(auto& a_op : *n.getChild(1).getChild(0).getAllChilds()) // assignment->source->expression->...
-                    {
-                        ir::operation op(ir::op::math_operation);
-
-                        op.set("first_type",a_op->getChild(0).value);
-                        op.set("first_value", a_op->getChild(0).getChild(0).value);
-
-                        op.set("second_type",a_op->getChild(1).value);
-                        op.set("second_value", a_op->getChild(1).getChild(0).value);
-
-                        if(a_op->value == "addition")
-                        {
-                            op.set("type","add");
-                        }
-                        else if(a_op->value == "subtraction")
-                        {
-                            op.set("type","sub");
-                        }
-                        else if(a_op->value == "multiplication")
-                        {
-                            op.set("type","mul");
-                        }
-                        else if(a_op->value == "division")
-                        {
-                            op.set("type","div");
-                        }
-
-                        ir.push_back(op);
-                    }
+                    make_exp(&n.getChild(1).getChild(0),&ir);
+                    //ir.insert(ir.begin(),exp.begin(),exp.end());
                 }
 
                 // Godamn I love logging
@@ -122,6 +133,37 @@ namespace gen
                     var.set("name",p_param->getChild(1).getChild(0).value);
                     ir.push_back(var);
                 }
+            }
+            if(n.value == "function_call")
+            {
+                cli::log(cli::log_level::debug,"Generating IR for function call");
+
+                ir::operation call(ir::op::function_call);
+                std::string p_id = n.getChild(1).value;
+
+                call.set("name",p_id);
+
+                for(auto&p_arg : *n.getChild(0).getAllChilds())
+                {
+                    //std::cout<<p_arg->value<<std::endl;
+                    ir::operation arg(ir::op::push_arg);
+                    std::string p_vtype = p_arg->getChild(0).getChild(0).value;
+                    std::string p_value = p_arg->getChild(0).getChild(0).getChild(0).getChild(0).value;
+
+                    if(p_vtype != "static")
+                    {
+                        p_vtype = "math";
+                        p_value = "";
+                        make_exp(p_arg.get(),&ir);
+                    }
+
+                    arg.set("source_type", p_vtype);
+                    arg.set("source",p_value);
+
+                    ir.push_back(arg);
+                }
+                
+                ir.push_back(call);
             }
             if(n.value == "closing_bracket")
             {

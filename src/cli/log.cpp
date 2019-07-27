@@ -1,9 +1,7 @@
 #include "log.h"
 
 namespace cli
-{
-    enum class output_col{ black, white, red, yellow, green, blue };
-        
+{       
     std::string write_color(const output_col,const std::string&);
 
     static bool debug_mode = false;

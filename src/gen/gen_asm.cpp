@@ -33,6 +33,16 @@ class object
 
         return result;
     }
+
+    std::string getStackRegister()
+    {
+        std::string result;
+
+        std::string sp = assembly::getReg("sp");
+        result = "[" + sp + "-" + std::to_string(this->position) + "]";
+
+        return result;
+    }
 };
 
 int last_pos;
@@ -64,13 +74,20 @@ bool objectExist(std::string name)
 {
     bool res = false;
 
+    cli::log(cli::log_level::debug,"--- Scope search ---");
+    cli::log(cli::log_level::debug,"Looking for: " + name);
+
     for(auto& obj : scope)
     {
+        cli::log(cli::log_level::debug,"Name is " + obj.name);
         if(obj.name == name)
         {
             res = true;
+            break;
         }
     }
+
+    cli::log(cli::log_level::debug,"--- Scope search end ---");
 
     return res;
 }
@@ -80,14 +97,21 @@ object* getObjectByName(std::string name)
     object* result;
     bool found = false;
 
+    cli::log(cli::log_level::debug,"--- Scope search ---");
+    cli::log(cli::log_level::debug,"Looking for: " + name);
+
     for(auto& obj : scope)
     {
+        cli::log(cli::log_level::debug,"Name is " + obj.name);
         if(obj.name == name)
         {
             result = &obj;
             found = true;
+            break;
         }
     }
+
+    cli::log(cli::log_level::debug,"--- Scope search end ---");
 
     if(!found)
     {
@@ -102,6 +126,7 @@ object* getObjectByName(std::string name)
 
 namespace gen
 {
+    // Does a declaration
     void make_declaration(ir::operation* op)
     {
         cli::log(cli::log_level::debug,"Registering variable");
@@ -137,7 +162,11 @@ namespace gen
         var.scope_height = height;
 
         scope.push_back(var);
+
+        cli::log(cli::log_level::debug,"Variable pushed to scope with name:" + var.name);
     }
+
+    // I'm pretty sure the name explains it pretty well
     std::string make_assignement(ir::operation* op)
     {
         std::string result;
@@ -208,6 +237,7 @@ namespace gen
 
         return result;
     }
+
     // add,sub,mul,div
     std::string make_math(ir::operation* op)
     {
@@ -250,6 +280,69 @@ namespace gen
 
         return res;
     }
+    // push the arguments
+    std::string make_arg(ir::operation* op)
+    {
+        cli::log(cli::log_level::debug,"Pushing argument");
+        
+        std::string res;
+
+        if(op->getProperty("source_type")->value == "static")
+        {
+            std::string source = op->getProperty("source")->value;
+            std::string value;
+
+            if(source.at(0) == '\'')
+            {
+                value = std::to_string(int(source.at(1)));
+            }
+            else if(source == "true" || source == "false")
+            {
+                if(source == "true")
+                {
+                    value = "1";
+                }
+                else
+                {
+                    value = "0";
+                }
+            }
+            else
+            {
+                value = source;
+            }
+
+            res = assembly::push(value);
+        }
+        else if(op->getProperty("source_type")->value == "identifier")
+        {
+            std::string id = op->getProperty("source")->value;
+
+            if(objectExist(id))
+            {
+                object* source = getObjectByName(id);
+                res = assembly::push(source->getRegister());
+            }
+        }
+        else if(op->getProperty("source_type")->value == "math")
+        {
+            res = assembly::push(assembly::getReg("ax"));
+        }
+
+        return res;
+    }
+    // makes a function call
+    std::string make_call(ir::operation* op)
+    {
+        cli::log(cli::log_level::debug,"Making function call");
+
+        std::string res;
+        res += assembly::call(op->getProperty("name")->value);
+
+        return res;
+    }
+
+    // Starts the stack
     std::string make_func(ir::operation* op)
     {
         std::string res;
@@ -262,6 +355,8 @@ namespace gen
 
         return res;
     }
+
+    // Ends the stack
     std::string make_funcEnd(ir::operation* op)
     {
         height--;
@@ -272,8 +367,11 @@ namespace gen
         res += assembly::ret();
         return res;
     }
+
+    // Does the thing I guess
     std::string make_asm(std::vector<ir::operation> code)
     {
+        cli::log(cli::log_level::debug,"--===-- ASSEMBLY GENERATION --===--");
         std::string res = "";
         last_pos = 0;
         height = 0;
@@ -301,8 +399,15 @@ namespace gen
             {
                 res += make_funcEnd(&op);
             }
+            if(op.type == ir::op::function_call)
+            {
+                res += make_call(&op);
+            }
+            if(op.type == ir::op::push_arg)
+            {
+                res += make_arg(&op);
+            }
         }
-
         return res;
     }
 }

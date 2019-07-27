@@ -61,4 +61,8 @@ namespace assembly
     {
         return "div " + a + ", " + b + "\n";
     }
+    std::string call(std::string name)
+    {
+        return "call " + name + "\n";
+    }
 }
