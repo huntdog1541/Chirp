@@ -106,13 +106,11 @@ namespace syntax
             current_node->get()->addChild(std::move(decl));
 
             var_decl();
-            //std::cout<<local_env->getToken().value<<std::endl;
             return true;
             }
             local_env->backtrack(); // So function conditions can be met
             return false;
         }
-        // std::cout<<"didn't match"<<local_env->getToken().value<<std::endl;
         return false;
     }
 
@@ -120,7 +118,6 @@ namespace syntax
     {
         if(local_env->getToken().name == token_name::math_op)
         {
-        //std::cout<<"works"<<std::endl;
         
         std::string optype = "";
         std::string at;
@@ -167,7 +164,6 @@ namespace syntax
         }
         else
         {
-            std::cout<<local_env->getToken().value<<std::endl;
         }
     }
 
@@ -180,7 +176,6 @@ namespace syntax
        if(local_env->getToken().name == token_name::litteral || local_env->getToken().name == token_name::identifier)
        {
            local_env->nextToken();
-           // std::cout<<"doin some silly math"<<std::endl;
 
            if(local_env->getToken().name == token_name::math_op)
            {
@@ -209,7 +204,6 @@ namespace syntax
        }
        else
        {
-           std::cout<<tokenToString(local_env->getToken().name)<<std::endl;
        }
     }
 
@@ -375,12 +369,10 @@ namespace syntax
             {
                 local_env->nextToken();
             }
-            //std::cout<<"declaration ended with "<<local_env->getToken().value<<std::endl;
         }
         else if(assign())
         {
             rootptr.addChild(std::move(*current_node));
-            //std::cout<<"assignment ended with "<<local_env->getToken().value<<std::endl;
         }
         else if(function())
         {
@@ -406,7 +398,7 @@ namespace syntax
             }
             else
             {
-                cli::log(cli::log_level::warning, "Unrecognized statement, with token value:" + local_env->getToken().value); 
+                cli::log(cli::log_level::error, "Unrecognized statement, with token value:" + local_env->getToken().value); 
                 local_env->nextToken(); // Not to get stuck
             }
         }
