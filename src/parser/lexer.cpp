@@ -20,6 +20,10 @@ bool isNumber(const std::string& word)
         {
             result = true;
         }
+        else
+        {
+            result = false;
+        }
     }
     
     return result;
@@ -59,35 +63,6 @@ namespace lexer
                 else if(word == "=")
                 {
                     tkn.name = token_name::assign_op;
-
-                    try
-                    {
-                        tokens.at(pos - 1).name = token_name::identifier;
-                        cli::log(cli::log_level::debug,"Setting back token");
-                    }
-                    catch(std::out_of_range)
-                    {
-                        // Not very important
-                        cli::log(cli::log_level::debug,"(LEXER) Out of range behind = symbol");
-                    }
-
-                    // Doesn't detect char or string or bool yet
-                    if(isNumber(prep.at(pos + 1)) == true)
-                    {
-                        next = token_name::litteral;
-                    }
-                    else if(prep.at(pos + 1) == "true" || prep.at(pos + 1) == "false")
-                    {
-                        next = token_name::litteral;
-                    }
-                    else if(prep.at(pos+1).at(0) == '\'')
-                    {
-                        next = token_name::litteral;
-                    }
-                    else
-                    {
-                        next = token_name::identifier;
-                    }
                 }
                 else if(word == "+" || word == "-" || word == "*" || word == "/")
                 {
@@ -132,6 +107,23 @@ namespace lexer
                 else if(word == ",")
                 {
                     tkn.name = token_name::comma;
+                }
+                // Theses should always be at the bottom
+                else if(isNumber(word))
+                {
+                    tkn.name = token_name::litteral;
+                }
+                else if(word == "true" || word == "false")
+                {
+                    tkn.name = token_name::litteral;
+                }
+                else if(word.at(0) == '\'')
+                {
+                    tkn.name = token_name::litteral;
+                }
+                else
+                {
+                    tkn.name = token_name::identifier;                    
                 }
             }
 
