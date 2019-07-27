@@ -1,5 +1,6 @@
 int add(int: x, int:y)
 {
+    int: c = x + y
 }
 
-add(6,9)
+add(1,2)

@@ -11,7 +11,8 @@ assembly target code.
 void make_exp(node* n,std::vector<ir::operation>* ir)
 {
     //std::vector<ir::operation> result;
-    for(auto& a_op : *n->getChild(1).getChild(0).getAllChilds()) // assignment->source->expression->...
+    // *n->getChild(1).getChild(0).getAllChilds()
+    for(auto& a_op : *n->getAllChilds()) // assignment->source->expression->...
     {
         ir::operation op(ir::op::math_operation);
 
@@ -88,7 +89,7 @@ namespace gen
                     p_vtype = "math";
                     p_value = "";
 
-                    make_exp(&n,&ir);
+                    make_exp(&n.getChild(1).getChild(0),&ir);
                     //ir.insert(ir.begin(),exp.begin(),exp.end());
                 }
 
@@ -138,9 +139,29 @@ namespace gen
                 cli::log(cli::log_level::debug,"Generating IR for function call");
 
                 ir::operation call(ir::op::function_call);
-                auto& p_id = n.getChild(1);
+                std::string p_id = n.getChild(1).value;
 
-                call.set("name",p_id.value);
+                call.set("name",p_id);
+
+                for(auto&p_arg : *n.getChild(0).getAllChilds())
+                {
+                    //std::cout<<p_arg->value<<std::endl;
+                    ir::operation arg(ir::op::push_arg);
+                    std::string p_vtype = p_arg->getChild(0).getChild(0).value;
+                    std::string p_value = p_arg->getChild(0).getChild(0).getChild(0).getChild(0).value;
+
+                    if(p_vtype != "static")
+                    {
+                        p_vtype = "math";
+                        p_value = "";
+                        make_exp(p_arg.get(),&ir);
+                    }
+
+                    arg.set("source_type", p_vtype);
+                    arg.set("source",p_value);
+
+                    ir.push_back(arg);
+                }
                 
                 ir.push_back(call);
             }

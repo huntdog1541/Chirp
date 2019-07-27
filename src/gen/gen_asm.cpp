@@ -283,9 +283,51 @@ namespace gen
     // push the arguments
     std::string make_arg(ir::operation* op)
     {
+        cli::log(cli::log_level::debug,"Pushing argument");
+        
         std::string res;
 
-        // if()
+        if(op->getProperty("source_type")->value == "static")
+        {
+            std::string source = op->getProperty("source")->value;
+            std::string value;
+
+            if(source.at(0) == '\'')
+            {
+                value = std::to_string(int(source.at(1)));
+            }
+            else if(source == "true" || source == "false")
+            {
+                if(source == "true")
+                {
+                    value = "1";
+                }
+                else
+                {
+                    value = "0";
+                }
+            }
+            else
+            {
+                value = source;
+            }
+
+            res = assembly::push(value);
+        }
+        else if(op->getProperty("source_type")->value == "identifier")
+        {
+            std::string id = op->getProperty("source")->value;
+
+            if(objectExist(id))
+            {
+                object* source = getObjectByName(id);
+                res = assembly::push(source->getRegister());
+            }
+        }
+        else if(op->getProperty("source_type")->value == "math")
+        {
+            res = assembly::push(assembly::getReg("ax"));
+        }
 
         return res;
     }
@@ -296,6 +338,7 @@ namespace gen
 
         std::string res;
         res += assembly::call(op->getProperty("name")->value);
+
         return res;
     }
 
@@ -362,7 +405,7 @@ namespace gen
             }
             if(op.type == ir::op::push_arg)
             {
-
+                res += make_arg(&op);
             }
         }
         return res;
