@@ -1,6 +1,7 @@
 int add(int: x, int:y)
 {
-    int: c = x + y
+    int: a = 123
+    int: b = x + y
 }
 
 add(1,2)

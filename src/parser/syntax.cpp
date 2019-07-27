@@ -210,6 +210,7 @@ namespace syntax
     // Assignment
     bool assign()
     {
+        // cli::log(cli::log_level::debug,"-- Assign --");
         // Assignment -> identifier(token) =(token) Expression
         // Assignement -> (backtrack) identifier(token) =(token) Expression
         if(match(token_name::identifier) || local_env->lookBehind().name == token_name::identifier)
@@ -235,7 +236,11 @@ namespace syntax
 
                 return true;
             }
-            local_env->backtrack();
+            // How did this get so far
+            if(local_env->lookBehind().name != token_name::identifier || local_env->getToken().name == token_name::lparen)
+            {
+                local_env->backtrack();
+            }
             return false;
         }
         return false;
@@ -322,6 +327,7 @@ namespace syntax
 
     bool function_call()
     {
+        cli::log(cli::log_level::debug,"-- Call --");
         if(match(token_name::identifier))
         {
             cli::log(cli::log_level::debug,"Matched identifier for function call");
@@ -355,6 +361,7 @@ namespace syntax
     // Statement
     void stat()
     {
+        cli::log(cli::log_level::debug,"-- Statement --");
         // Statement -> Declaration
         // Statement -> Assignment
         auto& rootptr = local_tree->getRoot();
@@ -369,26 +376,31 @@ namespace syntax
             {
                 local_env->nextToken();
             }
+            cli::log(cli::log_level::debug,"-- declaration --");
         }
         else if(assign())
         {
             rootptr.addChild(std::move(*current_node));
+            cli::log(cli::log_level::debug,"-- assign --");
         }
         else if(function())
         {
             rootptr.addChild(std::move(subtree_node));
             //subtree_node = std::make_unique<node>("statement");
             //std::unique_ptr<node>* test;
+            cli::log(cli::log_level::debug,"-- function --");
         }
         else if(function_call())
         {
             rootptr.addChild(std::move(subtree_node));
+            cli::log(cli::log_level::debug,"-- call --");
         }
         else if(match(token_name::rbracket))
         {
             auto close = std::make_unique<node>("closing_bracket");
             subtree_node->addChild(std::move(close));
             rootptr.addChild(std::move(subtree_node));
+            cli::log(cli::log_level::debug,"-- rbracket --");
         }
         else
         {
