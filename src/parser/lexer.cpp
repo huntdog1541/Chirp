@@ -67,25 +67,6 @@ namespace lexer
                 else if(word == "+" || word == "-" || word == "*" || word == "/")
                 {
                     tkn.name = token_name::math_op;
-
-                    if(isNumber(prep.at(pos - 1)) == true)
-                    {
-                        tokens.at(pos - 1).name = token_name::litteral;
-                    }
-                    else
-                    {
-                        // we don't care if it's true or false or even a char because it's not supposed to be there anywhere
-                        tokens.at(pos - 1).name = token_name::identifier;
-                    }
-
-                    if(isNumber(prep.at(pos + 1)) == true)
-                    {
-                        next = token_name::litteral;
-                    }
-                    else 
-                    {
-                        next = token_name::identifier;
-                    }
                 }
                 else if(word == "{")
                 {
