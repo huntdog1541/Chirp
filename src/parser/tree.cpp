@@ -88,7 +88,10 @@ std::vector<std::unique_ptr<node_interface>>& node::getAllChilds()
 {
     return this->childs;
 }
-
+const std::vector<std::unique_ptr<node_interface>>& node::getAllChilds() const
+{
+    return this->childs;
+}
 // === TREE === 
 
 tree::tree()
@@ -143,6 +146,11 @@ void tree::setRoot(std::unique_ptr<node_interface> newRoot)
 }
 
 node_interface& tree::getRoot()
+{
+    return *this->root;
+}
+
+const node_interface& tree::getRoot() const
 {
     return *this->root;
 }

@@ -32,7 +32,7 @@ class node:public node_interface
 
     // Returns child vector
     std::vector<std::unique_ptr<node_interface>>& getAllChilds() override;
-
+    const std::vector<std::unique_ptr<node_interface>>& getAllChilds() const override;
 };
 
 class tree : public tree_interface
@@ -49,4 +49,5 @@ class tree : public tree_interface
 
     // Returns the root node
     node_interface& getRoot() override;
+    const node_interface& getRoot() const override;
 };

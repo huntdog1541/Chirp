@@ -9,7 +9,7 @@ public:
         :   m_fname{fname}
     { }
     virtual ~tree_drawer() = default;
-    virtual void draw(tree_interface& t) const = 0;
+    virtual void draw(const tree_interface& t) const = 0;
 protected:
     const std::string& m_fname{};
 };

@@ -17,6 +17,7 @@ public:
     virtual bool hasChild(int) = 0;
     virtual bool hasChild(std::string) = 0;
     virtual std::vector<std::unique_ptr<node_interface>>& getAllChilds() = 0;
+    virtual const std::vector<std::unique_ptr<node_interface>>& getAllChilds() const = 0;
     std::string value;
 protected:
     std::vector<std::unique_ptr<node_interface>> childs;
@@ -28,6 +29,7 @@ public:
     virtual ~tree_interface() = default;
     virtual void setRoot(std::unique_ptr<node_interface>) = 0;
     virtual node_interface& getRoot() = 0;
+    virtual const node_interface& getRoot() const = 0;
 protected:
     std::unique_ptr<node_interface> root;
 };
