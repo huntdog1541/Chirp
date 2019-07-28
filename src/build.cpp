@@ -1,6 +1,6 @@
 #include "build.h"
 #include "cli/log.h"
-
+#include "cli.h"
 #include "preprocessor.h"
 #include "parser.h"
 #include "parser/lexer.h"
@@ -25,6 +25,9 @@ std::string compile(std::string source)
 
     syntax::parse(&p_env,&parseTree);
 
+    if(cli::draw_tree()){
+       cli::log(cli::log_level::log, "Drawing tree"); 
+    }
     std::vector<ir::operation> intermediate;
     intermediate = gen::make_ir(&parseTree);
 
