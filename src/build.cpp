@@ -7,7 +7,7 @@
 #include "parser/syntax.h"
 #include "gen/gen_ir.h"
 #include "gen/gen_asm.h"
-
+#include "simple_tree_drawer.hpp"
 #include <iostream>
 
 std::string compile(std::string source)
@@ -27,6 +27,7 @@ std::string compile(std::string source)
 
     if(cli::draw_tree()){
        cli::log(cli::log_level::log, "Drawing tree"); 
+       simple_tree_drawer("test").draw(parseTree);
     }
     std::vector<ir::operation> intermediate;
     intermediate = gen::make_ir(&parseTree);
