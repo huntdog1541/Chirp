@@ -26,7 +26,7 @@ std::string compile(std::string source)
     syntax::parse(&p_env,&parseTree);
 
     if(cli::draw_tree()){
-       cli::log(cli::log_level::log, "Drawing tree"); 
+       cli::log(cli::log_level::log, "Drawing syntax tree"); 
        simple_tree_drawer("test").draw(parseTree);
     }
     std::vector<ir::operation> intermediate;
