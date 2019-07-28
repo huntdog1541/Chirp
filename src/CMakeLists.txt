@@ -22,6 +22,7 @@ set(chirp_SOURCES
 
 set(chirplib_INCLUDE_DIRS
     ./
+    ./drawing
     ./cli
     ./gen
     ./parser)

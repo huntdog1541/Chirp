@@ -8,11 +8,11 @@ assembly target code.
 
 #include "../cli/log.h"
 
-void make_exp(node* n,std::vector<ir::operation>* ir)
+void make_exp(node_interface* n,std::vector<ir::operation>* ir)
 {
     //std::vector<ir::operation> result;
     // *n->getChild(1).getChild(0).getAllChilds()
-    for(auto& a_op : *n->getAllChilds()) // assignment->source->expression->...
+    for(auto& a_op : n->getAllChilds()) // assignment->source->expression->...
     {
         ir::operation op(ir::op::math_operation);
 
@@ -54,7 +54,7 @@ namespace gen
     {
         cli::log(cli::log_level::debug,"--===-- IR GENERATION --===--");
         std::vector<ir::operation> ir;
-        std::vector<node*> path;
+        std::vector<node_interface*> path;
 
         path = p_tree->traverse();
 
@@ -135,7 +135,7 @@ namespace gen
                 ir.push_back(func);
 
                 // Must be after function start
-                for(auto& p_param : *n.getChild(1).getAllChilds()) // declare a new variable for each declaration
+                for(auto& p_param : n.getChild(1).getAllChilds()) // declare a new variable for each declaration
                 {
                     ir::operation var(ir::op::declaration);
                     var.set("type",p_param->getChild(0).getChild(0).getChild(0).value);
@@ -152,7 +152,7 @@ namespace gen
 
                 call.set("name",p_id);
 
-                for(auto&p_arg : *n.getChild(0).getAllChilds())
+                for(auto&p_arg : n.getChild(0).getAllChilds())
                 {
                     //std::cout<<p_arg->value<<std::endl;
                     ir::operation arg(ir::op::push_arg);

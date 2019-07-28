@@ -55,21 +55,13 @@ std::string header;
 // Removes the items that are out of scope from the scope vector
 void updateScope()
 {
-    int count = 0;
-
-    auto begin = scope.begin();
-    auto end = scope.end();
-
-    for(auto it = begin; it != end; ++it)
-    {
-        if(it->scope_height > height)
-        {
-            scope.erase(it);
-            count++;
-        }
-    }
-
-    cli::log(cli::log_level::debug,"Updated scope, " + std::to_string(count) + " items deleted.");
+    const auto h = height;
+    const auto before_count = scope.size();
+    const auto to_remove = std::remove_if(scope.begin(), scope.end(), [&h](const auto& o){ return o.scope_height > h; });
+    scope.erase(to_remove);
+    const auto after_count = scope.size();
+    const auto removed_count = before_count - after_count;
+    cli::log(cli::log_level::debug,"Updated scope, " + std::to_string(removed_count) + " items deleted.");
 }
 
 bool objectExist(std::string name)

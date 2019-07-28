@@ -57,7 +57,11 @@ void cleanup(const std::string& filename)
 namespace cli
 {
     bool keepAsm;
+    bool drawTree;
 
+    bool draw_tree(){
+        return drawTree;
+    }   
     void parse_Command(const std::vector<std::string>& args)
     {
         //std::cout<<"I hope dis works"<<std::endl;
@@ -65,12 +69,15 @@ namespace cli
         std::string outputFile;
 
         keepAsm = false;
-
+        drawTree = false;
         int pos = 0;
         
         for(std::string word : args)
         {
-            if(word == "-o")
+            if(word == "--draw-tree"){
+                drawTree = true;
+            }
+            else if(word == "-o")
             {
                 // outputFile = word.at(pos + 1);
             }

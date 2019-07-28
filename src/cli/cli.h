@@ -12,4 +12,5 @@ namespace cli
     Runs the command
     */
     void run_Command(const std::string&, const std::string&);
+    bool draw_tree();
 }

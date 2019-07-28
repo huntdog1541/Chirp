@@ -4,7 +4,7 @@ This does tree related stuff, like a tiny library inside the main source code.
 
 #include "tree.h"
 #include "../cli/log.h"
-
+#include <queue>
 #include <sstream>
 #include <algorithm> // fixed it ;)
 
@@ -15,7 +15,7 @@ node::node(std::string value)
     this->value = value;
 }
 
-void node::addChild(std::unique_ptr<node> child)
+void node::addChild(std::unique_ptr<node_interface> child)
 {
     this->childs.push_back(std::move(child));
 }
@@ -25,14 +25,14 @@ int node::getChildSize()
     return this->childs.size();
 }
 
-node& node::getChild(int pos)
+node_interface& node::getChild(int pos)
 {
     return *childs.at(pos);
 }
 
-node& node::getChild(std::string val)
+node_interface& node::getChild(std::string val)
 {
-    const auto match = std::find_if(childs.begin(), childs.end(), [val](const std::unique_ptr<node>& n) { return n->value == val; } );
+    const auto match = std::find_if(childs.begin(), childs.end(), [val](const std::unique_ptr<node_interface>& n) { return n->value == val; } );
     if(childs.end() == match){
         std::stringstream ss;
         ss << val << " not found in " << value;
@@ -41,8 +41,8 @@ node& node::getChild(std::string val)
     return **match;
 }
 
-const node& node::operator[](const std::string& node_name) const {
-    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node>& n) { return n->value == node_name; } );
+const node_interface& node::operator[](const std::string& node_name) const {
+    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node_interface>& n) { return n->value == node_name; } );
     if(childs.end() == match){
         std::stringstream ss;
         ss << node_name << " not found in " << value;
@@ -51,8 +51,8 @@ const node& node::operator[](const std::string& node_name) const {
     return **match;
 }
 
-node& node::operator[](const std::string& node_name) {
-    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node>& n) { return n->value == node_name; } );
+node_interface& node::operator[](const std::string& node_name) {
+    const auto match = std::find_if(childs.begin(), childs.end(), [node_name](const std::unique_ptr<node_interface>& n) { return n->value == node_name; } );
     if(childs.end() == match){
         std::stringstream ss;
         ss << node_name << " not found in " << value;
@@ -84,11 +84,14 @@ bool node::hasChild(std::string v)
     return res;
 }
 
-std::vector<std::unique_ptr<node>>* node::getAllChilds()
+std::vector<std::unique_ptr<node_interface>>& node::getAllChilds()
 {
-    return &this->childs;
+    return this->childs;
 }
-
+const std::vector<std::unique_ptr<node_interface>>& node::getAllChilds() const
+{
+    return this->childs;
+}
 // === TREE === 
 
 tree::tree()
@@ -97,17 +100,17 @@ tree::tree()
 }
 
 // geeksforgeek generic tree level-order traversal tutorial really helped for this
-std::vector<node*> tree::traverse()
+std::vector<node_interface*> tree::traverse()
 {
     cli::log(cli::log_level::debug,"-=- TREE TRAVERSAL BEGIN -=-");
-    std::vector<node*> path;
+    std::vector<node_interface*> path;
 
     if(this->root == NULL)
     {
         return path;
     }
 
-    std::queue<node*> q;
+    std::queue<node_interface*> q;
     q.push(root.get());
 
     while(!q.empty())
@@ -137,12 +140,17 @@ std::vector<node*> tree::traverse()
     return path;
 }
 
-void tree::setRoot(std::unique_ptr<node> newRoot)
+void tree::setRoot(std::unique_ptr<node_interface> newRoot)
 {
     this->root = std::move(newRoot);
 }
 
-node& tree::getRoot()
+node_interface& tree::getRoot()
+{
+    return *this->root;
+}
+
+const node_interface& tree::getRoot() const
 {
     return *this->root;
 }
