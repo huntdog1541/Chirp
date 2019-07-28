@@ -77,11 +77,12 @@ We are rewritting the compiler, and this is what we have done so far:
 - [x] Function calls ``27-07-2019``
 - [ ] If statements
 - [ ] Else statements
-- [ ] Pointers
-- [ ] Assembly preprocessor
 - [ ] While statements
 - [ ] For statements
-- [ ] Classes
+- [ ] Imports
+- [ ] Pointers
+- [ ] Assembly preprocessor
+- [ ] Macros
 - [ ] Dynamic memory allocation
 - [ ] IO library
 - [ ] Math library
