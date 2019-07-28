@@ -39,19 +39,46 @@ namespace lexer
 
         int pos = 0;
 
+        bool inlineAsm = false;
+
         for(std::string word : prep)
         {
             token tkn;
             tkn.value = word;
-
-            if(next != token_name::no_token)
+            
+            if(inlineAsm)
             {
-                tkn.name = next;
-                next = token_name::no_token;
+                if(word == "@end")
+                {
+                    tkn.name = token_name::no_token;
+                    inlineAsm = false;
+                }
+                else
+                {
+                    tkn.name = token_name::asm_code;
+                    tkn.value += " ";
+                }
             }
             else
             {
-                if(word == "int" || word == "char" || word == "bool") // Just int for the moment
+             if(next != token_name::no_token)
+             {
+                tkn.name = next;
+                next = token_name::no_token;
+             }
+             else
+             {
+                if(word == "@asm")
+                {
+                    tkn.name = token_name::no_token;
+                    inlineAsm = true;
+                }
+                else if(word == "\n")
+                {
+                    tkn.name = token_name::no_token;
+                    tkn.value = '\n';
+                }
+                else if(word == "int" || word == "char" || word == "bool") // Just int for the moment
                 {
                     tkn.name = token_name::data_type;
                 }
@@ -110,9 +137,12 @@ namespace lexer
                 {
                     tkn.name = token_name::identifier;                    
                 }
+             }
             }
-
-            tokens.push_back(tkn);
+            if(tkn.name != token_name::no_token)
+            {
+                tokens.push_back(tkn);
+            }
             pos++;
         }
 

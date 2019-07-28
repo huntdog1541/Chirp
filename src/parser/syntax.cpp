@@ -378,6 +378,30 @@ namespace syntax
         return false;
     }
 
+    void inAsm()
+    {
+        if(match(token_name::asm_code))
+        {
+            current_node->get()->value += local_env->lookBehind().value;
+            inAsm();
+        }
+    }
+
+    bool assembly()
+    {
+        if(local_env->getToken().name == token_name::asm_code)
+        {
+            auto assembly = std::make_unique<node>("assembly");
+            auto code = std::make_unique<node>(" ");
+            current_node = &code;
+            inAsm();
+            assembly->addChild(std::move(code));
+            subtree_node->addChild(std::move(assembly));
+            return true;
+        }
+        return false;
+    }
+
     // Statement
     void stat()
     {
@@ -407,6 +431,11 @@ namespace syntax
         {
             rootptr.addChild(std::move(subtree_node));
             cli::log(cli::log_level::debug,"-- entry --");
+        }
+        else if(assembly())
+        {
+            rootptr.addChild(std::move(subtree_node));
+            cli::log(cli::log_level::debug,"-- assembly --");
         }
         else if(function())
         {

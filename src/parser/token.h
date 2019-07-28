@@ -14,6 +14,10 @@ enum class token_name {
     lparen,rparen,lbracket,rbracket,comma,
     // operator
     assign_op, math_op,
+    // preprocessors
+    asm_prep,
+    asm_code,
+    end_prep,
     // other
     confirm, // the : symbol
     litteral,

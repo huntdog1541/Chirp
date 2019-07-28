@@ -16,12 +16,20 @@ std::vector<std::string> preprocess(std::string source)
     for(char& c : source)
     {
         pos++;
+
         if(isspace(c) || c == '\n')
         {
             if(word != "")
             {
                 processed.push_back(word);
                 word.erase();
+
+                if(c == '\n')
+                {
+                    word = "\n";
+                    processed.push_back(word);
+                    word.erase();
+                }
             }
         }
         else

@@ -411,6 +411,10 @@ namespace gen
             {
                 res += make_arg(&op);
             }
+            if(op.type == ir::op::inline_asm)
+            {
+                res += op.getProperty("code")->value;
+            }
         }
 
         res.insert(res.begin(), header.begin(), header.end());

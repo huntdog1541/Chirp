@@ -7,7 +7,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/src/chirp",
-            "args": ["test/entry.ch","-v","-asm"],
+            "args": ["test/asm.ch","-v","-asm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

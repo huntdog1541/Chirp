@@ -174,6 +174,12 @@ namespace gen
                 
                 ir.push_back(call);
             }
+            if(n.value == "assembly")
+            {
+                ir::operation a(ir::op::inline_asm);
+                a.set("code",n.getChild(0).value);
+                ir.push_back(a);
+            }
             if(n.value == "closing_bracket")
             {
                 scopeHeight--;

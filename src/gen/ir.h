@@ -13,7 +13,8 @@ namespace ir
     enum class op{
         declaration,assignment, // variable stuff
         math_operation, // math stuff
-        function_begin,function_end,function_call,push_arg // function stuff
+        function_begin,function_end,function_call,push_arg, // function stuff
+        inline_asm // special stuff
         };
 
     class property
