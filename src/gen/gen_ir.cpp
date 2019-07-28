@@ -8,7 +8,7 @@ assembly target code.
 
 #include "../cli/log.h"
 
-void make_exp(node* n,std::vector<ir::operation>* ir)
+void make_exp(node_interface* n,std::vector<ir::operation>* ir)
 {
     //std::vector<ir::operation> result;
     // *n->getChild(1).getChild(0).getAllChilds()
@@ -54,7 +54,7 @@ namespace gen
     {
         cli::log(cli::log_level::debug,"--===-- IR GENERATION --===--");
         std::vector<ir::operation> ir;
-        std::vector<node*> path;
+        std::vector<node_interface*> path;
 
         path = p_tree->traverse();
 
