@@ -16,7 +16,7 @@ public:
     virtual node_interface& operator[](const std::string& node_name) = 0;
     virtual bool hasChild(int) = 0;
     virtual bool hasChild(std::string) = 0;
-    virtual std::vector<std::unique_ptr<node_interface>>* getAllChilds() = 0;
+    virtual std::vector<std::unique_ptr<node_interface>>& getAllChilds() = 0;
     std::string value;
 protected:
     std::vector<std::unique_ptr<node_interface>> childs;

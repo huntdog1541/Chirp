@@ -31,7 +31,7 @@ class node:public node_interface
     bool hasChild(std::string) override;
 
     // Returns child vector
-    std::vector<std::unique_ptr<node_interface>>* getAllChilds() override;
+    std::vector<std::unique_ptr<node_interface>>& getAllChilds() override;
 
 };
 
