@@ -8,7 +8,7 @@ Header file for lexer
 namespace lexer
 {
     /*
-    Takes preprocessed vector of string as input and outputs a vector of tokens
+    Takes preprocessed string as input and outputs a vector of tokens
     */
-    std::vector<token> tokenize(const std::vector<std::string>&);
+    std::vector<token> tokenize(const std::string&);
 }

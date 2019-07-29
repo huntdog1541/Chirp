@@ -22,6 +22,7 @@ enum class token_name {
     confirm, // the : symbol
     litteral,
     no_token, // probably should find another way
+    error,
     end_of_string // the last token
 };
 
