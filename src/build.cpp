@@ -1,7 +1,6 @@
 #include "build.h"
 #include "cli/log.h"
 #include "cli.h"
-#include "preprocessor.h"
 #include "parser.h"
 #include "parser/lexer.h"
 #include "parser/syntax.h"
@@ -13,8 +12,7 @@
 std::string compile(std::string source)
 {
     cli::log(cli::log_level::debug, "Debug messages are now visible");
-    std::vector<std::string> prep = preprocess(source);
-    std::vector<token> tokens = lexer::tokenize(prep);
+    std::vector<token> tokens = lexer::tokenize(source);
 
     parser p_env;
     p_env.setTokens(tokens);

@@ -14,8 +14,7 @@ set(chirplib_SOURCES
     ./gen/asm.cpp
     ./build.cpp
     ./chirp.cpp
-    ./error.cpp
-    ./preprocessor.cpp)
+    ./error.cpp)
 
 set(chirp_SOURCES
     ./chirp.cpp)
