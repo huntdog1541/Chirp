@@ -32,8 +32,6 @@ namespace lexer
     token read_inline_asm(std::string::const_iterator &it, std::string::const_iterator end)
     {
         token tkn(token_name::error, "");
-        std::string buf;
-        std::string::const_iterator i = it;
 
         if(!read_chars(it, end, "@asm")) {
             tkn.value.push_back(*it++);
