@@ -59,6 +59,7 @@ void updateScope()
     const auto h = height;
     const auto before_count = scope.size();
     const auto to_remove = std::remove_if(scope.begin(), scope.end(), [&h](const auto& o){ return o.scope_height > h; });
+    scope.erase(to_remove, scope.end());
     const auto after_count = scope.size();
     const auto removed_count = before_count - after_count;
     cli::log(cli::log_level::debug,"Updated scope, " + std::to_string(removed_count) + " items deleted.");
