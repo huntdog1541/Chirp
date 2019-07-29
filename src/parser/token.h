@@ -9,11 +9,11 @@ This file is used to declare the token class
 enum class token_name {
     identifier,
     // keywords
-    data_type, entry, // (more to be added)...
+    data_type, entry, if_keyword, else_keyword, // (more to be added)...
     // separator
     lparen,rparen,lbracket,rbracket,comma,
     // operator
-    assign_op, math_op,
+    assign_op, math_op, and_op, or_op,
     // preprocessors
     asm_prep,
     asm_code,

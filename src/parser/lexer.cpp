@@ -120,6 +120,22 @@ namespace lexer
                 {
                     tkn.name = token_name::comma;
                 }
+                else if(word == "if")
+                {
+                    tkn.name = token_name::if_keyword;
+                }
+                else if(word == "else")
+                {
+                    tkn.name = token_name::else_keyword;
+                }
+                else if(word == "or")
+                {
+                    tkn.name = token_name::or_op;
+                }
+                else if(word == "and")
+                {
+                    tkn.name = token_name::and_op;
+                }
                 // Theses should always be at the bottom
                 else if(isNumber(word))
                 {

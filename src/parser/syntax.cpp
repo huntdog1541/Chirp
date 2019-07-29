@@ -402,6 +402,12 @@ namespace syntax
         return false;
     }
 
+    bool If()
+    {
+        auto If = std::make_unique<node>("if_statement");
+        return false;
+    }
+
     // Statement
     void stat()
     {
