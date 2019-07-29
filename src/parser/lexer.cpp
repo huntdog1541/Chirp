@@ -120,6 +120,7 @@ namespace lexer
             case '\'':
             case '"':
                 tkn = read_quoted_literal(it, end, *it);
+                break;
             default:
                 tkn.value.push_back(*it++);
                 break;
