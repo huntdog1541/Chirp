@@ -13,7 +13,7 @@ enum class token_name {
     // separator
     lparen,rparen,lbracket,rbracket,comma,
     // operator
-    assign_op, math_op, and_op, or_op,
+    assign_op, math_op, and_op, or_op, equal_op, greater_op,smaller_op,
     // preprocessors
     asm_prep,
     asm_code,

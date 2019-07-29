@@ -94,6 +94,12 @@ namespace lexer
                 else if(word == "=")
                 {
                     tkn.name = token_name::assign_op;
+
+                    if(prep.at(pos + 1) == "=")
+                    {
+                        tkn.name = token_name::equal_op;
+                        next = token_name::equal_op;
+                    }
                 }
                 else if(word == "+" || word == "-" || word == "*" || word == "/")
                 {

@@ -402,9 +402,47 @@ namespace syntax
         return false;
     }
 
+    // Condition
+    void Cond()
+    {
+        auto condition = std::make_unique<node>("");
+
+        exp();
+
+        // Advances to know the type of comparaison
+        // then goes back so it can parse the expressions
+        if(match(token_name::equal_op))
+        {
+            if(match(token_name::equal_op))
+            {
+                condition->value = "equal";
+
+                local_env->backtrack();
+                local_env->backtrack();
+
+                exp();
+
+                local_env->nextToken();
+                local_env->nextToken();
+
+                if(match(token_name::rparen))
+                {
+                    expect(token_name::lbracket);
+                }
+            }
+        }
+    }
+
+    // If statement
     bool If()
     {
-        auto If = std::make_unique<node>("if_statement");
+        if(match(token_name::if_keyword))
+        {
+            expect(token_name::lparen);
+            auto If = std::make_unique<node>("if_statement");
+
+            return false;
+        }
         return false;
     }
 
@@ -453,7 +491,12 @@ namespace syntax
         else if(function_call())
         {
             rootptr.addChild(std::move(subtree_node));
-            cli::log(cli::log_level::debug,"-- Call --");
+            cli::log(cli::log_level::debug,"-- call --");
+        }
+        else if(If())
+        {
+            rootptr.addChild(std::move(subtree_node));
+            cli::log(cli::log_level::debug,"-- if --");
         }
         else if(match(token_name::rbracket))
         {
