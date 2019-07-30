@@ -29,6 +29,25 @@ namespace lexer
         return true;
     }
 
+    void skip_comment(std::string::const_iterator &it, std::string::const_iterator end)
+    {
+        if(read_chars(it, end, "###")) {
+            while(it != end) {
+                if(*it == '#') {
+                    if(read_chars(it, end, "###")) {
+                        return;
+                    }
+                }
+                it++;
+            }
+        } else if(*it == '#') {
+            // CRLF shouldn't be an issue since we're checking for LF
+            while(it != end && *it != '\n') {
+                it++;
+            }
+        }
+    }
+
     token read_inline_asm(std::string::const_iterator &it, std::string::const_iterator end)
     {
         token tkn(token_name::error, "");
@@ -121,6 +140,10 @@ namespace lexer
             case '"':
                 tkn = read_quoted_literal(it, end, *it);
                 break;
+            case '#':
+                skip_comment(it, end);
+                tkn.name = token_name::no_token;
+                break;
             default:
                 tkn.value.push_back(*it++);
                 break;
@@ -180,15 +203,10 @@ namespace lexer
             } else if(std::isdigit(c)) {
                 tokens.push_back(tokenize_number(it, source.end()));
             } else if(std::ispunct(c)) {
-                // token tkn = tokenize_punct(it, source.end());
-                // if(tkn.name == token_name::asm_code) {
-                //     // tokens.push_back(token(token_name::asm_prep, "@asm"));
-                //     tokens.push_back(tkn);
-                //     // tokens.push_back(token(token_name::end_prep, "@end"));
-                // } else {
-                //     tokens.push_back(tkn);
-                // }
-                tokens.push_back(tokenize_punct(it, source.end()));
+                token tkn = tokenize_punct(it, source.end());
+                if(tkn.name != token_name::no_token) {
+                    tokens.push_back(tkn);
+                }
             } else {
                 tokens.push_back(token(token_name::error, std::string(1, *it++)));
             }
