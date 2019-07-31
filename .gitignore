@@ -6,6 +6,7 @@
 *.ipch
 *.bin
 *.swp
+*.asm
 Test.ch
 Test.ch.asm
 yeet.asm.save
@@ -13,3 +14,8 @@ Tools/Build/yeet.ch.asm
 Tools/Build/yeet.ch
 exec.out
 Test/*.asm
+build/
+build/*
+CMakeFiles/*
+CMAkeList.txt
+CMakeCache\.txt

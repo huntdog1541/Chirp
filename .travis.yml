@@ -1,4 +1,17 @@
 language: cpp
 compiler: g++
 
-script: sh build.sh
+before_script:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install libboost-all-dev; fi
+
+os:
+  - osx
+  - linux
+
+script: 
+  - mkdir -p build
+  - cd build
+  - cmake ..
+  - make all
+

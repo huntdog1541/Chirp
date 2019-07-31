@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -9,8 +6,8 @@
             "preLaunchTask": "build_debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/exec.out",
-            "args": ["-i","Test/constant_math.ch","-o","out.o"],
+            "program": "${workspaceFolder}/build/src/chirp",
+            "args": ["test/conditions.ch","-v","-asm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
